@@ -3,33 +3,40 @@ import styled from 'styled-components';
 
 const Header = styled.header`
 	background-color: blue;
+	height: 68px;
 `;
+// const Section = styled.section`
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: flex-start;
+// 	border: 0.5px solid #ffffff;
+// `;
 
-const Nav = styled.nav`
-	background-color: red;
-	float: left;
-`;
-const Section = styled.section`
-	text-align: center;
-`;
-
-const Aside = styled.aside`
-	background-color: yellow;
+const SideDiv = styled.div`
 	float: right;
+	flex: 1;
+	flex-basis: 100px;
+`;
+const SectionLeft = styled.div`
+	flex: 1;
+	flex-basis: 100px;
+`;
+
+const SectionCenter = styled.div`
+	flex: 3;
 `;
 
 const Footer = styled.footer`
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	height: 87px;
+	background-color: black;
+	width: 100%;
 `;
 
 const SectionContiner = styled.div`
 	display: flex;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
 `;
 
 const SectionText = styled.input`
@@ -51,12 +58,19 @@ const SectionH = styled.h3`
 
 const SectionTopItem = styled.div`
 	display: flex;
-	center: center;
+	text-align: center;
 	align-items: center;
 	justify-content: center;
+	height: 200px;
 `;
 
-const SectionCenterItem = styled.div``;
+const SectionCenterItem = styled.div`
+	height: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	text-align: center;
+`;
 
 const SectionBottomItem = styled.div`
 	display: flex;
@@ -73,27 +87,29 @@ export default function MiniContainer() {
 	return (
 		<>
 			<Header>헤더</Header>
-			<Nav>왼쪽</Nav>
-			<Section>
+			<div>
 				<SectionContiner>
-					<SectionTopItem>
-						<SectionH>Git 주소</SectionH>
-						<SectionText />
-					</SectionTopItem>
-					<SectionCenterItem>
-						<h3>내가 쓴 글</h3>
-						<div>내가 쓴글 리스트</div>
-					</SectionCenterItem>
-					<SectionBottomItem>
-						<SectionBottomItemTitle>
-							<h3>일촌</h3>
-							<h3>더보기</h3>
-						</SectionBottomItemTitle>
-						<div>일촌 목록</div>
-					</SectionBottomItem>
+					<SectionLeft>왼쪽</SectionLeft>
+					<SectionCenter>
+						<SectionTopItem>
+							<SectionH>Git 주소</SectionH>
+							<SectionText />
+						</SectionTopItem>
+						<SectionCenterItem>
+							<h3>내가 쓴 글</h3>
+							<div>내가 쓴글 리스트</div>
+						</SectionCenterItem>
+						<SectionBottomItem>
+							<SectionBottomItemTitle>
+								<h3>일촌</h3>
+								<p>더보기</p>
+							</SectionBottomItemTitle>
+							<div>일촌 목록</div>
+						</SectionBottomItem>
+					</SectionCenter>
+					<SideDiv>오른쪽</SideDiv>
 				</SectionContiner>
-			</Section>
-			<Aside>오른쪽</Aside>
+			</div>
 			<Footer>footer</Footer>
 		</>
 	);
