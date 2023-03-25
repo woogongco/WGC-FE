@@ -4,6 +4,7 @@ import LoginMainLogo from 'assets/LoginMainLogo.png';
 import KakaoButton from 'assets/Kakaobutton.png';
 import GitButton from 'assets/Gitbutton.png';
 import EmailButton from 'assets/Emailbutton.png';
+import { Link } from 'react-router-dom';
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -38,6 +39,7 @@ const ButtonDiv = styled.div`
 	width: 26em;
 	margin-top: 2em;
 	margin-left: 5em;
+	cursor: pointer;
 `;
 const Btn = styled.img`
 	margin-top: 1em;
@@ -54,7 +56,9 @@ export default function LoginMainContainer() {
 				<ButtonDiv>
 					<Btn src={KakaoButton} alt="카카오" />
 					<Btn src={GitButton} alt="깃허브" />
-					<Btn src={EmailButton} alt="이메일" />
+					<Link to="/EmailLogin">
+						<Btn src={EmailButton} alt="이메일" />
+					</Link>
 				</ButtonDiv>
 			</MainContent>
 		</Container>
