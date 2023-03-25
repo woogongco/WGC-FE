@@ -19,7 +19,7 @@ const Logo = styled.span`
 	margin-left: 0.7em;
 `;
 const IdForm = styled.div`
-	margin-top: 6em;
+	margin-top: 4em;
 `;
 const IdPwd = styled.input`
 	border: 0;
