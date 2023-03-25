@@ -56,7 +56,7 @@ export default function LoginMainContainer() {
 				<ButtonDiv>
 					<Btn src={KakaoButton} alt="카카오" />
 					<Btn src={GitButton} alt="깃허브" />
-					<Link to="/EmailLogin">
+					<Link to="/UserSign">
 						<Btn src={EmailButton} alt="이메일" />
 					</Link>
 				</ButtonDiv>
