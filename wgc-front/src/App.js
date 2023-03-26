@@ -8,6 +8,7 @@ import UserSignPage from 'pages/login/UserSignPage';
 import PwFindPage from 'pages/login/PwFindPage';
 import EmailLoginPage from 'pages/login/EmailLoginPage';
 import CommuMainPage from 'pages/community/CommuMain/CommuMainPage';
+import GeneralBoard from 'pages/community/GeneralBoard/GeneralBoard';
 
 function App() {
 	return (
@@ -37,7 +38,7 @@ function App() {
 				<Route path="Guest" element={<GuestPage />}>
 					방명록
 				</Route>
-				<Route path="/CommuMain" element={<CommuMainPage />} />
+				<Route path="/community" element={<CommuMainPage />} />
 			</Routes>
 		</BrowserRouter>
 	);
