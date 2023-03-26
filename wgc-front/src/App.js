@@ -12,7 +12,7 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/LoginMain" element={<LoginMainPage />}>
+				<Route path="/" element={<LoginMainPage />}>
 					메인 로그인페이지
 				</Route>
 				<Route path="/UserSign" element={<UserSignPage />}>
