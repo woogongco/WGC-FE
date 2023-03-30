@@ -8,6 +8,7 @@ import UserSignPage from 'pages/login/UserSignPage';
 import PwFindPage from 'pages/login/PwFindPage';
 import EmailLoginPage from 'pages/login/EmailLoginPage';
 import CommuMainPage from 'pages/community/CommuMain/CommuMainPage';
+import Profile from 'components/profile/Profile';
 
 function App() {
 	return (
@@ -38,6 +39,7 @@ function App() {
 					방명록
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
+				<Route path="/Profile" element={<Profile />} />
 			</Routes>
 		</BrowserRouter>
 	);

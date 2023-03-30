@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import Profile from 'components/profile/Profile';
 
 const Header = styled.header`
 	background-color: blue;
-	height: 68px;
+	height: 64px;
 `;
 // const Section = styled.section`
 // 	display: flex;
@@ -89,7 +90,9 @@ export default function MiniContainer() {
 			<Header>헤더</Header>
 			<div>
 				<SectionContiner>
-					<SectionLeft>왼쪽</SectionLeft>
+					<SectionLeft>
+						<Profile />
+					</SectionLeft>
 					<SectionCenter>
 						<SectionTopItem>
 							<SectionH>Git 주소</SectionH>
