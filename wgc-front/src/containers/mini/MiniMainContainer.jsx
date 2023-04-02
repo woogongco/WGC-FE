@@ -6,12 +6,6 @@ const Header = styled.header`
 	background-color: blue;
 	height: 64px;
 `;
-// const Section = styled.section`
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: flex-start;
-// 	border: 0.5px solid #ffffff;
-// `;
 
 const SideDiv = styled.div`
 	float: right;
