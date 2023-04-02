@@ -86,8 +86,7 @@ const SectionBottomItemTitle = styled.div`
 
 export default function MiniContainer() {
 	return (
-		<>
-			<Header>헤더</Header>
+		<Header>
 			<div>
 				<SectionContiner>
 					<SectionLeft>
@@ -114,6 +113,6 @@ export default function MiniContainer() {
 				</SectionContiner>
 			</div>
 			<Footer>footer</Footer>
-		</>
+		</Header>
 	);
 }
