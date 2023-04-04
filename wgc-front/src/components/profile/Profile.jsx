@@ -122,7 +122,7 @@ const WgcTextBottomP = styled.p`
 // store에 있는 값을 가져올수도 있다.
 export default function Profile() {
 	return (
-		<>
+		<div>
 			<div>
 				<Title>
 					<TitleWappr>
@@ -158,6 +158,6 @@ export default function Profile() {
 					</div>
 				</WoogCoTextContainer>
 			</div>
-		</>
+		</div>
 	);
 }
