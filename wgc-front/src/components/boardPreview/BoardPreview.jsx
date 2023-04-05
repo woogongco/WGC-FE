@@ -9,6 +9,7 @@ const BoardWrapper = styled.section`
 	border: 1px solid #2e2e2e;
 	border-radius: 20px;
 	overflow: hidden;
+	min-height: 272px;
 `;
 
 const BoardTitle = styled.header`
@@ -35,8 +36,8 @@ const ContentsItem = styled.li`
 	padding: 10px 13px;
 	font-size: 0.8rem;
 
-	& + & {
-		border-top: 1px solid #2e2e2e;
+	&:not(:nth-child(6)) {
+		border-bottom: 1px solid #2e2e2e;
 	}
 `;
 
@@ -71,7 +72,7 @@ const CommentCount = styled.span`
 	}
 `;
 
-export default function Board() {
+export default function BoardPreview() {
 	return (
 		<BoardWrapper>
 			{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
@@ -80,20 +81,9 @@ export default function Board() {
 			</BoardTitle>
 			{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
 			<BoardContents>
+				{/* TODO: 게시글 클릭 시 해당 게시글로 이동 */}
 				{/* 게시글 아이템 */}
-				<ContentsItem>
-					<ContentsTitle>게시글 제목1</ContentsTitle>
-					<ContentsDetails>
-						<LikeCount>
-							<FaRegThumbsUp />
-							<span>33</span>
-						</LikeCount>
-						<CommentCount>
-							<FaRegCommentDots />
-							<span>6</span>
-						</CommentCount>
-					</ContentsDetails>
-				</ContentsItem>
+				{/* ... */}
 				{/* 게시글 아이템 */}
 				<ContentsItem>
 					<ContentsTitle>
