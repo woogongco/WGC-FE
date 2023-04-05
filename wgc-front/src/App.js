@@ -7,7 +7,7 @@ import LoginMainPage from 'pages/login/LoginMainPage';
 import UserSignPage from 'pages/login/UserSignPage';
 import PwFindPage from 'pages/login/PwFindPage';
 import EmailLoginPage from 'pages/login/EmailLoginPage';
-import CommuMainPage from 'pages/community/CommuMain/CommuMainPage';
+import CommuMainPage from 'pages/community/CommuMainPage';
 import Profile from 'components/profile/Profile';
 
 function App() {
