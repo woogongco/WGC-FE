@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 const Container = styled.div`
@@ -30,7 +30,10 @@ const IdPwd = styled.input`
 	border-radius: 5px;
 	color: white;
 `;
-
+const Elart = styled.p`
+	color: red;
+	font-size: 14px;
+`;
 const RegisterBtn = styled.button`
 	border: 0;
 	padding: 1.5em 8em;
@@ -38,35 +41,30 @@ const RegisterBtn = styled.button`
 	background-color: #ef8871;
 	color: white;
 	font-style: normal;
-	font-weight : bold
-	cursor: pointer;
+	font-weight: bold;
 `;
 
-const Elart = styled.p`
-	color: #ef5350;
-	font-size: 14px;
-`;
 const WhatId = styled.span`
 	cursor: pointer;
 	color: #ffffff;
 	opacity: 60%;
-	margin-top: 1em;
 `;
 const LegisterForm = styled.div`
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	margin-top: 2em;
+	margin-top: 2rem;
 `;
 
 export default function UserSignContainer() {
+	const [Login, setLogin] = useState(true);
 	return (
 		<Container>
 			<MainContent>
 				<Logo>S I G N U P</Logo>
 				<IdForm>
 					<IdPwd type="text" placeholder="이메일" /> <br />
-					<Elart>이미 사용중인 이메일입니다.</Elart>
+					<div>{Login === true ? <Elart>이미 사용중인 이메일입니다.</Elart> : <div>2</div>}</div>
 					<IdPwd type="password" placeholder="비밀번호" />
 				</IdForm>
 				<RegisterBtn>회원가입하기</RegisterBtn>

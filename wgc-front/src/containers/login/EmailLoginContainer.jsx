@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 	display: flex;
@@ -68,7 +69,9 @@ export default function EmailLoginContainer() {
 					<IdPwd type="text" placeholder="이메일" /> <br />
 					<IdPwd type="password" placeholder="비밀번호" />
 				</IdForm>
-				<Password>비밀번호 찾기</Password>
+				<Link to="/PwFindContainer">
+					<Password>비밀번호 찾기</Password>
+				</Link>
 				<StatusForm>
 					<StatusCheckBox type="checkbox" /> <StatusText>로그인 상태 기억하기</StatusText>
 				</StatusForm>

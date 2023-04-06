@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Profile from 'components/profile/Profile';
-
-const Header = styled.header`
-	background-color: blue;
-	height: 64px;
-`;
+import Header1 from 'components/header/Header';
+// const Header = styled.header`
+// 	background-color: blue;
+// 	height: 64px;
+// `;
 // const Section = styled.section`
 // 	display: flex;
 // 	justify-content: center;
@@ -86,7 +86,8 @@ const SectionBottomItemTitle = styled.div`
 
 export default function MiniContainer() {
 	return (
-		<Header>
+		<>
+			<Header1 />
 			<div>
 				<SectionContiner>
 					<SectionLeft>
@@ -113,6 +114,6 @@ export default function MiniContainer() {
 				</SectionContiner>
 			</div>
 			<Footer>footer</Footer>
-		</Header>
+		</>
 	);
 }
