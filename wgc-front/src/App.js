@@ -32,10 +32,10 @@ function App() {
 				<Route path="/Friend" element={<FriendPage />}>
 					일촌 목록 페이지
 				</Route>
-				<Route path="MyPost" element={<MyPostPage />}>
+				<Route path="/MyPost" element={<MyPostPage />}>
 					나의 게시글 페이지
 				</Route>
-				<Route path="Guest" element={<GuestPage />}>
+				<Route path="/Guest" element={<GuestPage />}>
 					방명록
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
