@@ -29,6 +29,7 @@ const IdPwd = styled.input`
 	background-color: #2d2d2d;
 	border-radius: 5px;
 	color: white;
+	margin-top: 1rem;
 `;
 
 const RegisterBtn = styled.button`
@@ -42,7 +43,7 @@ const RegisterBtn = styled.button`
 	cursor: pointer;
 `;
 
-const Elart = styled.p`
+const Elart = styled.span`
 	color: #ef5350;
 	font-size: 14px;
 `;
@@ -65,8 +66,10 @@ export default function UserSignContainer() {
 			<MainContent>
 				<Logo>S I G N U P</Logo>
 				<IdForm>
+					<IdPwd type="text" placeholder="이름" /> <br />
 					<IdPwd type="text" placeholder="이메일" /> <br />
-					<Elart>이미 사용중인 이메일입니다.</Elart>
+					{/* <Elart>이미 사용중인 이메일입니다.</Elart> */}
+					<br />
 					<IdPwd type="password" placeholder="비밀번호" />
 				</IdForm>
 				<RegisterBtn>회원가입하기</RegisterBtn>
