@@ -24,13 +24,14 @@ const IdForm = styled.div`
 `;
 const IdPwd = styled.input`
 	border: 0;
-	padding: 1em;
+	padding: 1rem;
 	padding-right: 9.6em;
 	background-color: #2d2d2d;
 	border-radius: 5px;
 	color: white;
+	margin-top: 1.5rem;
 `;
-const Elart = styled.p`
+const Elart = styled.span`
 	color: red;
 	font-size: 14px;
 `;
@@ -57,14 +58,15 @@ const LegisterForm = styled.div`
 `;
 
 export default function UserSignContainer() {
-	const [Login, setLogin] = useState(true);
+	const [Login, setLogin] = useState(false);
 	return (
 		<Container>
 			<MainContent>
 				<Logo>S I G N U P</Logo>
 				<IdForm>
+					<IdPwd type="text" placeholder="이름" /> <br />
 					<IdPwd type="text" placeholder="이메일" /> <br />
-					<div>{Login === true ? <Elart>이미 사용중인 이메일입니다.</Elart> : <div>2</div>}</div>
+					<div>{Login === true ? <Elart>이미 사용중인 이메일입니다.</Elart> : <div></div>}</div>
 					<IdPwd type="password" placeholder="비밀번호" />
 				</IdForm>
 				<RegisterBtn>회원가입하기</RegisterBtn>
