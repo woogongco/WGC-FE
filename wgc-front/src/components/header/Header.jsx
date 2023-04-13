@@ -46,6 +46,33 @@ const Buttonli = styled.li`
 	margin-right: 20px;
 	cursor: pointer;
 `;
+const ToggleBtn = styled.div`
+	width: 3rem;
+	height: 1.1rem;
+	border-radius: 2.5rem;
+	border: 0px;
+	position: relative;
+	cursor: pointer;
+	display: block;
+	background-color: white;
+`;
+const ToggleSwitch = styled.input`
+	height: 0.8rem;
+	background-color: #c98c91;
+	width: 0.8rem;
+	border-radius: 50%;
+	border: 1px soild black;
+	appearance: none;
+	position: absolute;
+	transition: 300ms;
+	&:checked {
+		border-radius: 50%;
+		transform: translateX(30px);
+	}
+`;
+const Darklight = styled.span`
+	font-size: 5px;
+`;
 const LoginBtn = styled.div`
 	cursor: pointer;
 	border: 1px solid black;
@@ -60,6 +87,10 @@ const LoginBtn = styled.div`
 
 export default function Header1() {
 	const [login, setlogin] = useState(false);
+	const [checked, setchecked] = useState(false);
+	const HandleChecked = () => {
+		setchecked(e => !e);
+	};
 	return (
 		<>
 			<HeaderLayOut>
@@ -89,7 +120,14 @@ export default function Header1() {
 						</Buttonli>
 					)}
 					<Buttonli>
-						<FaToggleOn />
+						<ToggleBtn>
+							<ToggleSwitch type="checkbox" value={checked} onClick={HandleChecked} />
+						</ToggleBtn>
+						{checked === false ? (
+							<Darklight>Light Mode</Darklight>
+						) : (
+							<Darklight>Dark Mode</Darklight>
+						)}
 					</Buttonli>
 				</ButtonBar>
 			</HeaderLayOut>
