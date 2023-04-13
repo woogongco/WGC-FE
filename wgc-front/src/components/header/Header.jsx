@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
-import { FaSearch, FaBell, FaUserAlt, FaBookmark, FaToggleOn } from 'react-icons/fa';
+import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
 const HeaderLayOut = styled.div`
 	background-color: #2e2e2e;
 	display: flex;
