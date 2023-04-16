@@ -61,12 +61,18 @@ const ContentsDetails = styled.div`
 `;
 
 const LikeCount = styled.span`
+	display: flex;
+	align-items: center;
+
 	& span {
 		margin-left: 5px;
 	}
 `;
 
 const CommentCount = styled.span`
+	display: flex;
+	align-items: center;
+
 	& span {
 		margin-left: 5px;
 	}
