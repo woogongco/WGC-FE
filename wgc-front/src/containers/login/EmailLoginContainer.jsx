@@ -64,7 +64,7 @@ export default function EmailLoginContainer() {
 	const [password, setpassword] = useInput('');
 
 	const handleLogin = () => {
-		fetch('/member/sign', {
+		fetch('http://ec2-3-38-201-88.ap-northeast-2.compute.amazonaws.com/member/sign', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
