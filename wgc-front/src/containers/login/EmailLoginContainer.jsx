@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -60,20 +60,45 @@ const StatusText = styled.span`
 	opacity: 87%;
 `;
 export default function EmailLoginContainer() {
+	const [Email, setEmaill] = useInput('');
+	const [password, setpassword] = useInput('');
+
+	const handleLogin = () => {
+		fetch('/member/sign', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				mail: Email,
+				password: password,
+			}),
+		})
+			.then(response => response.json(), console.log('성공'))
+			.then(data => console.log(data))
+			.then(error => console.log('에러 발생' + error));
+	};
 	return (
 		<Container>
 			<MainContent>
 				<Logo>L O I G N</Logo>
 				<IdForm>
-					<IdPwd type="text" placeholder="이메일" /> <br />
-					<IdPwd type="password" placeholder="비밀번호" />
+					<IdPwd type="text" placeholder="이메일" value={Email} onChange={setEmaill} /> <br />
+					<IdPwd type="password" placeholder="비밀번호" value={password} onChange={setpassword} />
 				</IdForm>
 				<Password>비밀번호 찾기</Password>
 				<StatusForm>
 					<StatusCheckBox type="checkbox" /> <StatusText>로그인 상태 기억하기</StatusText>
 				</StatusForm>
-				<RegisterBtn>로그인 하기</RegisterBtn>
+				<RegisterBtn onClick={handleLogin}>로그인 하기</RegisterBtn>
 			</MainContent>
 		</Container>
 	);
+}
+function useInput() {
+	const [value, setValue] = useState('');
+	const handler = useCallback(e => {
+		setValue(e.target.value);
+	}, []);
+	return [value, handler, setValue];
 }
