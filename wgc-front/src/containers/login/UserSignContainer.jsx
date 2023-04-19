@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 const Container = styled.div`
@@ -31,7 +31,9 @@ const IdPwd = styled.input`
 	color: white;
 	margin-top: 1rem;
 `;
-
+const ErrorText = styled.span`
+	color: white;
+`;
 const RegisterBtn = styled.button`
 	border: 0;
 	padding: 1.5em 8em;
@@ -41,11 +43,6 @@ const RegisterBtn = styled.button`
 	font-style: normal;
 	font-weight : bold
 	cursor: pointer;
-`;
-
-const Elart = styled.span`
-	color: #ef5350;
-	font-size: 14px;
 `;
 const WhatId = styled.span`
 	cursor: pointer;
@@ -61,18 +58,38 @@ const LegisterForm = styled.div`
 `;
 
 export default function UserSignContainer() {
+	const [Name, setName] = useInput('');
+	const [Email, setEmail] = useInput('');
+	const [Password, setPassword] = useInput('');
+	const [error, seterror] = useState('');
+	const handlesubmit = () => {
+		fetch('/member', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				name: Name,
+				email: Email,
+				password: Password,
+			}),
+		})
+			.then(response => response.json(), console.log('성공'))
+			.then(data => console.log(data))
+			.then(error => seterror('에러 발생' + error));
+	};
 	return (
 		<Container>
 			<MainContent>
 				<Logo>S I G N U P</Logo>
 				<IdForm>
-					<IdPwd type="text" placeholder="이름" /> <br />
-					<IdPwd type="text" placeholder="이메일" /> <br />
-					{/* <Elart>이미 사용중인 이메일입니다.</Elart> */}
+					<IdPwd type="text" placeholder="이름" value={Name} onChange={setName} /> <br />
+					<IdPwd type="text" placeholder="이메일" value={Email} onChange={setEmail} /> <br />
 					<br />
-					<IdPwd type="password" placeholder="비밀번호" />
+					<IdPwd type="password" placeholder="비밀번호" value={Password} onChange={setPassword} />
 				</IdForm>
-				<RegisterBtn>회원가입하기</RegisterBtn>
+				<ErrorText>{error}</ErrorText>
+				<RegisterBtn onClick={handlesubmit}>회원가입하기</RegisterBtn>
 				<LegisterForm>
 					<Link to="/EmailLogin">
 						<WhatId>이미 아이디가 있나요 ?</WhatId>
@@ -81,4 +98,12 @@ export default function UserSignContainer() {
 			</MainContent>
 		</Container>
 	);
+}
+
+function useInput() {
+	const [value, setValue] = useState('');
+	const handler = useCallback(e => {
+		setValue(e.target.value);
+	}, []);
+	return [value, handler, setValue];
 }
