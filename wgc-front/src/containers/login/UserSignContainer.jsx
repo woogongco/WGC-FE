@@ -62,9 +62,9 @@ export default function UserSignContainer() {
 	const [Email, setEmail] = useInput('');
 	const [Password, setPassword] = useInput('');
 	const [error, seterror] = useState('');
-	const handlesubmit = () => {
-		fetch('/member', {
-			method: 'PUT',
+	const handlesubmit = async () => {
+		await fetch('http://ec2-3-38-201-88.ap-northeast-2.compute.amazonaws.com/member', {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -74,9 +74,9 @@ export default function UserSignContainer() {
 				password: Password,
 			}),
 		})
-			.then(response => response.json(), console.log('성공'))
+			.then(response => response.json())
 			.then(data => console.log(data))
-			.then(error => seterror('에러 발생' + error));
+			.catch(err => console.log(err));
 	};
 	return (
 		<Container>
