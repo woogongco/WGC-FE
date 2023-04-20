@@ -70,7 +70,7 @@ export default function UserSignContainer() {
 			},
 			body: JSON.stringify({
 				name: Name,
-				email: Email,
+				mail: Email,
 				password: Password,
 			}),
 		})
