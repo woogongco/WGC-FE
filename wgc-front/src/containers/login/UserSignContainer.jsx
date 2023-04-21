@@ -57,13 +57,20 @@ const LegisterForm = styled.div`
 	margin-top: 2em;
 `;
 
+function useInput() {
+	const [value, setValue] = useState('');
+	const handler = useCallback(e => {
+		setValue(e.target.value);
+	}, []);
+	return [value, handler, setValue];
+}
+
 export default function UserSignContainer() {
 	const [Name, setName] = useInput('');
 	const [Email, setEmail] = useInput('');
 	const [Password, setPassword] = useInput('');
-	const [error, seterror] = useState('');
 	const handlesubmit = async () => {
-		await fetch('http://ec2-3-38-201-88.ap-northeast-2.compute.amazonaws.com/member', {
+		await fetch('http://ec2-3-35-172-212.ap-northeast-2.compute.amazonaws.com/member', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -88,7 +95,6 @@ export default function UserSignContainer() {
 					<br />
 					<IdPwd type="password" placeholder="비밀번호" value={Password} onChange={setPassword} />
 				</IdForm>
-				<ErrorText>{error}</ErrorText>
 				<RegisterBtn onClick={handlesubmit}>회원가입하기</RegisterBtn>
 				<LegisterForm>
 					<Link to="/EmailLogin">
@@ -98,12 +104,4 @@ export default function UserSignContainer() {
 			</MainContent>
 		</Container>
 	);
-}
-
-function useInput() {
-	const [value, setValue] = useState('');
-	const handler = useCallback(e => {
-		setValue(e.target.value);
-	}, []);
-	return [value, handler, setValue];
 }
