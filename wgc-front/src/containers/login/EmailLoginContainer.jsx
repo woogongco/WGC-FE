@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-
+import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -60,20 +60,59 @@ const StatusText = styled.span`
 	opacity: 87%;
 `;
 export default function EmailLoginContainer() {
+	const [Email, setEmaill] = useInput('');
+	const [password, setpassword] = useInput('');
+	const navigator = useNavigate();
+
+	const handleLogin = () => {
+		fetch('http://ec2-3-35-172-212.ap-northeast-2.compute.amazonaws.com/member/sign', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				mail: Email,
+				password: password,
+			}),
+		})
+			.then(response => response.json())
+			.then(data =>
+				data.status === 200
+					? localStorage.setItem('Cookie', data.data) + navigator('/MiniMain')
+					: data.status === 400
+					? alert('이메일 혹은 패스워드가 일치하지 않습니다.')
+					: data.status === 500
+					? alert('Server Error ')
+					: ' ',
+			)
+			.catch(error => alert(error));
+	};
+
+	if (!localStorage.getItem('Cookie') === undefined) {
+		navigator('/MiniMain');
+	}
+
 	return (
 		<Container>
 			<MainContent>
 				<Logo>L O I G N</Logo>
 				<IdForm>
-					<IdPwd type="text" placeholder="이메일" /> <br />
-					<IdPwd type="password" placeholder="비밀번호" />
+					<IdPwd type="text" placeholder="이메일" value={Email} onChange={setEmaill} /> <br />
+					<IdPwd type="password" placeholder="비밀번호" value={password} onChange={setpassword} />
 				</IdForm>
 				<Password>비밀번호 찾기</Password>
 				<StatusForm>
 					<StatusCheckBox type="checkbox" /> <StatusText>로그인 상태 기억하기</StatusText>
 				</StatusForm>
-				<RegisterBtn>로그인 하기</RegisterBtn>
+				<RegisterBtn onClick={handleLogin}>로그인 하기</RegisterBtn>
 			</MainContent>
 		</Container>
 	);
+}
+function useInput() {
+	const [value, setValue] = useState('');
+	const handler = useCallback(e => {
+		setValue(e.target.value);
+	}, []);
+	return [value, handler, setValue];
 }
