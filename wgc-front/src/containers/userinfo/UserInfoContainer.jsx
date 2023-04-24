@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from 'components/header/Header';
 import Profile from 'components/profile/Profile';
-
+import { FaPlusCircle } from 'react-icons/fa';
 const Section = styled.div`
 	display: flex;
 `;
 const UserInterface = styled.div`
-	width: 60%;
+	width: 55%;
 	padding: 5rem 0 0 3rem;
 	border-left: 0.5px solid white;
 `;
@@ -55,6 +55,23 @@ const UserInput = styled.input`
 	padding: 0.5rem 0 0.5rem 0.5rem;
 	font-size: 13px;
 `;
+const ContainerDiv = styled.div`
+	position: relative;
+	display: inline-block;
+	margin: 1.5em 0 1.5em 15px;
+	width: 150px;
+	height: 150px;
+	background: #c4c4c4;
+	border-top-left-radius: 40%;
+	border-top-right-radius: 50%;
+	border-bottom-right-radius: 50%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	cursor: pointer;
+`;
 export default function UserInfoContainer() {
 	return (
 		<div>
@@ -91,6 +108,10 @@ export default function UserInfoContainer() {
 							<UserInput type="password" placeholder="000-0000-0000" />
 						</Content>
 					</TypeContainer>
+					<Title>프로필 이미지</Title>
+					<ContainerDiv>
+						<FaPlusCircle />
+					</ContainerDiv>
 				</UserInterface>
 				<Article />
 			</Section>
