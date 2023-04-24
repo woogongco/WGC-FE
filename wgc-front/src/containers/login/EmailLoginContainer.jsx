@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-
+import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -62,9 +62,10 @@ const StatusText = styled.span`
 export default function EmailLoginContainer() {
 	const [Email, setEmaill] = useInput('');
 	const [password, setpassword] = useInput('');
+	const navigator = useNavigate();
 
 	const handleLogin = () => {
-		fetch('http://ec2-3-38-201-88.ap-northeast-2.compute.amazonaws.com/member/sign', {
+		fetch('http://ec2-3-35-172-212.ap-northeast-2.compute.amazonaws.com/member/sign', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -74,10 +75,23 @@ export default function EmailLoginContainer() {
 				password: password,
 			}),
 		})
-			.then(response => response.json(), console.log('성공'))
-			.then(data => console.log(data))
-			.then(error => console.log('에러 발생' + error));
+			.then(response => response.json())
+			.then(data =>
+				data.status === 200
+					? localStorage.setItem('Cookie', data.data) + navigator('/MiniMain')
+					: data.status === 400
+					? alert('이메일 혹은 패스워드가 일치하지 않습니다.')
+					: data.status === 500
+					? alert('Server Error ')
+					: ' ',
+			)
+			.catch(error => alert(error));
 	};
+
+	if (!localStorage.getItem('Cookie') === undefined) {
+		navigator('/MiniMain');
+	}
+
 	return (
 		<Container>
 			<MainContent>
