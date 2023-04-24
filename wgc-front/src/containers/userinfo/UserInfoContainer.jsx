@@ -26,6 +26,7 @@ const Title = styled.h1`
 `;
 const TypeContainer = styled.div`
 	display: grid;
+	margin-top: 40px;
 	grid-template-columns: 7rem 20rem;
 	grid-template-rows: 5rem 5rem 5rem 5rem 5rem 5rem;
 	border-bottom: 1px solid #2e2e2e;
@@ -33,11 +34,13 @@ const TypeContainer = styled.div`
 `;
 const UserType = styled.span`
 	color: white;
-	border-right: 1px solid #454545;
 	font-size: 13px;
+	margin-top: 0.7rem;
+	text-align: center;
 `;
 const Content = styled.div`
-	margin-left: 1rem;
+	padding-left: 1rem;
+	border-left: 1px solid #454545;
 `;
 const LogInfo = styled.div`
 	color: #ffffff;
