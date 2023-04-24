@@ -10,7 +10,7 @@ import EmailLoginPage from 'pages/login/EmailLoginPage';
 import CommuMainPage from 'pages/community/CommuMainPage';
 import Profile from 'components/profile/Profile';
 import BoardPage from 'pages/community/BoardPage';
-
+import UserInfo from 'pages/userinfo/UserInfoPage';
 function App() {
 	return (
 		<BrowserRouter>
@@ -42,6 +42,7 @@ function App() {
 				<Route path="/community" element={<CommuMainPage />} />
 				<Route path="/board/:boardname" element={<BoardPage />} />
 				<Route path="/Profile" element={<Profile />} />
+				<Route path="/UserInfo" element={<UserInfo />} />
 			</Routes>
 		</BrowserRouter>
 	);
