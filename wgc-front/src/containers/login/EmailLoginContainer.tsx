@@ -60,8 +60,8 @@ const StatusText = styled.span`
 	opacity: 87%;
 `;
 export default function EmailLoginContainer() {
-	const [Email, setEmaill] = useInput('');
-	const [password, setpassword] = useInput('');
+	const [Email, setEmaill] = useInput();
+	const [password, setpassword] = useInput();
 	const navigator = useNavigate();
 
 	const handleLogin = () => {
