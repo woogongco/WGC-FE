@@ -107,7 +107,7 @@ export default function Header() {
 					<SearchInput type="text" placeholder="Search..." />
 				</SearchBar>
 				<ButtonBar>
-					{login === true ? (
+					{!localStorage.getItem('Cookie') ? (
 						<>
 							<Buttonli>
 								<FaBell />
@@ -121,7 +121,9 @@ export default function Header() {
 						</>
 					) : (
 						<Buttonli>
-							<LoginBtn>로그인</LoginBtn>
+							<Link to="/">
+								<LoginBtn>로그인</LoginBtn>
+							</Link>
 						</Buttonli>
 					)}
 					<Buttonli>
