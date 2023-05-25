@@ -107,7 +107,7 @@ export default function Header() {
 					<SearchInput type="text" placeholder="Search..." />
 				</SearchBar>
 				<ButtonBar>
-					{!localStorage.getItem('Cookie') ? (
+					{localStorage.getItem('Cookie') ? (
 						<>
 							<Buttonli>
 								<FaBell />
