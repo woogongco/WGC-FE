@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
+import { Link } from 'react-router-dom';
 import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
 const HeaderLayOut = styled.div`
 	background-color: #2e2e2e;
@@ -89,13 +90,16 @@ const LoginBtn = styled.div`
 export default function Header() {
 	const [login, setlogin] = useState(false);
 	const [checked, setchecked] = useState(false);
-	const HandleChecked = () => {
+	const HandleChecked = useCallback(() => {
 		setchecked(e => !e);
-	};
+	}, []);
+
 	return (
 		<>
 			<HeaderLayOut>
-				<LogoImage src={Logoimg} alt="Header Logo img" />
+				<Link to="/">
+					<LogoImage src={Logoimg} alt="Header Logo img" />
+				</Link>
 				<SearchBar>
 					<SerchIcon>
 						<FaSearch />
@@ -103,7 +107,7 @@ export default function Header() {
 					<SearchInput type="text" placeholder="Search..." />
 				</SearchBar>
 				<ButtonBar>
-					{login === true ? (
+					{!localStorage.getItem('Cookie') ? (
 						<>
 							<Buttonli>
 								<FaBell />
@@ -117,7 +121,9 @@ export default function Header() {
 						</>
 					) : (
 						<Buttonli>
-							<LoginBtn>로그인</LoginBtn>
+							<Link to="/">
+								<LoginBtn>로그인</LoginBtn>
+							</Link>
 						</Buttonli>
 					)}
 					<Buttonli>
