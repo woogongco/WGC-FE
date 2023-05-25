@@ -70,7 +70,7 @@ export default function UserSignContainer() {
 	const [Email, setEmail] = useInput('');
 	const [Password, setPassword] = useInput('');
 	const handlesubmit = async () => {
-		await fetch('http://ec2-3-35-172-212.ap-northeast-2.compute.amazonaws.com/member', {
+		await fetch('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/member', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
