@@ -65,7 +65,7 @@ export default function EmailLoginContainer() {
 	const navigator = useNavigate();
 
 	const handleLogin = () => {
-		fetch('http://ec2-3-35-172-212.ap-northeast-2.compute.amazonaws.com/member/sign', {
+		fetch('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/member/sign', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

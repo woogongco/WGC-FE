@@ -11,6 +11,7 @@ import CommuMainPage from 'pages/community/CommuMainPage';
 import Profile from 'components/profile/Profile';
 import BoardPage from 'pages/community/BoardPage';
 import UserInfo from 'pages/userinfo/UserInfoPage';
+import CommuWritePage from './pages/community/CommuWritePage';
 function App() {
 	return (
 		<BrowserRouter>
@@ -41,6 +42,7 @@ function App() {
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
 				<Route path="/board/:boardname" element={<BoardPage />} />
+				<Route path="/write" element={<CommuWritePage />} />
 				<Route path="/Profile" element={<Profile />} />
 				<Route path="/UserInfo" element={<UserInfo />} />
 			</Routes>
