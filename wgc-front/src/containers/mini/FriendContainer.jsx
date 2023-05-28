@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Profile from 'components/profile/Profile';
+import { getFriendQuerStringText } from 'apis/api';
+import axios from 'axios';
+import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
 
 const Header = styled.header`
 	background-color: blue;
@@ -86,7 +89,65 @@ const SectionButtonDiv = styled.div`
 	margin-left: auto;
 `;
 
+const Item = ({ children, isLastItem, onFetchMorePassengers }) => {
+	const ref = useRef(null); // 감시할 엘리먼트
+	const entry = useIntersectionObserver(ref, {});
+	const isIntersecting = !!entry?.isIntersecting; // 겹치는 영역이 존재하는 지 여부
+	useEffect(() => {
+		isLastItem && isIntersecting && onFetchMorePassengers(); // 목록의 마지막에 도달했을 때, 리스트를 더 불러오도록 요청한다.
+	}, [isLastItem, isIntersecting]);
+
+	return (
+		<SectionMainTextContainer
+			ref={ref}
+			style={{
+				minHeight: '10vh',
+			}}
+		>
+			<SectionMainImg />
+			<div style={{ margin: 'auto' }}>{children}</div>
+			<SectionButtonDiv>
+				<SectionButton>일촌 끊기</SectionButton>
+			</SectionButtonDiv>
+		</SectionMainTextContainer>
+	);
+};
+
 export default function FriendContainer() {
+	const [data, setData] = useState([]);
+	const [didmount, setDidmount] = useState(false);
+	const [passengers, setPassengers] = useState([]);
+	const [page, setPage] = useState(0);
+	const [isLast, setIsLast] = useState(false);
+	async function renderFirend(page) {
+		const getFriendData = await getFriendQuerStringText(page);
+		setData(getFriendData);
+	}
+	const getPassengers = async () => {
+		const params = { size: 10, page, limit: 10 };
+		try {
+			const res = await axios.get('https://api.instantwebtools.net/v1/passenger', { params });
+			const passengers = res.data.data;
+			const isLast = res.data.totalPages === page;
+			setPassengers(prev => [...prev, ...passengers]);
+			setIsLast(isLast);
+		} catch (e) {
+			console.error(e);
+		}
+	};
+	useEffect(() => {
+		!isLast && getPassengers();
+	}, [page]);
+	useEffect(() => {
+		setDidmount(true);
+	}, []);
+
+	useEffect(() => {
+		if (didmount) {
+			renderFirend();
+		}
+	}, [didmount]);
+
 	return (
 		<>
 			<Header>헤더</Header>
@@ -100,56 +161,16 @@ export default function FriendContainer() {
 							<p>일촌 목록</p>
 						</SectionItemTitle>
 						<SectionMainItem>
-							<SectionMainTextContainer>
-								<SectionMainImg />
-								<div>
-									<p>박진현</p>
-									<p>안녕하세요 ............</p>
-								</div>
-								<SectionButtonDiv>
-									<SectionButton>일촌 끊기</SectionButton>
-								</SectionButtonDiv>
-							</SectionMainTextContainer>
-							<SectionMainTextContainer>
-								<SectionMainImg />
-								<div>
-									<p>박진현</p>
-									<p>안녕하세요 ............</p>
-								</div>
-								<SectionButtonDiv>
-									<SectionButton>일촌 끊기</SectionButton>
-								</SectionButtonDiv>
-							</SectionMainTextContainer>
-							<SectionMainTextContainer>
-								<SectionMainImg />
-								<div>
-									<p>박진현</p>
-									<p>안녕하세요 ............</p>
-								</div>
-								<SectionButtonDiv>
-									<SectionButton>일촌 끊기</SectionButton>
-								</SectionButtonDiv>
-							</SectionMainTextContainer>
-							<SectionMainTextContainer>
-								<SectionMainImg />
-								<div>
-									<p>박진현</p>
-									<p>안녕하세요 ............</p>
-								</div>
-								<SectionButtonDiv>
-									<SectionButton>일촌 끊기</SectionButton>
-								</SectionButtonDiv>
-							</SectionMainTextContainer>
-							<SectionMainTextContainer>
-								<SectionMainImg />
-								<div>
-									<p>박진현</p>
-									<p>안녕하세요 ............</p>
-								</div>
-								<SectionButtonDiv>
-									<SectionButton>일촌 끊기</SectionButton>
-								</SectionButtonDiv>
-							</SectionMainTextContainer>
+							{passengers &&
+								passengers.map((passenger, idx) => (
+									<Item
+										key={passenger._id}
+										isLastItem={passengers.length - 1 === idx}
+										onFetchMorePassengers={() => setPage(prev => prev + 1)}
+									>
+										{passenger.name}
+									</Item>
+								))}
 						</SectionMainItem>
 					</SectionCenter>
 					<SideDiv>오른쪽</SideDiv>
