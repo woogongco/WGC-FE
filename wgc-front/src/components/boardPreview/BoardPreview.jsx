@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGetPostsQuery } from '../../api';
 import styled from 'styled-components';
 import { FaRegThumbsUp } from 'react-icons/fa';
 import { FaRegCommentDots } from 'react-icons/fa';
@@ -79,8 +80,56 @@ const CommentCount = styled.span`
 `;
 
 export default function BoardPreview() {
+	const { data, isLoading, isError } = useGetPostsQuery();
+
+	if (isLoading) {
+		return <div>불러오는 중...</div>;
+	}
+
+	if (isError) {
+		return <div>에러</div>;
+	}
 	return (
 		<BoardWrapper>
+			<h2>Users</h2>
+			<div>
+				{data.data.free.map(post => (
+					<div key={post.id}>
+						<h2>{post.title}</h2>
+						<p>{post.content}</p>
+						<p>{post.like}</p>
+						<p>{post.view}</p>
+						<p>{post.registerDate}</p>
+						<p>{post.lastModifiedDate}</p>
+					</div>
+				))}
+			</div>
+			<div>
+				{data.data.job.map(post => (
+					<div key={post.id}>
+						<h2>{post.title}</h2>
+						<p>{post.content}</p>
+						<p>{post.like}</p>
+						<p>{post.view}</p>
+						<p>{post.registerDate}</p>
+						<p>{post.lastModifiedDate}</p>
+					</div>
+				))}
+			</div>
+			<div>
+				{data.data.itnews.map(post => (
+					<div key={post.id}>
+						<h2>{post.title}</h2>
+						<p>{post.content}</p>
+						<p>{post.like}</p>
+						<p>{post.view}</p>
+						<p>{post.registerDate}</p>
+						<p>{post.lastModifiedDate}</p>
+					</div>
+				))}
+			</div>
+			{/* ========================================================== */}
+
 			{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
 			<BoardTitle>
 				<h2>자유게시판</h2>
