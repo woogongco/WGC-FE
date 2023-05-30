@@ -1,5 +1,4 @@
 {
-
 	"name": "wgc-front",
 	"version": "0.1.0",
 	"private": true,
@@ -11,6 +10,7 @@
 		"@toast-ui/editor": "^3.2.2",
 		"@toast-ui/editor-plugin-color-syntax": "^3.1.0",
 		"@toast-ui/react-editor": "^3.2.3",
+		"axios": "^1.4.0",
 		"eslint": "^8.35.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-prettier": "^4.2.1",
@@ -26,7 +26,7 @@
 		"web-vitals": "^2.1.0"
 	},
 	"scripts": {
-		"start": "GENERATE_SOURCEMAP=false react-scripts start",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"

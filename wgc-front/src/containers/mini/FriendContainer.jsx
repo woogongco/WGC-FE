@@ -15,6 +15,7 @@ const SideDiv = styled.div`
 	flex: 1;
 	flex-basis: 10%;
 `;
+
 const SectionLeft = styled.div`
 	flex: 1;
 	flex-basis: 10%;
@@ -173,7 +174,6 @@ export default function FriendContainer() {
 								))}
 						</SectionMainItem>
 					</SectionCenter>
-					<SideDiv>오른쪽</SideDiv>
 				</SectionContiner>
 			</div>
 			<Footer>footer</Footer>
