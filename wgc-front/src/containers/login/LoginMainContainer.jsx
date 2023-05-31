@@ -13,6 +13,7 @@ const Container = styled.div`
 	justify-content: center;
 	align-content: center;
 `;
+
 const MainContent = styled.div`
 	margin-top: 3em;
 `;

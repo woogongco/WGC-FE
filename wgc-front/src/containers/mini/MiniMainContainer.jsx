@@ -21,15 +21,6 @@ const SectionCenter = styled.div`
 	flex: 3;
 `;
 
-const Footer = styled.footer`
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	height: 87px;
-	background-color: black;
-	width: 100%;
-`;
-
 const SectionContiner = styled.div`
 	display: flex;
 `;
@@ -107,7 +98,6 @@ export default function MiniContainer() {
 					<SideDiv>오른쪽</SideDiv>
 				</SectionContiner>
 			</div>
-			<Footer>footer</Footer>
 		</>
 	);
 }
