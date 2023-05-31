@@ -5,17 +5,6 @@ import { getFriendQuerStringText } from 'apis/api';
 import axios from 'axios';
 import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
 
-const Header = styled.header`
-	background-color: blue;
-	height: 64px;
-`;
-
-const SideDiv = styled.div`
-	float: right;
-	flex: 1;
-	flex-basis: 10%;
-`;
-
 const SectionLeft = styled.div`
 	flex: 1;
 	flex-basis: 10%;
@@ -23,15 +12,6 @@ const SectionLeft = styled.div`
 
 const SectionCenter = styled.div`
 	flex: 3;
-`;
-
-const Footer = styled.footer`
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	height: 87px;
-	background-color: black;
-	width: 100%;
 `;
 
 const SectionContiner = styled.div`
@@ -151,7 +131,6 @@ export default function FriendContainer() {
 
 	return (
 		<>
-			<Header>헤더</Header>
 			<div>
 				<SectionContiner>
 					<SectionLeft>
@@ -176,7 +155,6 @@ export default function FriendContainer() {
 					</SectionCenter>
 				</SectionContiner>
 			</div>
-			<Footer>footer</Footer>
 		</>
 	);
 }

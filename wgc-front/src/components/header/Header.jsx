@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+
 const HeaderLayOut = styled.div`
 	background-color: #2e2e2e;
 	display: flex;
@@ -10,6 +12,7 @@ const HeaderLayOut = styled.div`
 	justify-content: space-between;
 	align-items: center;
 `;
+
 const LogoImage = styled.img`
 	width: 100px;
 	height: 44px;
@@ -88,6 +91,8 @@ const LoginBtn = styled.div`
 `;
 
 export default function Header() {
+	const headeState = useSelector(state => state.header.state);
+
 	const [login, setlogin] = useState(false);
 	const [checked, setchecked] = useState(false);
 	const HandleChecked = useCallback(() => {
@@ -96,49 +101,52 @@ export default function Header() {
 
 	return (
 		<>
-			<HeaderLayOut>
-				<Link to="/">
-					<LogoImage src={Logoimg} alt="Header Logo img" />
-				</Link>
-				<SearchBar>
-					<SerchIcon>
-						<FaSearch />
-					</SerchIcon>
-					<SearchInput type="text" placeholder="Search..." />
-				</SearchBar>
-				<ButtonBar>
-					{localStorage.getItem('Cookie') ? (
-						<>
-							<Buttonli>
-								<FaBell />
-							</Buttonli>
-							<Buttonli>
-								<FaBookmark />
-							</Buttonli>
-							<Buttonli>
-								<FaUserAlt />
-							</Buttonli>
-						</>
-					) : (
-						<Buttonli>
-							<Link to="/">
-								<LoginBtn>로그인</LoginBtn>
-							</Link>
-						</Buttonli>
-					)}
-					<Buttonli>
-						<ToggleBtn>
-							<ToggleSwitch type="checkbox" value={checked} onClick={HandleChecked} />
-						</ToggleBtn>
-						{checked === false ? (
-							<Darklight>Light Mode</Darklight>
+			{headeState == true ? (
+				<HeaderLayOut>
+					<Link to="/">
+						<LogoImage src={Logoimg} alt="Header Logo img" />
+					</Link>
+					<SearchBar>
+						<SerchIcon>
+							<FaSearch />
+						</SerchIcon>
+						<SearchInput type="text" placeholder="Search..." />
+					</SearchBar>
+					<ButtonBar>
+						{localStorage.getItem('Cookie') ? (
+							<>
+								<Buttonli>
+									<FaBell />
+								</Buttonli>
+								<Buttonli>
+									<FaBookmark />
+								</Buttonli>
+								<Buttonli>
+									<FaUserAlt />
+								</Buttonli>
+							</>
 						) : (
-							<Darklight>Dark Mode</Darklight>
+							<Buttonli>
+								<Link to="/">
+									<LoginBtn>로그인</LoginBtn>
+								</Link>
+							</Buttonli>
 						)}
-					</Buttonli>
-				</ButtonBar>
-			</HeaderLayOut>
-			;
+						<Buttonli>
+							<ToggleBtn>
+								<ToggleSwitch type="checkbox" value={checked} onClick={HandleChecked} />
+							</ToggleBtn>
+							{checked === false ? (
+								<Darklight>Light Mode</Darklight>
+							) : (
+								<Darklight>Dark Mode</Darklight>
+							)}
+						</Buttonli>
+					</ButtonBar>
+				</HeaderLayOut>
+			) : (
+				<></>
+			)}
 		</>
 	);
 }
