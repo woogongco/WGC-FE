@@ -26,7 +26,6 @@ const AsideHtmlRight = styled.aside`
 	top: 100px;
 	width: 10%;
 	background-color: blue;
-	height: 100vh;
 `;
 const FooterHtml = styled.footer``;
 
