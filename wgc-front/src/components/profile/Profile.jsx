@@ -6,8 +6,8 @@ const ContainerDiv = styled.div`
 	position: relative;
 	display: inline-block;
 	margin: 1.5em 0 1.5em 15px;
-	width: 300px;
-	height: 300px;
+	width: 250px;
+	height: 250px;
 	line-height: 90px;
 	text-align: center;
 	font-size: 20px;

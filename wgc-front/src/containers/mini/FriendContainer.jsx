@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Profile from 'components/profile/Profile';
 import { getFriendQuerStringText } from 'apis/api';
 import axios from 'axios';
 import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
 
-const SectionLeft = styled.div`
-	flex: 1;
-	flex-basis: 10%;
-`;
-
-const SectionCenter = styled.div`
-	flex: 3;
+const WarrperDiv = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-left: 2rem;
+	border-left: 1px solid rgba(255, 255, 255, 0.2);
+	padding-left: 1rem;
+	border-right: 1px solid rgba(255, 255, 255, 0.2);
+	margin-right: 1rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const SectionContiner = styled.div`
@@ -27,14 +29,14 @@ const SectionItemTitle = styled.div`
 	font-weight: 600;
 	font-size: 2rem;
 	line-height: 2rem;
-	margin-top: 3rem;
 	margin-left: 1rem;
+	width: 100%;
 `;
 
 const SectionMainItem = styled.div`
 	display: flex;
 	height: 12%;
-	width: 100%;
+	width: 90%;
 	display: flex;
 	flex-direction: column;
 `;
@@ -105,7 +107,7 @@ export default function FriendContainer() {
 		setData(getFriendData);
 	}
 	const getPassengers = async () => {
-		const params = { size: 10, page, limit: 10 };
+		const params = { size: 10, page, limit: 5 };
 		try {
 			const res = await axios.get('https://api.instantwebtools.net/v1/passenger', { params });
 			const passengers = res.data.data;
@@ -131,30 +133,25 @@ export default function FriendContainer() {
 
 	return (
 		<>
-			<div>
-				<SectionContiner>
-					<SectionLeft>
-						<Profile />
-					</SectionLeft>
-					<SectionCenter>
-						<SectionItemTitle>
-							<p>일촌 목록</p>
-						</SectionItemTitle>
-						<SectionMainItem>
-							{passengers &&
-								passengers.map((passenger, idx) => (
-									<Item
-										key={passenger._id}
-										isLastItem={passengers.length - 1 === idx}
-										onFetchMorePassengers={() => setPage(prev => prev + 1)}
-									>
-										{passenger.name}
-									</Item>
-								))}
-						</SectionMainItem>
-					</SectionCenter>
-				</SectionContiner>
-			</div>
+			<SectionContiner>
+				<WarrperDiv>
+					<SectionItemTitle>
+						<p>일촌 목록</p>
+					</SectionItemTitle>
+					<SectionMainItem>
+						{passengers &&
+							passengers.map((passenger, idx) => (
+								<Item
+									key={passenger._id}
+									isLastItem={passengers.length - 1 === idx}
+									onFetchMorePassengers={() => setPage(prev => prev + 1)}
+								>
+									{passenger.name}
+								</Item>
+							))}
+					</SectionMainItem>
+				</WarrperDiv>
+			</SectionContiner>
 		</>
 	);
 }
