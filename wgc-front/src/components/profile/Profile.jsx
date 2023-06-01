@@ -2,12 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
 
+const Base = styled.div`
+	width: 100%;
+`;
+
 const ContainerDiv = styled.div`
 	position: relative;
 	display: inline-block;
 	margin: 1.5em 0 1.5em 15px;
-	width: 250px;
-	height: 250px;
+	width: 234px;
+	height: 234px;
 	line-height: 90px;
 	text-align: center;
 	font-size: 20px;
@@ -89,7 +93,7 @@ const WoogCoTextContainer = styled.div`
 	font-style: normal;
 	font-weight: 600;
 	font-size: 30px;
-	padding-top: 20px;
+	padding-top: 15px;
 `;
 
 const WgcText = styled.span`
@@ -105,7 +109,7 @@ const WgcTextTop = styled.p`
 	font-style: normal;
 	font-weight: 400;
 	font-size: 30px;
-	height: 15px;
+	height: 9px;
 `;
 
 const WgcTextBottomP = styled.p`
@@ -115,6 +119,11 @@ const WgcTextBottomP = styled.p`
 	color: rgba(255, 255, 255, 0.7);
 `;
 
+const Borderdiv = styled.div`
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	margin-bottom: 10px;
+	width: 110%;
+`;
 //fetch로 값이 있을 경우 00님의 미니홈피 없다면 null 값으로 보여주고
 //자기소개 작성과 today 일촌 관리
 //색깔변하는 작은 원들은 백엔드에서 색깔 데이터를 받아와서 원을 만들예쩡
@@ -123,10 +132,10 @@ const WgcTextBottomP = styled.p`
 export default function Profile() {
 	return (
 		<>
-			<div>
+			<Base>
 				<Title>
 					<TitleWappr>
-						<h3>00님의 미니 홈피</h3>
+						<h4>00님의 미니 홈피</h4>
 					</TitleWappr>
 				</Title>
 				<ContainerDiv>
@@ -149,15 +158,14 @@ export default function Profile() {
 					</StackWapper>
 				</StackContainer>
 				<WoogCoTextContainer>
-					<div>
-						<WgcTextTop>개발자들의 이야기, </WgcTextTop>
-						<span>
-							<WgcText>WGC</WgcText>에서 시작하자!
-						</span>
-						<WgcTextBottomP>커뮤니티부터 프로젝트 준비까지</WgcTextBottomP>
-					</div>
+					<WgcTextTop>개발자들의 이야기, </WgcTextTop>
+					<span>
+						<WgcText>WGC</WgcText>에서 시작하자!
+					</span>
+					<WgcTextBottomP>커뮤니티부터 프로젝트 준비까지</WgcTextBottomP>
+					<Borderdiv />
 				</WoogCoTextContainer>
-			</div>
+			</Base>
 		</>
 	);
 }
