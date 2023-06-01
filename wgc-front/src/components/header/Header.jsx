@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 
 const HeaderLayOut = styled.div`
 	background-color: #2e2e2e;
@@ -91,8 +90,6 @@ const LoginBtn = styled.div`
 `;
 
 export default function Header() {
-	const headeState = useSelector(state => state.header.state);
-
 	const [login, setlogin] = useState(false);
 	const [checked, setchecked] = useState(false);
 	const HandleChecked = useCallback(() => {
@@ -101,52 +98,48 @@ export default function Header() {
 
 	return (
 		<>
-			{headeState == true ? (
-				<HeaderLayOut>
-					<Link to="/">
-						<LogoImage src={Logoimg} alt="Header Logo img" />
-					</Link>
-					<SearchBar>
-						<SerchIcon>
-							<FaSearch />
-						</SerchIcon>
-						<SearchInput type="text" placeholder="Search..." />
-					</SearchBar>
-					<ButtonBar>
-						{localStorage.getItem('Cookie') ? (
-							<>
-								<Buttonli>
-									<FaBell />
-								</Buttonli>
-								<Buttonli>
-									<FaBookmark />
-								</Buttonli>
-								<Buttonli>
-									<FaUserAlt />
-								</Buttonli>
-							</>
-						) : (
+			<HeaderLayOut>
+				<Link to="/">
+					<LogoImage src={Logoimg} alt="Header Logo img" />
+				</Link>
+				<SearchBar>
+					<SerchIcon>
+						<FaSearch />
+					</SerchIcon>
+					<SearchInput type="text" placeholder="Search..." />
+				</SearchBar>
+				<ButtonBar>
+					{localStorage.getItem('Cookie') ? (
+						<>
 							<Buttonli>
-								<Link to="/">
-									<LoginBtn>로그인</LoginBtn>
-								</Link>
+								<FaBell />
 							</Buttonli>
-						)}
+							<Buttonli>
+								<FaBookmark />
+							</Buttonli>
+							<Buttonli>
+								<FaUserAlt />
+							</Buttonli>
+						</>
+					) : (
 						<Buttonli>
-							<ToggleBtn>
-								<ToggleSwitch type="checkbox" value={checked} onClick={HandleChecked} />
-							</ToggleBtn>
-							{checked === false ? (
-								<Darklight>Light Mode</Darklight>
-							) : (
-								<Darklight>Dark Mode</Darklight>
-							)}
+							<Link to="/">
+								<LoginBtn>로그인</LoginBtn>
+							</Link>
 						</Buttonli>
-					</ButtonBar>
-				</HeaderLayOut>
-			) : (
-				<></>
-			)}
+					)}
+					<Buttonli>
+						<ToggleBtn>
+							<ToggleSwitch type="checkbox" value={checked} onClick={HandleChecked} />
+						</ToggleBtn>
+						{checked === false ? (
+							<Darklight>Light Mode</Darklight>
+						) : (
+							<Darklight>Dark Mode</Darklight>
+						)}
+					</Buttonli>
+				</ButtonBar>
+			</HeaderLayOut>
 		</>
 	);
 }

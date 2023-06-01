@@ -20,14 +20,15 @@ import UserInfo from 'pages/userinfo/UserInfoPage';
 import CommuWritePage from './pages/community/CommuWritePage';
 
 //공통
-import Header from 'components/header/Header';
-import Footer from 'components/footer/Footer';
+
+import Layout from 'components/layouts/Layout';
 
 function App() {
 	return (
 		<BrowserRouter>
-			<Header />
+			{/* <Header /> */}
 			<Routes>
+				<Route path="/layout" element={<Layout />} />
 				<Route path="/" element={<LoginMainPage />}>
 					메인 로그인페이지
 				</Route>
@@ -40,17 +41,21 @@ function App() {
 				<Route path="EmailLogin" element={<EmailLoginPage />}>
 					이메일 로그인 페이지
 				</Route>
-				<Route path="/MiniMain" element={<MiniMainPage />}>
+				{/* <Route path="/MiniMain" element={<MiniMainPage />}>
 					미니홈피메인페이지
-				</Route>
-				<Route path="/Friend" element={<FriendPage />}>
+				</Route> */}
+				{/* <Route path="/Friend" element={<FriendPage />}>
 					일촌 목록 페이지
-				</Route>
+				</Route> */}
 				<Route path="/MyPost" element={<MyPostPage />}>
 					나의 게시글 페이지
 				</Route>
 				<Route path="/Guest" element={<GuestPage />}>
 					방명록
+				</Route>
+				<Route element={<Layout />}>
+					<Route path="/Friend" element={<FriendPage />} />
+					<Route path="/Minimain" element={<MiniMainPage />} />
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
 				<Route path="/board/:boardname" element={<BoardPage />} />
@@ -58,7 +63,6 @@ function App() {
 				<Route path="/Profile" element={<Profile />} />
 				<Route path="/UserInfo" element={<UserInfo />} />
 			</Routes>
-			<Footer />
 		</BrowserRouter>
 	);
 }

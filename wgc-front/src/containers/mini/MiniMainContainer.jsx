@@ -2,25 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Profile from 'components/profile/Profile';
 
-const Header = styled.header`
-	background-color: blue;
-	height: 64px;
-`;
-
-const SideDiv = styled.div`
-	float: right;
-	flex: 1;
-	flex-basis: 100px;
-`;
-const SectionLeft = styled.div`
-	flex: 1;
-	flex-basis: 100px;
-`;
-
-const SectionCenter = styled.div`
-	flex: 3;
-`;
-
 const SectionContiner = styled.div`
 	display: flex;
 `;
@@ -72,32 +53,23 @@ const SectionBottomItemTitle = styled.div`
 export default function MiniContainer() {
 	return (
 		<>
-			<Header>헤더</Header>
-			<div>
-				<SectionContiner>
-					<SectionLeft>
-						<Profile />
-					</SectionLeft>
-					<SectionCenter>
-						<SectionTopItem>
-							<SectionH>Git 주소</SectionH>
-							<SectionText />
-						</SectionTopItem>
-						<SectionCenterItem>
-							<h3>내가 쓴 글</h3>
-							<div>내가 쓴글 리스트</div>
-						</SectionCenterItem>
-						<SectionBottomItem>
-							<SectionBottomItemTitle>
-								<h3>일촌</h3>
-								<p>더보기</p>
-							</SectionBottomItemTitle>
-							<div>일촌 목록</div>
-						</SectionBottomItem>
-					</SectionCenter>
-					<SideDiv>오른쪽</SideDiv>
-				</SectionContiner>
-			</div>
+			<SectionContiner>
+				<SectionTopItem>
+					<SectionH>Git 주소</SectionH>
+					<SectionText />
+				</SectionTopItem>
+				<SectionCenterItem>
+					<h3>내가 쓴 글</h3>
+					<div>내가 쓴글 리스트</div>
+				</SectionCenterItem>
+				<SectionBottomItem>
+					<SectionBottomItemTitle>
+						<h3>일촌</h3>
+						<p>더보기</p>
+					</SectionBottomItemTitle>
+					<div>일촌 목록</div>
+				</SectionBottomItem>
+			</SectionContiner>
 		</>
 	);
 }

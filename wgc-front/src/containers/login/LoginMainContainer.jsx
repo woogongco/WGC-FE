@@ -5,8 +5,6 @@ import KakaoButton from 'assets/Kakaobutton.png';
 import GitButton from 'assets/Gitbutton.png';
 import EmailButton from 'assets/Emailbutton.png';
 import { Link } from 'react-router-dom';
-import { falseState } from 'store/module/stateHeaderReadSlice';
-import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
 	display: flex;
@@ -50,10 +48,6 @@ const Btn = styled.img`
 `;
 
 export default function LoginMainContainer() {
-	const dispatch = useDispatch(falseState());
-	useEffect(() => {
-		dispatch(falseState());
-	}, []);
 	return (
 		<Container>
 			<MainContent>
