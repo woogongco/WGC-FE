@@ -39,22 +39,18 @@ function App() {
 				<Route path="EmailLogin" element={<EmailLoginPage />}>
 					이메일 로그인 페이지
 				</Route>
-
-				<Route path="/MyPost" element={<MyPostPage />}>
-					나의 게시글 페이지
-				</Route>
-
 				<Route element={<Layout />}>
 					<Route path="/Friend" element={<FriendPage />} />
 					<Route path="/Minimain" element={<MiniMainPage />} />
 					<Route path="/Guest" element={<GuestPage />} />
+					<Route path="/MyPost" element={<MyPostPage />} />
 					<Route path="/community" element={<CommuMainPage />} />
 					<Route path="/board" element={<BoardPage />} />
 					<Route path="/board/:boardname" element={<BoardPage />} />
+					<Route path="/write" element={<CommuWritePage />} />
+					<Route path="/UserInfo" element={<UserInfo />} />
 				</Route>
-				<Route path="/write" element={<CommuWritePage />} />
 				<Route path="/Profile" element={<Profile />} />
-				<Route path="/UserInfo" element={<UserInfo />} />
 			</Routes>
 		</BrowserRouter>
 	);
