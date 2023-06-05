@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BoardPreview from '../../components/boardPreview/BoardPreview';
+import Header from '../../components/header/Header';
 
 const Wrapper = styled.div`
 	display: grid;
@@ -12,15 +13,10 @@ const Wrapper = styled.div`
 export default function CommuMainContainer() {
 	return (
 		<>
-			{/* <Header /> */}
-			{/* <Profile /> */}
+			<Header />
+			{/*<Profile /> */}
 			<Wrapper>
 				{/* 게시판 리스트 */}
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
 				<BoardPreview />
 			</Wrapper>
 			{/* <Footer /> */}

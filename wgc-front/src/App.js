@@ -57,6 +57,7 @@ function App() {
 					<Route path="/Minimain" element={<MiniMainPage />} />
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
+				<Route path="/board" element={<BoardPage />} />
 				<Route path="/board/:boardname" element={<BoardPage />} />
 				<Route path="/write" element={<CommuWritePage />} />
 				<Route path="/Profile" element={<Profile />} />
