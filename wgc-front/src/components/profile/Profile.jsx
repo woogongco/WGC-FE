@@ -122,7 +122,7 @@ const WgcTextBottomP = styled.p`
 const Borderdiv = styled.div`
 	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 	margin-bottom: 10px;
-	width: 110%;
+	width: 100%;
 `;
 //fetch로 값이 있을 경우 00님의 미니홈피 없다면 null 값으로 보여주고
 //자기소개 작성과 today 일촌 관리

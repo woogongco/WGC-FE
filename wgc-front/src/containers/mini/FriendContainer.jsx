@@ -7,13 +7,9 @@ import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObs
 const WarrperDiv = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	margin-left: 2rem;
-	border-left: 1px solid rgba(255, 255, 255, 0.2);
-	padding-left: 1rem;
-	border-right: 1px solid rgba(255, 255, 255, 0.2);
-	margin-right: 1rem;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	width: 90%;
+	margin-left: 3%;
+	align-items: center;
 `;
 
 const SectionContiner = styled.div`
@@ -30,13 +26,14 @@ const SectionItemTitle = styled.div`
 	font-size: 2rem;
 	line-height: 2rem;
 	margin-left: 1rem;
-	width: 100%;
+	width: 80%;
+	justify-content: flex-start;
 `;
 
 const SectionMainItem = styled.div`
 	display: flex;
 	height: 12%;
-	width: 90%;
+	width: 80%;
 	display: flex;
 	flex-direction: column;
 `;
