@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { HiOutlinePencil } from 'react-icons/hi';
+import PostList from 'components/postList/PostList';
 
 const Base = styled.div`
 	height: 100%;
@@ -62,12 +63,13 @@ export default function MyPostContainer() {
 				</Button>
 			</TitleDiv>
 			<MainDiv>
-				<TestDiv>1</TestDiv>
+				<PostList />
+				{/* <TestDiv>1</TestDiv>
 				<TestDiv>12</TestDiv>
 				<TestDiv>13</TestDiv>
 				<TestDiv>14</TestDiv>
 				<TestDiv>15</TestDiv>
-				<TestDiv>16</TestDiv>
+				<TestDiv>16</TestDiv> */}
 			</MainDiv>
 		</Base>
 	);
