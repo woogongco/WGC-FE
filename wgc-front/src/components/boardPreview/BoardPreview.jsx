@@ -82,6 +82,7 @@ const CommentCount = styled.span`
 export default function BoardPreview() {
 	const { data, isLoading, isError } = useGetPostsQuery();
 
+	console.log(data);
 	if (isLoading) {
 		return <div>불러오는 중...</div>;
 	}
@@ -90,131 +91,138 @@ export default function BoardPreview() {
 		return <div>에러</div>;
 	}
 	return (
-		<BoardWrapper>
-			<h2>Users</h2>
-			<div>
-				{data.data.free.map(post => (
-					<div key={post.id}>
-						<h2>{post.title}</h2>
-						<p>{post.content}</p>
-						<p>{post.like}</p>
-						<p>{post.view}</p>
-						<p>{post.registerDate}</p>
-						<p>{post.lastModifiedDate}</p>
-					</div>
-				))}
-			</div>
-			<div>
-				{data.data.job.map(post => (
-					<div key={post.id}>
-						<h2>{post.title}</h2>
-						<p>{post.content}</p>
-						<p>{post.like}</p>
-						<p>{post.view}</p>
-						<p>{post.registerDate}</p>
-						<p>{post.lastModifiedDate}</p>
-					</div>
-				))}
-			</div>
-			<div>
-				{data.data.itnews.map(post => (
-					<div key={post.id}>
-						<h2>{post.title}</h2>
-						<p>{post.content}</p>
-						<p>{post.like}</p>
-						<p>{post.view}</p>
-						<p>{post.registerDate}</p>
-						<p>{post.lastModifiedDate}</p>
-					</div>
-				))}
-			</div>
-			{/* ========================================================== */}
-
-			{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
-			<BoardTitle>
-				<h2>자유게시판</h2>
-			</BoardTitle>
-			{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
-			<BoardContents>
+		<>
+			<BoardWrapper>
+				{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
 				{/* TODO: 게시글 클릭 시 해당 게시글로 이동 */}
-				{/* 게시글 아이템 */}
-				{/* ... */}
-				{/* 게시글 아이템 */}
-				<ContentsItem>
-					<ContentsTitle>
-						봄바람을 끝에 얼마나 우리 우리의 놀이 거친 같은 힘있다. 뼈 투명하되 피고 찾아 자신과
-						말이다. 같지 수 실현에 평화스러운 천자만홍이 있다. 곳으로 그들은 가슴에 그러므로 같이,
-						없으면, 갑 트고, 듣는다. 있는 그들은 만천하의 설산에서 이상은 몸이 황금시대를 곳으로
-						사막이다. 천지는 내는 얼음에 있는가?
-					</ContentsTitle>
-					<ContentsDetails>
-						<LikeCount>
-							<FaRegThumbsUp />
-							<span>336</span>
-						</LikeCount>
-						<CommentCount>
-							<FaRegCommentDots />
-							<span>12</span>
-						</CommentCount>
-					</ContentsDetails>
-				</ContentsItem>
-				{/* 게시글 아이템 */}
-				<ContentsItem>
-					<ContentsTitle>게시글 제목1</ContentsTitle>
-					<ContentsDetails>
-						<LikeCount>
-							<FaRegThumbsUp />
-							<span>33</span>
-						</LikeCount>
-						<CommentCount>
-							<FaRegCommentDots />
-							<span>6</span>
-						</CommentCount>
-					</ContentsDetails>
-				</ContentsItem>
-				{/* 게시글 아이템 */}
-				<ContentsItem>
-					<ContentsTitle>게시글 제목1</ContentsTitle>
-					<ContentsDetails>
-						<LikeCount>
-							<FaRegThumbsUp />
-							<span>33</span>
-						</LikeCount>
-						<CommentCount>
-							<FaRegCommentDots />
-							<span>6</span>
-						</CommentCount>
-					</ContentsDetails>
-				</ContentsItem>
-				{/* 게시글 아이템 */}
-				<ContentsItem>
-					<ContentsTitle>게시글 제목1</ContentsTitle>
-					<ContentsDetails>
-						<LikeCount>
-							<FaRegThumbsUp />
-							<span>33</span>
-						</LikeCount>
-						<CommentCount>
-							<FaRegCommentDots />
-							<span>6</span>
-						</CommentCount>
-					</ContentsDetails>
-				</ContentsItem>
-				{/* 게시글 아이템 */}
-				<ContentsItem>
-					<ContentsTitle>게시글 제목1</ContentsTitle>
-					<ContentsDetails>
-						<LikeCount>
-							<FaRegThumbsUp />
-							<span>33</span>
-						</LikeCount>
-						<CommentCount>
-							<FaRegCommentDots />
-							<span>6</span>
-						</CommentCount>
-					</ContentsDetails>
-				</ContentsItem>
-			</BoardContents>
-		</BoardWrapper>
+				<BoardTitle>
+					<h2>자유게시판</h2>
+				</BoardTitle>
+				{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
+				<BoardContents>
+					{data.data.free.map(post => (
+						<ContentsItem key={post.id}>
+							<ContentsTitle>{post.title}</ContentsTitle>
+							<ContentsDetails>
+								<LikeCount>
+									<FaRegThumbsUp />
+									<span>{post.like}</span>
+								</LikeCount>
+								<CommentCount>
+									<FaRegCommentDots />
+									<span>{post.view}</span>
+								</CommentCount>
+							</ContentsDetails>
+							{/*<p>{post.content}</p>*/}
+							{/*<p>{post.registerDate}</p>*/}
+							{/*<p>{post.lastModifiedDate}</p>*/}
+						</ContentsItem>
+					))}
+				</BoardContents>
+			</BoardWrapper>
+
+			<BoardWrapper>
+				<BoardTitle>
+					<h2>취업 게시판</h2>
+				</BoardTitle>
+				<BoardContents>
+					{data.data.job.map(post => (
+						<ContentsItem key={post.id}>
+							<ContentsTitle>{post.title}</ContentsTitle>
+							<ContentsDetails>
+								<LikeCount>
+									<FaRegThumbsUp />
+									<span>{post.like}</span>
+								</LikeCount>
+								<CommentCount>
+									<FaRegCommentDots />
+									<span>{post.view}</span>
+								</CommentCount>
+							</ContentsDetails>
+							{/*<p>{post.content}</p>*/}
+							{/*<p>{post.registerDate}</p>*/}
+							{/*<p>{post.lastModifiedDate}</p>*/}
+						</ContentsItem>
+					))}
+				</BoardContents>
+			</BoardWrapper>
+			<BoardWrapper>
+				<BoardTitle>
+					<h2>IT 뉴스</h2>
+				</BoardTitle>
+				<BoardContents>
+					{data.data.itnews.map(post => (
+						<ContentsItem key={post.id}>
+							<ContentsTitle>{post.title}</ContentsTitle>
+							<ContentsDetails>
+								<LikeCount>
+									<FaRegThumbsUp />
+									<span>{post.like}</span>
+								</LikeCount>
+								<CommentCount>
+									<FaRegCommentDots />
+									<span>{post.view}</span>
+								</CommentCount>
+							</ContentsDetails>
+							{/*<p>{post.content}</p>*/}
+							{/*<p>{post.registerDate}</p>*/}
+							{/*<p>{post.lastModifiedDate}</p>*/}
+						</ContentsItem>
+					))}
+				</BoardContents>
+			</BoardWrapper>
+
+			<BoardWrapper>
+				<BoardTitle>
+					<h2>스터디 게시판</h2>
+				</BoardTitle>
+				<BoardContents>
+					{data.data.study.map(post => (
+						<ContentsItem key={post.id}>
+							<ContentsTitle>{post.title}</ContentsTitle>
+							<ContentsDetails>
+								<LikeCount>
+									<FaRegThumbsUp />
+									<span>{post.like}</span>
+								</LikeCount>
+								<CommentCount>
+									<FaRegCommentDots />
+									<span>{post.view}</span>
+								</CommentCount>
+							</ContentsDetails>
+							{/*<p>{post.content}</p>*/}
+							{/*<p>{post.registerDate}</p>*/}
+							{/*<p>{post.lastModifiedDate}</p>*/}
+						</ContentsItem>
+					))}
+				</BoardContents>
+			</BoardWrapper>
+
+			<BoardWrapper>
+				<BoardTitle>
+					<h2>프로젝트 게시판</h2>
+				</BoardTitle>
+				<BoardContents>
+					{data.data.project.map(post => (
+						<ContentsItem key={post.id}>
+							<ContentsTitle>{post.title}</ContentsTitle>
+							<ContentsDetails>
+								<LikeCount>
+									<FaRegThumbsUp />
+									<span>{post.like}</span>
+								</LikeCount>
+								<CommentCount>
+									<FaRegCommentDots />
+									<span>{post.view}</span>
+								</CommentCount>
+							</ContentsDetails>
+							{/*<p>{post.content}</p>*/}
+							{/*<p>{post.registerDate}</p>*/}
+							{/*<p>{post.lastModifiedDate}</p>*/}
+						</ContentsItem>
+					))}
+				</BoardContents>
+			</BoardWrapper>
+		</>
 	);
 }

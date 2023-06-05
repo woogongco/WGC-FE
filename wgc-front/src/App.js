@@ -40,6 +40,7 @@ function App() {
 					방명록
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
+				<Route path="/board" element={<BoardPage />} />
 				<Route path="/board/:boardname" element={<BoardPage />} />
 				<Route path="/Profile" element={<Profile />} />
 				<Route path="/UserInfo" element={<UserInfo />} />

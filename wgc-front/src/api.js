@@ -5,7 +5,7 @@ const api = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl }),
 	endpoints: builder => ({
 		getPosts: builder.query({
-			query: () => '/post',
+			query: () => '/post?limit=6',
 		}),
 	}),
 });
