@@ -48,9 +48,10 @@ function App() {
 					<Route path="/Friend" element={<FriendPage />} />
 					<Route path="/Minimain" element={<MiniMainPage />} />
 					<Route path="/Guest" element={<GuestPage />} />
+					<Route path="/community" element={<CommuMainPage />} />
+					<Route path="/board" element={<BoardPage />} />
+					<Route path="/board/:boardname" element={<BoardPage />} />
 				</Route>
-				<Route path="/community" element={<CommuMainPage />} />
-				<Route path="/board/:boardname" element={<BoardPage />} />
 				<Route path="/write" element={<CommuWritePage />} />
 				<Route path="/Profile" element={<Profile />} />
 				<Route path="/UserInfo" element={<UserInfo />} />

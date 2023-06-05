@@ -11,19 +11,9 @@ const Wrapper = styled.div`
 
 export default function CommuMainContainer() {
 	return (
-		<>
-			{/* <Header /> */}
-			{/* <Profile /> */}
-			<Wrapper>
-				{/* 게시판 리스트 */}
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
-				<BoardPreview />
-			</Wrapper>
-			{/* <Footer /> */}
-		</>
+		<Wrapper>
+			{/* 게시판 리스트 */}
+			<BoardPreview />
+		</Wrapper>
 	);
 }

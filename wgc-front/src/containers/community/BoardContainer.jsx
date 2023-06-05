@@ -5,7 +5,6 @@ import { FaPen } from 'react-icons/fa';
 
 const Wrapper = styled.div`
 	padding: 68px 56px 60px 60px;
-	box-shadow: inset 0 0 10px yellow;
 	color: #fff;
 
 	/* css 초기화 */
@@ -45,20 +44,15 @@ const BoardHeader = styled.header`
 
 export default function BoardContainer() {
 	return (
-		<>
-			{/* <Header /> */}
-			{/* <Profile /> */}
-			<Wrapper>
-				<BoardHeader>
-					<h2>자유게시판</h2>
-					<a href="#none">
-						<FaPen />
-						작성하기
-					</a>
-				</BoardHeader>
-				<PostList />
-			</Wrapper>
-			{/* <Footer /> */}
-		</>
+		<Wrapper>
+			<BoardHeader>
+				<h2>자유게시판</h2>
+				<a href="#">
+					<FaPen />
+					작성하기
+				</a>
+			</BoardHeader>
+			<PostList />
+		</Wrapper>
 	);
 }
