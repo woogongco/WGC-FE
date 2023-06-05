@@ -44,20 +44,15 @@ const BoardHeader = styled.header`
 
 export default function BoardContainer() {
 	return (
-		<>
-			{/* <Header /> */}
-			{/* <Profile /> */}
-			<Wrapper>
-				<BoardHeader>
-					<h2>자유게시판</h2>
-					<a href="#none">
-						<FaPen />
-						작성하기
-					</a>
-				</BoardHeader>
-				<PostList />
-			</Wrapper>
-			{/* <Footer /> */}
-		</>
+		<Wrapper>
+			<BoardHeader>
+				<h2>자유게시판</h2>
+				<a href="#">
+					<FaPen />
+					작성하기
+				</a>
+			</BoardHeader>
+			<PostList />
+		</Wrapper>
 	);
 }
