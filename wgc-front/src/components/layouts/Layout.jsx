@@ -18,6 +18,9 @@ const SectionHtml = styled.main`
 	top: 11%;
 	left: 20%;
 	width: 70%;
+	border-left: 1px solid rgba(255, 255, 255, 0.2);
+	border-right: 1px solid rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const AsideHtmlRight = styled.aside`

@@ -20,7 +20,6 @@ import UserInfo from 'pages/userinfo/UserInfoPage';
 import CommuWritePage from './pages/community/CommuWritePage';
 
 //공통
-
 import Layout from 'components/layouts/Layout';
 
 function App() {
@@ -40,21 +39,15 @@ function App() {
 				<Route path="EmailLogin" element={<EmailLoginPage />}>
 					이메일 로그인 페이지
 				</Route>
-				{/* <Route path="/MiniMain" element={<MiniMainPage />}>
-					미니홈피메인페이지
-				</Route> */}
-				{/* <Route path="/Friend" element={<FriendPage />}>
-					일촌 목록 페이지
-				</Route> */}
+
 				<Route path="/MyPost" element={<MyPostPage />}>
 					나의 게시글 페이지
 				</Route>
-				<Route path="/Guest" element={<GuestPage />}>
-					방명록
-				</Route>
+
 				<Route element={<Layout />}>
 					<Route path="/Friend" element={<FriendPage />} />
 					<Route path="/Minimain" element={<MiniMainPage />} />
+					<Route path="/Guest" element={<GuestPage />} />
 				</Route>
 				<Route path="/community" element={<CommuMainPage />} />
 				<Route path="/board/:boardname" element={<BoardPage />} />

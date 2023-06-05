@@ -3,17 +3,21 @@ import styled from 'styled-components';
 
 const Container = styled.div`
 	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
+	height: 100%;
+	width: 100%;
+`;
+
+const Warpperdiv = styled.div`
+	margin-left: 20%;
 	color: white;
+	height: 100%;
+	width: 100%;
 `;
 
 const Writediv = styled.div`
-	background: #9a9a9a;
 	border: 1px solid #ffe0e3;
-	width: 419px;
-	height: 180px;
+	width: 731px;
+	height: 221px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -24,20 +28,20 @@ const Writediv = styled.div`
 `;
 
 const Imagediv = styled.div`
-	border: 1px solid #bb7f84;
-	background: #b1b1b1;
+	border: 1px solid white;
+	background: black;
 	border-radius: 10px;
-	width: 114px;
-	height: 116px;
+	width: 180px;
+	height: 180px;
 `;
 
 const TextArea = styled.textarea`
 	border: none;
 	resize: none;
-	width: 264px;
-	height: 113px;
+	width: 472px;
+	height: 163px;
 	background: rgba(217, 217, 217, 0.38);
-	border: 1px solid #bc787e;
+	border: 1px solid black;
 	border-radius: 10px;
 	margin-left: 0.7rem;
 	color: white;
@@ -46,38 +50,40 @@ const TextArea = styled.textarea`
 
 const ButtonDiv = styled.div`
 	position: absolute;
-	top: 150px;
+	top: 200px;
 	right: 22px;
 `;
 
 const Button = styled.button`
 	border: none;
 	background: none;
-	color: #350909;
+	color: white;
 `;
 
 const GuestMainDiv = styled.div`
 	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
+	margin-top: 5%;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin-bottom: 2.25%;
 `;
 
 const GuestTitleDiv = styled.div`
-	margin-top: 5%;
 	background: linear-gradient(
 		90deg,
 		#ebebeb 0.81%,
 		rgba(235, 235, 235, 0.468) 26.71%,
 		rgba(235, 235, 235, 0) 87.73%
 	);
-	width: 742px;
+	width: 621px;
 	height: 28px;
 	opacity: 0.8;
 	border-radius: 10px;
 	color: black;
-	display: flex;
 	justify-content: space-between;
+	display: flex;
+	margin-left: 0.5%;
 `;
 
 const GuestTitle = styled.span`
@@ -104,65 +110,70 @@ const GuestTitleDateSpan = styled.span`
 `;
 
 const GuestItemDiv = styled.div`
-	display: flex;
-	margin-left: 8%;
+	width: 100%;
+	position: absolute;
+	left: 11%;
+	top: 10%;
 `;
 
 const GuestItemImgDiv = styled.div`
 	background: #e9e9e9;
-	width: 104px;
-	height: 104px;
+	width: 102px;
+	height: 140px;
 	border-top-right-radius: 10px;
 	border-top-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	display: flex;
 	align-items: center;
-	margin-top: 1%;
 `;
 
-const GuestItemTextDiv = styled.div`
-	margin-left: 1%;
-	width: 670px;
+const GuestMainCotainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
 `;
 
 export default function GuestContainer() {
 	return (
 		<>
 			<Container>
-				<div>
-					<h3>흑우님의 방명록</h3>
-				</div>
-				<Writediv>
-					<Imagediv />
+				<Warpperdiv>
 					<div>
-						<TextArea placeholder="글을 입력하시오" />
+						<h3>흑우님의 방명록</h3>
 					</div>
-					<ButtonDiv>
-						<Button>등록</Button>
-					</ButtonDiv>
-				</Writediv>
-				<GuestMainDiv>
-					<GuestTitleDiv>
-						<GuestTitle>신짱구</GuestTitle>
-						<GuestTitleDateSpan>(2023.01.27 15:33)</GuestTitleDateSpan>
-					</GuestTitleDiv>
-					<GuestItemDiv>
-						<GuestItemImgDiv>프로필 이미지</GuestItemImgDiv>
-						<GuestItemTextDiv>
-							<p>방명록</p>
-						</GuestItemTextDiv>
-					</GuestItemDiv>
-					<GuestTitleDiv>
-						<GuestTitle>신짱구</GuestTitle>
-						<GuestTitleDateSpan>(2023.01.27 15:33)</GuestTitleDateSpan>
-					</GuestTitleDiv>
-					<GuestItemDiv>
-						<GuestItemImgDiv>프로필 이미지</GuestItemImgDiv>
-						<GuestItemTextDiv>
-							<p>방명록</p>
-						</GuestItemTextDiv>
-					</GuestItemDiv>
-				</GuestMainDiv>
+					<Writediv>
+						<Imagediv />
+						<div>
+							<TextArea placeholder="글을 입력하시오" />
+						</div>
+						<ButtonDiv>
+							<Button>등록</Button>
+						</ButtonDiv>
+					</Writediv>
+					<GuestMainCotainer>
+						<GuestMainDiv>
+							<GuestItemImgDiv>프로필 이미지</GuestItemImgDiv>
+							<GuestTitleDiv>
+								<GuestTitle>신짱구</GuestTitle>
+								<GuestTitleDateSpan>2023.01.27 15:33</GuestTitleDateSpan>
+							</GuestTitleDiv>
+							<GuestItemDiv>
+								<p>123</p>
+							</GuestItemDiv>
+						</GuestMainDiv>
+						<GuestMainDiv>
+							<GuestItemImgDiv>프로필 이미지</GuestItemImgDiv>
+							<GuestTitleDiv>
+								<GuestTitle>신짱구</GuestTitle>
+								<GuestTitleDateSpan>2023.01.27 15:33</GuestTitleDateSpan>
+							</GuestTitleDiv>
+							<GuestItemDiv>
+								<p>123</p>
+							</GuestItemDiv>
+						</GuestMainDiv>
+					</GuestMainCotainer>
+				</Warpperdiv>
 			</Container>
 		</>
 	);
