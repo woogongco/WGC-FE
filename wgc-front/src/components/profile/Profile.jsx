@@ -4,6 +4,7 @@ import { FaPlus } from 'react-icons/fa';
 
 const Base = styled.div`
 	width: 100%;
+	position: relative;
 `;
 
 const ContainerDiv = styled.div`
@@ -124,6 +125,56 @@ const Borderdiv = styled.div`
 	margin-bottom: 10px;
 	width: 100%;
 `;
+
+const FristColorCircle = styled.div`
+	width: 19px;
+	height: 19px;
+	background: #b3cad3;
+	position: absolute;
+	top: -5%;
+	right: 5%;
+	border-radius: 360%;
+`;
+
+const SecoundColorCircle = styled.div`
+	width: 19px;
+	height: 19px;
+	background: #ffb548;
+	position: absolute;
+	top: 5%;
+	right: -3%;
+	border-radius: 360%;
+`;
+
+const ThreeColorCircle = styled.div`
+	width: 19px;
+	height: 19px;
+	background: #5a0cff;
+	position: absolute;
+	top: 20%;
+	right: -10%;
+	border-radius: 360%;
+`;
+
+const FourColorCircle = styled.div`
+	width: 19px;
+	height: 19px;
+	background: #ffb548;
+	position: absolute;
+	top: 35%;
+	right: -13%;
+	border-radius: 360%;
+`;
+
+const FiveColorCircle = styled.div`
+	width: 19px;
+	height: 19px;
+	background: #ff2a38;
+	position: absolute;
+	top: 50%;
+	right: -13%;
+	border-radius: 360%;
+`;
 //fetch로 값이 있을 경우 00님의 미니홈피 없다면 null 값으로 보여주고
 //자기소개 작성과 today 일촌 관리
 //색깔변하는 작은 원들은 백엔드에서 색깔 데이터를 받아와서 원을 만들예쩡
@@ -140,6 +191,11 @@ export default function Profile() {
 				</Title>
 				<ContainerDiv>
 					<div>로그인해주세요</div>
+					<FristColorCircle />
+					<SecoundColorCircle />
+					<ThreeColorCircle />
+					<FourColorCircle />
+					<FiveColorCircle />
 				</ContainerDiv>
 				<StackTextContainer>
 					<StackTextItem>
