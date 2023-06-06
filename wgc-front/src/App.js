@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import FriendPage from 'pages/mini/FriendPage';
 import MyPostPage from 'pages/mini/MyPostPage';
 import GuestPage from 'pages/mini/GuestPage';
+import WriteModifyPage from 'pages/mini/WriteModifyPage';
 
 //login
 import LoginMainPage from 'pages/login/LoginMainPage';
@@ -40,10 +41,13 @@ function App() {
 					이메일 로그인 페이지
 				</Route>
 				<Route element={<Layout />}>
+					{/* 미니홈피 */}
 					<Route path="/Friend" element={<FriendPage />} />
 					<Route path="/Minimain" element={<MiniMainPage />} />
 					<Route path="/Guest" element={<GuestPage />} />
 					<Route path="/MyPost" element={<MyPostPage />} />
+					<Route path="/writemodify" element={<WriteModifyPage />} />
+					{/*  커뮤니티 */}
 					<Route path="/community" element={<CommuMainPage />} />
 					<Route path="/board" element={<BoardPage />} />
 					<Route path="/board/:boardname" element={<BoardPage />} />
