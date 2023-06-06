@@ -4,33 +4,44 @@ import Profile from 'components/profile/Profile';
 import Header from 'components/header/Header';
 import Advertisment from 'components/advertisement/Advertisment';
 import Footer from 'components/footer/Footer';
+import Navbar from 'components/navbar/Navbar';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 
 const HeaderHtml = styled.header``;
 
 const AsideHtmlLeft = styled.aside`
-	width: 20%;
+	width: 30%;
+	margin-left: 2em;
+`;
+
+const SectionWrapperHtml = styled.section`
+	display: flex;
 `;
 
 const SectionHtml = styled.main`
-	position: absolute;
-	top: 11%;
-	left: 20%;
-	width: 70%;
-	border-left: 1px solid rgba(255, 255, 255, 0.2);
-	border-right: 1px solid rgba(255, 255, 255, 0.2);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	//position: absolute;
+	//top: 11%;
+	//left: 20%;
+	width: 100%;
+	height: 100%;
+	//border-left: 1px solid rgba(255, 255, 255, 0.2);
+	//border-right: 1px solid rgba(255, 255, 255, 0.2);
+	//border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const AsideHtmlRight = styled.aside`
-	position: absolute;
-	right: 0px;
-	top: 100px;
-	width: 10%;
+	//position: absolute;
+	//right: 0px;
+	//top: 100px;
+	min-width: 173px;
+	margin: 2em 1em;
+	//width: 10%;
 	background-color: blue;
 `;
-const FooterHtml = styled.footer``;
+const FooterHtml = styled.footer`
+	margin-top: 2em;
+`;
 
 export default function Layout() {
 	return (
@@ -38,15 +49,18 @@ export default function Layout() {
 			<HeaderHtml>
 				<Header />
 			</HeaderHtml>
-			<AsideHtmlLeft>
-				<Profile />
-			</AsideHtmlLeft>
-			<SectionHtml>
-				<Outlet />
-			</SectionHtml>
-			<AsideHtmlRight>
-				<Advertisment />
-			</AsideHtmlRight>
+			<SectionWrapperHtml>
+				<AsideHtmlLeft>
+					<Profile />
+				</AsideHtmlLeft>
+				<SectionHtml>
+					<Outlet />
+					<Navbar />
+				</SectionHtml>
+				<AsideHtmlRight>
+					<Advertisment />
+				</AsideHtmlRight>
+			</SectionWrapperHtml>
 			<FooterHtml>
 				<Footer />
 			</FooterHtml>
