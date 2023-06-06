@@ -8,8 +8,8 @@ const NavHtml = styled.nav`
 	width: 50px;
 	height: 394px;
 	position: absolute;
-	right: 8%;
-	top: 20%;
+	right: 170px;
+	top: 110px;
 	background-image: url(${Subtract});
 	background-repeat: no-repeat;
 
