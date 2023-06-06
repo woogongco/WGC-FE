@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 const FooterContainer = styled.div`
 	background-color: #2e2e2e;
-	height: 105px;
-	position: relative;
-	transform: translateY(0%);
+	min-height: 105px;
+	//position: relative;
+	//transform: translateY(0%);
 `;
 
 export default function Footer() {

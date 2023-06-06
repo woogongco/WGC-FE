@@ -197,32 +197,6 @@ export default function BoardPreview() {
 					))}
 				</BoardContents>
 			</BoardWrapper>
-
-			<BoardWrapper>
-				<BoardTitle>
-					<h2>프로젝트 게시판</h2>
-				</BoardTitle>
-				<BoardContents>
-					{data.data.project.map(post => (
-						<ContentsItem key={post.id}>
-							<ContentsTitle>{post.title}</ContentsTitle>
-							<ContentsDetails>
-								<LikeCount>
-									<FaRegThumbsUp />
-									<span>{post.like}</span>
-								</LikeCount>
-								<CommentCount>
-									<FaRegCommentDots />
-									<span>{post.view}</span>
-								</CommentCount>
-							</ContentsDetails>
-							{/*<p>{post.content}</p>*/}
-							{/*<p>{post.registerDate}</p>*/}
-							{/*<p>{post.lastModifiedDate}</p>*/}
-						</ContentsItem>
-					))}
-				</BoardContents>
-			</BoardWrapper>
 		</>
 	);
 }
