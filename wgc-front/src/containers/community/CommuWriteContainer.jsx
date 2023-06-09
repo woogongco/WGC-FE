@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import Header from 'components/header/Header';
-import Profile from 'components/profile/Profile';
-import Footer from 'components/footer/Footer';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
-
+import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-
 const Section = styled.div`
 	display: flex;
 `;
@@ -59,29 +55,42 @@ const PostButton = styled.button`
 `;
 export default function CommuWriteContainer() {
 	const [CommunityType, setCommunityType] = useState('');
+	const [InputText, ChangeInputText] = useInput('');
+	const editorRef = useRef();
 	const handleType = e => {
 		setCommunityType(e.target.value);
 	};
-	const handleInputLength = e => {
-		if (e.target.value.length > 50) {
-			e.target.value = e.target.value.substr(0, 50);
-		}
-	};
+	let typelist = ['자유 게시판', '취업 게시판', 'IT 뉴스', '스터디 게시판'];
 	const PostType = () => {
 		const result = [];
-		['자유 게시판', '스터디 게시판', '인기글', '취업 게시판', 'IT 뉴스', '나의 프로젝트'].forEach(
-			e => {
-				result.push(<option value={e}>{e}</option>);
-			},
-		);
+
+		typelist.forEach(e => {
+			result.push(<option value={e}>{e}</option>);
+		});
 		return result;
 	};
-
+	const onSubmit = useCallback(
+		e => {
+			e.preventDefault();
+			fetch('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/post', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					title: InputText,
+					content: editorRef.current.getInstance().getMarkdown(),
+					categoryId: typelist.indexOf(CommunityType) + 1,
+				}),
+			})
+				.then(response => response.json())
+				.catch(error => alert(error));
+		},
+		[InputText, CommunityType, typelist],
+	);
 	return (
-		<>
-			<Header />
+		<div>
 			<Section>
-				<Profile />
 				<WriteInterface>
 					<Title>작성페이지</Title>
 					<Select value={CommunityType} onChange={handleType}>
@@ -91,7 +100,8 @@ export default function CommuWriteContainer() {
 						<ContentInput
 							type="text"
 							placeholder="최대 50글자 까지 입력 가능합니다."
-							onChange={handleInputLength}
+							value={InputText}
+							onChange={ChangeInputText}
 						/>
 					</ContentDiv>
 					<EditorDiv>
@@ -104,14 +114,17 @@ export default function CommuWriteContainer() {
 							initialValue=" "
 							language="ko-KR"
 							plugins={[colorSyntax]}
+							theme="dark"
+							ref={editorRef}
 						/>
 					</EditorDiv>
 					<PostButtonDiv>
-						<PostButton type="button">글쓰기</PostButton>
+						<PostButton type="button" onClick={onSubmit}>
+							글쓰기
+						</PostButton>
 					</PostButtonDiv>
 				</WriteInterface>
 			</Section>
-			<Footer />
-		</>
+		</div>
 	);
 }
