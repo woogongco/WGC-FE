@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import useInput from 'constants/useInput';
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -108,11 +109,4 @@ export default function EmailLoginContainer() {
 			</MainContent>
 		</Container>
 	);
-}
-function useInput() {
-	const [value, setValue] = useState('');
-	const handler = useCallback(e => {
-		setValue(e.target.value);
-	}, []);
-	return [value, handler, setValue];
 }
