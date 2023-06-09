@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import useInput from 'constants/useInput';
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -56,14 +57,6 @@ const LegisterForm = styled.div`
 	align-content: center;
 	margin-top: 2em;
 `;
-
-function useInput() {
-	const [value, setValue] = useState('');
-	const handler = useCallback(e => {
-		setValue(e.target.value);
-	}, []);
-	return [value, handler, setValue];
-}
 
 export default function UserSignContainer() {
 	const [Name, setName] = useInput('');

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from 'components/header/Header';
-import Profile from 'components/profile/Profile';
+import Profile from 'componentss/profile/Profile';
 import Footer from 'components/footer/Footer';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
