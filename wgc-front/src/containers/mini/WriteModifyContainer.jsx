@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BsBookmark } from 'react-icons/bs';
-
+import axios from 'axios';
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -71,7 +71,7 @@ const CategoryDiv = styled.div`
 	justify-content: flex-end;
 `;
 
-const PostTextArea = styled.textarea`
+const PostTextArea = styled.div`
 	resize: none; /* 사용자 임의 변경 불가 */
 	resize: both; /* 사용자 변경이 모두 가능 */
 	resize: horizontal; /* 좌우만 가능 */
@@ -131,10 +131,36 @@ const CommnetDiv = styled.div`
 `;
 
 export default function WriteModifyContainer() {
+	const [PostList, setPostList] = useState([]);
+	const [PostUser, setPostUser] = useState([]);
+
+	useEffect(() => {
+		const getPosts = async () => {
+			axios
+				.get('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/post/1')
+				.then(response => {
+					setPostList(response.data['data']);
+					setPostUser(response.data['data']['writer']);
+				});
+		};
+
+		getPosts();
+	}, []);
+
+	useEffect(
+		e => {
+			// PostList['registerDate'] = PostList['registerDate']
+			// 	.replace(/-/gi, '.')
+			// 	.replace('T', ' ')
+			// 	.slice(0, PostList['registerDate'].length - 3);
+			console.log('!1111111', PostList);
+		},
+		[PostList],
+	);
 	return (
 		<Container>
 			<TitleDiv>
-				<h3>00님의 게시글</h3>
+				<h3>{PostUser['name']}님의 게시판</h3>
 			</TitleDiv>
 			<CategoryDiv>
 				<CategoryItemDiv>
@@ -145,15 +171,21 @@ export default function WriteModifyContainer() {
 				<PostTitleDiv>
 					<ProfileDiv>이미지</ProfileDiv>
 					<TitleText>
-						<span>게시글 제목</span>
-						<span>2023.03.04 13:23</span>
+						<span>{PostList['title']}</span>
+						<span>
+							{
+								// .replace(/-/gi, '.').replace('T', ' ').slice(0, PostList['registerDate'].length - 3)
+								PostList['registerDate']
+							}
+						</span>
 					</TitleText>
 				</PostTitleDiv>
-				<PostTextArea></PostTextArea>
+				<PostTextArea>{PostList['content']}</PostTextArea>
 				<PostBottomDiv>
 					<LikeBookMarkDiv>
 						<span>
 							<AiOutlineLike />
+							{PostList['like']}
 						</span>
 						<span>
 							<BsBookmark />
