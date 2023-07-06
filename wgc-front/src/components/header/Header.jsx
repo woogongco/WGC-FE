@@ -43,11 +43,13 @@ const ButtonBar = styled.ul`
 	justify-content: space-between;
 	list-style: none;
 	margin: 0;
+	align-items: center;
 `;
 const Buttonli = styled.li`
 	color: #ababab;
 	margin-right: 20px;
 	cursor: pointer;
+	align-items: center;
 `;
 const ToggleBtn = styled.div`
 	width: 3rem;
@@ -88,16 +90,25 @@ const LoginBtn = styled.div`
 	color: white;
 	font-size: 12px;
 `;
+const NavbarLink = styled(Link)`
+	&:visited,
+	&:hover,
+	&:focus {
+		color: #ababab;
+	}
+	:active {
+		color: #ababab;
+	}
+`;
 
 export default function Header() {
-	const [login, setlogin] = useState(false);
 	const [checked, setchecked] = useState(false);
 	const HandleChecked = useCallback(() => {
 		setchecked(e => !e);
 	}, []);
 
 	return (
-		<>
+		<div>
 			<HeaderLayOut>
 				<Link to="/">
 					<LogoImage src={Logoimg} alt="Header Logo img" />
@@ -112,13 +123,19 @@ export default function Header() {
 					{localStorage.getItem('Cookie') ? (
 						<>
 							<Buttonli>
-								<FaBell />
+								<NavbarLink to="/" style={{ Textdecoration: 'none' }}>
+									<FaBell />
+								</NavbarLink>
 							</Buttonli>
 							<Buttonli>
-								<FaBookmark />
+								<NavbarLink to="/">
+									<FaBookmark />
+								</NavbarLink>
 							</Buttonli>
 							<Buttonli>
-								<FaUserAlt />
+								<NavbarLink to="/UserInfo">
+									<FaUserAlt />
+								</NavbarLink>
 							</Buttonli>
 						</>
 					) : (
@@ -140,6 +157,6 @@ export default function Header() {
 					</Buttonli>
 				</ButtonBar>
 			</HeaderLayOut>
-		</>
+		</div>
 	);
 }
