@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from 'components/header/Header';
-import Profile from 'components/profile/Profile';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlusCircle, FaPen } from 'react-icons/fa';
 const Section = styled.div`
 	display: flex;
 `;
@@ -11,18 +9,31 @@ const UserInterface = styled.div`
 	padding: 5rem 0 0 3rem;
 	border-left: 0.5px solid white;
 `;
-const Article = styled.div`
-	border: 1px solid red;
-`;
+
 const TitleContainer = styled.div`
 	border-bottom: 1px solid #2e2e2e;
 	width: 90%;
 	margin-bottom: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `;
 const Title = styled.h1`
 	font-size: 24px;
 	font-weight: Semi-bold;
 	color: #ffffff;
+`;
+const ChangeInfo = styled.button`
+	border-radius: 5px;
+	border: 0px;
+	background-color: #fa9199;
+	color: white;
+	height: 35px;
+	width: 109px;
+	margin-left: 20px;
+	font-weight: bold;
+	font-size: 16px;
+	cursor: pointer;
 `;
 const TypeContainer = styled.div`
 	display: grid;
@@ -78,12 +89,14 @@ const ContainerDiv = styled.div`
 export default function UserInfoContainer() {
 	return (
 		<div>
-			<Header />
 			<Section>
-				<Profile />
 				<UserInterface>
 					<TitleContainer>
 						<Title>회원수정</Title>
+						<ChangeInfo>
+							<FaPen />
+							작성하기
+						</ChangeInfo>
 					</TitleContainer>
 					<TypeContainer>
 						<UserType>이름</UserType>
@@ -116,7 +129,6 @@ export default function UserInfoContainer() {
 						<FaPlusCircle />
 					</ContainerDiv>
 				</UserInterface>
-				<Article />
 			</Section>
 		</div>
 	);
