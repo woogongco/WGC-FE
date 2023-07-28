@@ -178,9 +178,9 @@ const CommentMent = styled.div`
 	font-size: 11px;
 `;
 export default function WriteModifyContainer() {
+	const [Loading, setLoading] = useState(false);
 	const [PostList, setPostList] = useState([]);
 	const [PostUser, setPostUser] = useState([]);
-
 	useEffect(() => {
 		const getPosts = async () => {
 			axios
@@ -188,6 +188,7 @@ export default function WriteModifyContainer() {
 				.then(response => {
 					setPostList(response.data['data']);
 					setPostUser(response.data['data']['writer']);
+					setLoading(true);
 				});
 		};
 
@@ -202,55 +203,61 @@ export default function WriteModifyContainer() {
 	);
 	return (
 		<Container>
-			<TitleDiv>
-				<h3>{PostUser['name']}님의 게시판</h3>
-			</TitleDiv>
-			<CategoryDiv>
-				<CategoryItemDiv>
-					<CategoryText>자유 게시판</CategoryText>
-				</CategoryItemDiv>
-			</CategoryDiv>
-			<PostDiv>
-				<PostTitleDiv>
-					<ProfileDiv>이미지</ProfileDiv>
-					<TitleText>
-						<span>{PostList['title']}</span>
-						<span>
-							{
-								// .replace(/-/gi, '.').replace('T', ' ').slice(0, PostList['registerDate'].length - 3)
-								PostList['registerDate']
-							}
-						</span>
-					</TitleText>
-				</PostTitleDiv>
-				<PostTextArea>{PostList['content']}</PostTextArea>
-				<PostBottomDiv>
-					<LikeBookMarkDiv>
-						<span>
-							<AiOutlineLike />
-							{PostList['like']}
-						</span>
-						<span>
-							<BsBookmark />
-						</span>
-					</LikeBookMarkDiv>
-					<div>
-						<ButtonItem>수정</ButtonItem>
-						<ButtonItem>삭제</ButtonItem>
-					</div>
-				</PostBottomDiv>
-			</PostDiv>
-			<CommentLayout>
-				<p>댓글</p>
-				<CommentContainer>
-					<CommentProfile />
-					<CommentDiv>
-						<CommentName>이름</CommentName>
-						<CommentInput placeholder="여기에 작성해주세요" />
-					</CommentDiv>
-				</CommentContainer>
-				<Comment />
-			</CommentLayout>
+			{Loading ? (
+				<>
+					<TitleDiv>
+						<h3>{PostUser['name']}님의 게시판</h3>
+					</TitleDiv>
+					<CategoryDiv>
+						<CategoryItemDiv>
+							<CategoryText>자유 게시판</CategoryText>
+						</CategoryItemDiv>
+					</CategoryDiv>
+					<PostDiv>
+						<PostTitleDiv>
+							<ProfileDiv>이미지</ProfileDiv>
+							<TitleText>
+								<span>{PostList['title']}</span>
+								<span>
+									{PostList['registerDate']
+										.replace(/-/gi, '.')
+										.replace('T', ' ')
+										.slice(0, PostList['registerDate'].length - 3)}
+								</span>
+							</TitleText>
+						</PostTitleDiv>
+						<PostTextArea>{PostList['content']}</PostTextArea>
+						<PostBottomDiv>
+							<LikeBookMarkDiv>
+								<span>
+									<AiOutlineLike />
+									{PostList['like']}
+								</span>
+								<span>
+									<BsBookmark />
+								</span>
+							</LikeBookMarkDiv>
+							<div>
+								<ButtonItem>수정</ButtonItem>
+								<ButtonItem>삭제</ButtonItem>
+							</div>
+						</PostBottomDiv>
+					</PostDiv>
+					<CommentLayout>
+						<p>댓글</p>
+						<CommentContainer>
+							<CommentProfile />
+							<CommentDiv>
+								<CommentName>이름</CommentName>
+								<CommentInput placeholder="여기에 작성해주세요" />
+							</CommentDiv>
+						</CommentContainer>
+						<Comment />
+					</CommentLayout>
+				</>
+			) : (
+				''
+			)}
 		</Container>
 	);
 }
