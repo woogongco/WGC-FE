@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Post from 'components/post/Post';
+import { useGetPostsQuery } from '../../api';
 
 const Wrapper = styled.section`
 	display: grid;
@@ -10,14 +11,33 @@ const Wrapper = styled.section`
 `;
 
 export default function PostList() {
+	const { data, isLoading, isError } = useGetPostsQuery();
+	const url = window.location.pathname.split('/')[2];
+	if (isLoading) {
+		return <div>불러오는 중...</div>;
+	}
+	if (isError) {
+		return <div>에러</div>;
+	}
 	return (
-		<Wrapper>
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-		</Wrapper>
+		<div>
+			{isLoading === false ? (
+				<Wrapper>
+					{data.data[url].map((post, index) => {
+						return (
+							<Post
+								key={index}
+								title={post.title}
+								content={post.content}
+								like={post.like}
+								view={post.view}
+							/>
+						);
+					})}
+				</Wrapper>
+			) : (
+				''
+			)}
+		</div>
 	);
 }

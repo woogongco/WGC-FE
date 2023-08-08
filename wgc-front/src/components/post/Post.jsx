@@ -94,7 +94,7 @@ const CommentCount = styled.span`
 	}
 `;
 
-export default function Post() {
+export default function Post({ title, content, like, view }) {
 	return (
 		<Wrapper>
 			<NewBadge>NEW</NewBadge>
@@ -103,20 +103,16 @@ export default function Post() {
 				alt="게시글 미리보기 이미지"
 			/>
 			<PostContents>
-				<PostTitle>오늘 날이 갈수록 풀리네요... 벌써 낮에는 22도까지 올라갔어요</PostTitle>
-				<PostDescription>
-					그렇지만 따뜻하게 입고 다니세요! 아직 꽃샘추위랍니다.그렇지만 따뜻하게 입고 다니세요! 아직
-					꽃샘추위랍니다.그렇지만 따뜻하게 입고 다니세요! 아직 꽃샘추위랍니다.그렇지만 따뜻하게 입고
-					다니세요! 아직 꽃샘추위랍니다.그렇지만 따뜻하게 입고 다니세요! 아직 꽃샘추위랍니다.
-				</PostDescription>
+				<PostTitle>{title}</PostTitle>
+				<PostDescription>{content}</PostDescription>
 				<PostDetails>
 					<LikeCount>
 						<FaRegThumbsUp />
-						<span>336</span>
+						<span>{like}</span>
 					</LikeCount>
 					<CommentCount>
 						<FaRegCommentDots />
-						<span>12</span>
+						<span>{view}</span>
 					</CommentCount>
 				</PostDetails>
 			</PostContents>

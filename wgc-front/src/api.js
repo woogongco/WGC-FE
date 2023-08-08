@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-const baseUrl = 'http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com';
+const baseUrl = 'http://ec2-52-78-12-104.ap-northeast-2.compute.amazonaws.com';
 const api = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({ baseUrl }),
