@@ -1,5 +1,5 @@
 import MiniMainPage from 'pages/mini/MiniMainPage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 //mini
 import FriendPage from 'pages/mini/FriendPage';

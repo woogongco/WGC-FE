@@ -1,19 +1,26 @@
-const axios = require('axios');
+import axios from 'axios';
+
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 const defaultHeaders = {
 	headers: {
 		'Content-Type': 'application/json',
 	},
 };
 
-exports.axiosGet = async (url, headers = defaultHeaders) => {
+export const axiosHealthCheck = async () => {
+	const res = await axios.get(ENDPOINT);
+	return res.data;
+};
+
+export const axiosGet = async (url, headers = defaultHeaders) => {
 	await validation(url, 'URL is not presented !');
 
-	const res = axios.get(url, headers);
+	const res = await axios.get(ENDPOINT + url, headers);
 
 	return res.data;
 };
 
-exports.axiosPost = async (url, body, headers = defaultHeaders) => {
+export const axiosPost = async (url, body, headers = defaultHeaders) => {
 	const objects = [
 		{
 			obj: url,
@@ -30,7 +37,7 @@ exports.axiosPost = async (url, body, headers = defaultHeaders) => {
 		await validation(obj, message);
 	}
 
-	const res = axios.post(url, body, headers);
+	const res = await axios.post(ENDPOINT + url, body, headers);
 
 	return res.data;
 };
