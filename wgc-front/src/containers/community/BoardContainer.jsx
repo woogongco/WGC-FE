@@ -51,6 +51,7 @@ export default function BoardContainer() {
 		job: '취업게시판',
 		project: '프로젝트',
 		study: '스터디',
+		popular: '인기글',
 	};
 	return (
 		<Wrapper>
