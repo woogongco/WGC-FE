@@ -54,7 +54,7 @@ function App() {
 					<Route path="/write" element={<CommuWritePage />} />
 					<Route path="/UserInfo" element={<UserInfo />} />
 				</Route>
-				<Route path="/Profile" element={<Profile />} />
+				<Route path="/Profile" elesssment={<Profile />} />
 			</Routes>
 		</BrowserRouter>
 	);
