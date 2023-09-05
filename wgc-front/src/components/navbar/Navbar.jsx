@@ -61,7 +61,13 @@ const NavHtml = styled.nav`
 		}
 	}
 `;
-
+ //인기글
+// 자유
+// 스터디
+// 취업게시판
+// IT뉴스
+// 나의프로젝트
+// 유저정보
 export default function Navbar() {
 	const navigate = useNavigate();
 
@@ -70,13 +76,13 @@ export default function Navbar() {
 		<NavHtml>
 			<ul>
 				<li onClick={() => navigate(`/`)}>
-					<img src={navfree} alt="freeicon" />
+					<img src={navpop} alt="freeicon" />
+				</li>
+				<li onClick={() => navigate(`/`)}>
+					<img src={navfree} alt="popicon" />
 				</li>
 				<li onClick={() => navigate(`/`)}>
 					<img src={navstudy} alt="studyicon" />
-				</li>
-				<li onClick={() => navigate(`/`)}>
-					<img src={navpop} alt="popicon" />
 				</li>
 				<li onClick={() => navigate(`/`)}>
 					<img src={navjob} alt="freeicon" />
