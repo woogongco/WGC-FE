@@ -88,35 +88,33 @@ const arr = Array.from({ length: 6 });
 
 export default function MiniContainer() {
 	return (
-		<>
-			<SectionContiner>
-				<Wapperdiv>
-					<SectionTopItem>
-						<SectionH>Git 주소</SectionH>
-						<SectionText />
-					</SectionTopItem>
-					<SectionCenterItem>
-						<h3>내가 쓴 글</h3>
-						<div>
-							<div>내가 쓴글 리스트</div>
-						</div>
-					</SectionCenterItem>
-					<SectionBottomItem>
-						<SectionBottomItemTitle>
-							<h3>일촌</h3>
-							<p>더보기</p>
-						</SectionBottomItemTitle>
-						<ImageContainerdiv>
-							{arr.map((value, idx) => (
-								<Imagediv>
-									<SectionMainImg key={idx} />
-									박진현
-								</Imagediv>
-							))}
-						</ImageContainerdiv>
-					</SectionBottomItem>
-				</Wapperdiv>
-			</SectionContiner>
-		</>
+		<SectionContiner>
+			<Wapperdiv>
+				<SectionTopItem>
+					<SectionH>Git 주소</SectionH>
+					<SectionText />
+				</SectionTopItem>
+				<SectionCenterItem>
+					<h3>내가 쓴 글</h3>
+					<div>
+						<div>내가 쓴글 리스트</div>
+					</div>
+				</SectionCenterItem>
+				<SectionBottomItem>
+					<SectionBottomItemTitle>
+						<h3>일촌</h3>
+						<p>더보기</p>
+					</SectionBottomItemTitle>
+					<ImageContainerdiv>
+						{arr.map((value, idx) => (
+							<Imagediv>
+								<SectionMainImg key={idx} />
+								박진현
+							</Imagediv>
+						))}
+					</ImageContainerdiv>
+				</SectionBottomItem>
+			</Wapperdiv>
+		</SectionContiner>
 	);
 }
