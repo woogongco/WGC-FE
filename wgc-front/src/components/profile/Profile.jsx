@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { myInfo } from '../../store/RecoilStates/UserInfo';
 
 const Base = styled.div`
 	width: 100%;
@@ -181,47 +183,52 @@ const FiveColorCircle = styled.div`
 // 배열을 만들어서 해당 index 번호를 가지고 맞으면 그 색깔을 보여주는 logic으로 생각중
 // store에 있는 값을 가져올수도 있다.
 export default function Profile() {
+	const userInfo = useRecoilValue(myInfo);
+
 	return (
-		<>
-			<Base>
-				<Title>
-					<TitleWappr>
-						<h4>00님의 미니 홈피</h4>
-					</TitleWappr>
-				</Title>
-				<ContainerDiv>
-					<div>로그인해주세요</div>
-					<FristColorCircle />
-					<SecoundColorCircle />
-					<ThreeColorCircle />
-					<FourColorCircle />
-					<FiveColorCircle />
-				</ContainerDiv>
-				<StackTextContainer>
-					<StackTextItem>
-						<p>Stack</p>
-						<FaPlus color="white" />
-					</StackTextItem>
-				</StackTextContainer>
-				<StackContainer>
-					<StackWapper>
-						<StackItem>React</StackItem>
-						<StackItem>Javascript</StackItem>
-						<StackItem>Node.js</StackItem>
-						<StackItem>Java</StackItem>
-						<StackItem>Html/Css</StackItem>
-						<StackItem>Spring boot</StackItem>
-					</StackWapper>
-				</StackContainer>
-				<WoogCoTextContainer>
-					<WgcTextTop>개발자들의 이야기, </WgcTextTop>
-					<span>
-						<WgcText>WGC</WgcText>에서 시작하자!
-					</span>
-					<WgcTextBottomP>커뮤니티부터 프로젝트 준비까지</WgcTextBottomP>
-					<Borderdiv />
-				</WoogCoTextContainer>
-			</Base>
-		</>
+		<Base>
+			<Title>
+				<TitleWappr>{userInfo && <h4>{userInfo.name}님의 미니 홈피</h4>}</TitleWappr>
+			</Title>
+			{userInfo && ( // FIXME : 사용자 소개 스타일링 필요함.
+				<>
+					<br />
+					<h5 style={{ color: 'white' }}>{userInfo.introduction}</h5>
+				</>
+			)}
+			<ContainerDiv>
+				{!userInfo && <div>로그인해주세요</div>}
+				<FristColorCircle />
+				<SecoundColorCircle />
+				<ThreeColorCircle />
+				<FourColorCircle />
+				<FiveColorCircle />
+			</ContainerDiv>
+			<StackTextContainer>
+				<StackTextItem>
+					<p>Stack</p>
+					<FaPlus color="white" />
+				</StackTextItem>
+			</StackTextContainer>
+			<StackContainer>
+				<StackWapper>
+					{userInfo && (
+						<>
+							{userInfo.skil?.split(',').map(i => (
+								<StackItem key={Math.random()}>{i}</StackItem>
+							))}
+						</>
+					)}
+				</StackWapper>
+			</StackContainer>
+			<WoogCoTextContainer>
+				<WgcTextTop>개발자들의 이야기, </WgcTextTop>
+				<span>
+					<WgcText>WGC</WgcText>에서 시작하자!
+				</span>
+				<WgcTextBottomP>커뮤니티부터 프로젝트 준비까지</WgcTextBottomP>
+				<Borderdiv />
+			</WoogCoTextContainer>
+		</Base>
 	);
 }

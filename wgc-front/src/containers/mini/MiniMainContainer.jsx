@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { axiosGet } from '../../Utils/AxiosUtils';
+import { useRecoilState } from 'recoil';
+import { myInfo } from '../../store/RecoilStates/UserInfo';
 
 const SectionContiner = styled.div`
 	width: 95%;
@@ -24,6 +27,7 @@ const SectionText = styled.input`
 	border: none;
 	background-color: #b1b1b1;
 	color: white;
+	cursor: pointer;
 `;
 
 const SectionH = styled.h3`
@@ -87,12 +91,33 @@ const list = Array.from({ length: 3 });
 const arr = Array.from({ length: 6 });
 
 export default function MiniContainer() {
+	const [userInfo, setUserInfo] = useRecoilState(myInfo);
+	const [neighbors, setNeighbor] = useState(undefined);
+
+	useEffect(() => {
+		(async () => {
+			const res = await axiosGet('/member/my-info');
+			setUserInfo({ ...res.data });
+			await getNeighborList({ ...res.data });
+		})();
+	}, []);
+
+	const getNeighborList = async userInfo => {
+		const res = await axiosGet(`/neighbor/${userInfo.id}`);
+		setNeighbor([...res.data]);
+	};
+
 	return (
 		<SectionContiner>
 			<Wapperdiv>
 				<SectionTopItem>
 					<SectionH>Git 주소</SectionH>
-					<SectionText />
+					<SectionText
+						value={userInfo && userInfo.github ? userInfo.github : ''}
+						onClick={() => {
+							if (userInfo.github) window.open(userInfo.github);
+						}}
+					/>
 				</SectionTopItem>
 				<SectionCenterItem>
 					<h3>내가 쓴 글</h3>
@@ -106,12 +131,16 @@ export default function MiniContainer() {
 						<p>더보기</p>
 					</SectionBottomItemTitle>
 					<ImageContainerdiv>
-						{arr.map((value, idx) => (
-							<Imagediv>
-								<SectionMainImg key={idx} />
-								박진현
-							</Imagediv>
-						))}
+						{neighbors && (
+							<>
+								{neighbors.map(i => (
+									<Imagediv>
+										<SectionMainImg key={Math.random()} />
+										{i.name}
+									</Imagediv>
+								))}
+							</>
+						)}
 					</ImageContainerdiv>
 				</SectionBottomItem>
 			</Wapperdiv>
