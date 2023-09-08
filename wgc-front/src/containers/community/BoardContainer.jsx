@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PostList from 'components/postList/PostList';
 import { FaPen } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	padding: 68px 56px 60px 60px;
@@ -43,14 +44,23 @@ const BoardHeader = styled.header`
 `;
 
 export default function BoardContainer() {
+	const url = window.location.pathname.split('/')[2];
+	const urltype = {
+		free: '자유게시판',
+		itnews: 'IT뉴스',
+		job: '취업게시판',
+		project: '프로젝트',
+		study: '스터디',
+		popular: '인기글',
+	};
 	return (
 		<Wrapper>
 			<BoardHeader>
-				<h2>자유게시판</h2>
-				<a href="#">
+				<h2>{urltype[url]}</h2>
+				<Link to="/write">
 					<FaPen />
 					작성하기
-				</a>
+				</Link>
 			</BoardHeader>
 			<PostList />
 		</Wrapper>

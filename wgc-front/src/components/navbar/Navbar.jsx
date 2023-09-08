@@ -69,25 +69,25 @@ export default function Navbar() {
 	return (
 		<NavHtml>
 			<ul>
-				<li onClick={() => navigate(`/`)}>
-					<img src={navfree} alt="freeicon" />
+				<li onClick={() => navigate(`/board/popular`)}>
+					<img src={navpop} alt="freeicon" />
 				</li>
-				<li onClick={() => navigate(`/`)}>
+				<li onClick={() => navigate(`/board/free`)}>
+					<img src={navfree} alt="popicon" />
+				</li>
+				<li onClick={() => navigate(`/board/study`)}>
 					<img src={navstudy} alt="studyicon" />
 				</li>
-				<li onClick={() => navigate(`/`)}>
-					<img src={navpop} alt="popicon" />
-				</li>
-				<li onClick={() => navigate(`/`)}>
+				<li onClick={() => navigate(`/board/job`)}>
 					<img src={navjob} alt="freeicon" />
 				</li>
-				<li onClick={() => navigate(`/`)}>
+				<li onClick={() => navigate(`/board/itnews`)}>
 					<img src={navnews} alt="newsicon" />
 				</li>
-				<li onClick={() => navigate(`/`)}>
+				<li onClick={() => navigate(`/board/project`)}>
 					<img src={navproject} alt="projecticon" />
 				</li>
-				<li onClick={() => navigate(`/`)}>
+				<li onClick={() => navigate(`/UserInfo`)}>
 					<img src={navsetting} alt="settingicon" />
 				</li>
 			</ul>
