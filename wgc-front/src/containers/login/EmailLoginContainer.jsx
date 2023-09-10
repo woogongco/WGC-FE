@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import useInput from 'constants/useInput';
 import { axiosPost } from '../../Utils/AxiosUtils';
-import { ALERT_TYPE, errorAlert, successAlert } from '../../Utils/AlertMessageUtils';
+import { ALERT_TYPE } from '../../Utils/AlertMessageUtils';
 import { message } from 'antd';
+
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -66,12 +67,17 @@ const StatusText = styled.span`
 
 export default function EmailLoginContainer() {
 	const navigate = useNavigate();
-	const [Email, setEmail] = useInput();
-	const [password, setPassword] = useInput();
+	const [Email, setEmail] = useInput(
+		localStorage.getItem('user_mail') ? localStorage.getItem('user_mail') : undefined,
+	);
+	const [password, setPassword] = useInput(
+		localStorage.getItem('encrypted_password')
+			? window.atob(window.atob(localStorage.getItem('encrypted_password')))
+			: undefined,
+	);
 	const navigator = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
-	const [isSave, setIsSave] = useState(false);
-
+	const [isSave, setIsSave] = useState();
 	const alert = async (type, content, duration = 2) => {
 		return messageApi.open({
 			type: type,
@@ -80,14 +86,27 @@ export default function EmailLoginContainer() {
 		});
 	};
 
+	const saveIdAndPassword = async () => {
+		const encrypted = window.btoa(window.btoa(password));
+		localStorage.setItem('encrypted_password', encrypted);
+		localStorage.setItem('user_mail', Email);
+		localStorage.setItem('is_save', true);
+	};
+
+	const removeIdAndPasswordLocaStorage = async () => {
+		localStorage.removeItem('encrypted_password');
+		localStorage.removeItem('user_mail');
+		localStorage.removeItem('is_save');
+	};
+
 	const handleLogin = async () => {
 		if (!Email) return alert(ALERT_TYPE.ERROR, '이메일을 입력하세요 !');
 		if (!password) return alert(ALERT_TYPE.ERROR, '비밀번호을 입력하세요 !');
-
 		const res = await axiosPost('/member/sign', { mail: Email, password: password });
 
 		if (res.status === 200) {
-			localStorage.setItem('token', res.data);
+			if (isSave) await saveIdAndPassword();
+			else localStorage.setItem('token', res.data);
 			await alert(ALERT_TYPE.SUCCESS, '로그인 성공 !', 1);
 			return navigate('/MiniMain');
 		}
