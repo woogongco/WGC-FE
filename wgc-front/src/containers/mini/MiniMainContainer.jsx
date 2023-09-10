@@ -93,6 +93,7 @@ const arr = Array.from({ length: 6 });
 export default function MiniContainer() {
 	const [userInfo, setUserInfo] = useRecoilState(myInfo);
 	const [neighbors, setNeighbor] = useState(undefined);
+	const [userPosts, setUserPosts] = useState();
 
 	useEffect(() => {
 		(async () => {
@@ -101,6 +102,20 @@ export default function MiniContainer() {
 			await getNeighborList({ ...res.data });
 		})();
 	}, []);
+
+	useEffect(() => {
+		(async () => {
+			await fetchHomePageUsersPost();
+		})();
+	}, [neighbors]);
+
+	const fetchHomePageUsersPost = async () => {
+		const path = window.location.pathname;
+		const userId = path === '/MiniMain' ? userInfo.id : path.split('/')[2];
+		const res = await axiosGet(`/homepage/post/${userId}`);
+		setUserPosts([...res.data]);
+		console.log(res.data);
+	};
 
 	const getNeighborList = async userInfo => {
 		const res = await axiosGet(`/neighbor/${userInfo.id}`);
@@ -123,6 +138,26 @@ export default function MiniContainer() {
 					<h3>내가 쓴 글</h3>
 					<div>
 						<div>내가 쓴글 리스트</div>
+						<br />
+						{userPosts && (
+							<>
+								{userPosts.map(i => (
+									<div
+										style={{
+											border: '1px solid white',
+											width: '150px',
+											height: '150px',
+											borderRadius: '10% 10%',
+										}}
+									>
+										{/*//FIXME 스타일링 해야함*/}
+										<div>{i.title}</div>
+										<div>like : {i.like}</div>
+										<div>조회수 : {i.view}</div>
+									</div>
+								))}
+							</>
+						)}
 					</div>
 				</SectionCenterItem>
 				<SectionBottomItem>
