@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Post from 'components/post/Post';
-import { useGetPostsQuery } from '../../api';
-
+import { axiosGet } from '../../Utils/AxiosUtils';
+import { useInView } from 'react-intersection-observer';
 const Wrapper = styled.section`
 	display: grid;
 	grid-template: repeat(2, 1fr) / repeat(3, 230px);
-	gap: 68px 20px;
+	gap: 78px 2rem;
 	justify-content: center;
 `;
 
 export default function PostList() {
-	const { data, isLoading, isError } = useGetPostsQuery();
+	const [ref, inView] = useInView({ root: null, threshold: 0.5, rootMargin: '0px' });
+	const [page, setpage] = useState(6);
+	const [Data, setdata] = useState([]);
+	const [isLoading, setLoading] = useState(false);
 	const url = window.location.pathname.split('/')[2];
-	if (isLoading) {
-		return <div>불러오는 중...</div>;
-	}
-	if (isError) {
-		return <div>에러</div>;
-	}
+	const GetPost = useCallback(async () => {
+		await axiosGet(`/post?limit=${page}`)
+			.then(res => {
+				setdata(res);
+				setpage(page => page + 3);
+				setLoading(true);
+			})
+			.catch(err => console.log(err));
+	}, [Data]);
+
+	useEffect(() => {
+		GetPost();
+	}, [inView]);
 	return (
 		<div>
-			{isLoading === false ? (
+			{isLoading === true ? (
 				<Wrapper>
-					{data.data[url].map((post, index) => {
+					{Data.data[url].map((post, index) => {
 						return (
 							<Post
 								key={index}
@@ -34,6 +44,7 @@ export default function PostList() {
 							/>
 						);
 					})}
+					<div ref={ref} />
 				</Wrapper>
 			) : (
 				''
