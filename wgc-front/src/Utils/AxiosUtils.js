@@ -12,10 +12,17 @@ export const axiosHealthCheck = async () => {
 	return res.data;
 };
 
+const headerConfiguration = header => {
+	const config = { ...header };
+	const token = localStorage.getItem('token');
+	if (token) config.headers.Authorization = 'Bearer ' + token;
+
+	return { ...config };
+};
+
 export const axiosGet = async (url, headers = defaultHeaders) => {
 	await validation(url, 'URL is not presented !');
-
-	const res = await axios.get(ENDPOINT + url, headers);
+	const res = await axios.get(ENDPOINT + url, headerConfiguration(headers));
 
 	return res.data;
 };
@@ -37,7 +44,7 @@ export const axiosPost = async (url, body, headers = defaultHeaders) => {
 		await validation(obj, message);
 	}
 
-	const res = await axios.post(ENDPOINT + url, body, headers);
+	const res = await axios.post(ENDPOINT + url, body, headerConfiguration(headers));
 
 	return res.data;
 };

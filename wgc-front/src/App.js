@@ -22,41 +22,44 @@ import CommuWritePage from './pages/community/CommuWritePage';
 
 //공통
 import Layout from 'components/layouts/Layout';
+import { RecoilRoot } from 'recoil';
 
 function App() {
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/layout" element={<Layout />} />
-				<Route path="/" element={<LoginMainPage />}>
-					메인 로그인페이지
-				</Route>
-				<Route path="/UserSign" element={<UserSignPage />}>
-					회원가입 페이지
-				</Route>
-				<Route path="/PwFindContainer" element={<PwFindPage />}>
-					비밀번호찾기 페이지
-				</Route>
-				<Route path="EmailLogin" element={<EmailLoginPage />}>
-					이메일 로그인 페이지
-				</Route>
-				<Route element={<Layout />}>
-					{/* 미니홈피 */}
-					<Route path="/Friend" element={<FriendPage />} />
-					<Route path="/Minimain" element={<MiniMainPage />} />
-					<Route path="/Guest" element={<GuestPage />} />
-					<Route path="/MyPost" element={<MyPostPage />} />
-					<Route path="/writemodify" element={<WriteModifyPage />} />
-					{/*  커뮤니티 */}
-					<Route path="/community" element={<CommuMainPage />} />
-					<Route path="/board" element={<BoardPage />} />
-					<Route path="/board/:boardname" element={<BoardPage />} />
-					<Route path="/write" element={<CommuWritePage />} />
-					<Route path="/UserInfo" element={<UserInfo />} />
-				</Route>
-				<Route path="/Profile" elesssment={<Profile />} />
-			</Routes>
-		</BrowserRouter>
+		<RecoilRoot>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/layout" element={<Layout />} />
+					<Route path="/" element={<LoginMainPage />}>
+						메인 로그인페이지
+					</Route>
+					<Route path="/UserSign" element={<UserSignPage />}>
+						회원가입 페이지
+					</Route>
+					<Route path="/PwFindContainer" element={<PwFindPage />}>
+						비밀번호찾기 페이지
+					</Route>
+					<Route path="EmailLogin" element={<EmailLoginPage />}>
+						이메일 로그인 페이지
+					</Route>
+					<Route element={<Layout />}>
+						{/* 미니홈피 */}
+						<Route path="/Friend" element={<FriendPage />} />
+						<Route path="/Minimain" element={<MiniMainPage />} />
+						<Route path="/Guest" element={<GuestPage />} />
+						<Route path="/MyPost" element={<MyPostPage />} />
+						<Route path="/writemodify" element={<WriteModifyPage />} />
+						{/*  커뮤니티 */}
+						<Route path="/community" element={<CommuMainPage />} />
+						<Route path="/board" element={<BoardPage />} />
+						<Route path="/board/:boardname" element={<BoardPage />} />
+						<Route path="/write" element={<CommuWritePage />} />
+						<Route path="/UserInfo" element={<UserInfo />} />
+					</Route>
+					<Route path="/Profile" element={<Profile />} />
+				</Routes>
+			</BrowserRouter>
+		</RecoilRoot>
 	);
 }
 

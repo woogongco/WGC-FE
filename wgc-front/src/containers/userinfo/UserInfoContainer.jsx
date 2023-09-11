@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { FaPlusCircle, FaPen } from 'react-icons/fa';
+import { FaPen, FaPlusCircle } from 'react-icons/fa';
+import { useRecoilValue } from 'recoil';
+import { myInfo } from '../../store/RecoilStates/UserInfo';
+import moment from 'moment/moment';
+
 const Section = styled.div`
 	display: flex;
 `;
@@ -87,49 +91,58 @@ const ContainerDiv = styled.div`
 	cursor: pointer;
 `;
 export default function UserInfoContainer() {
+	const userInfo = useRecoilValue(myInfo);
+	useEffect(() => {
+		console.log(userInfo);
+	}, []);
 	return (
 		<div>
-			<Section>
-				<UserInterface>
-					<TitleContainer>
-						<Title>회원수정</Title>
-						<ChangeInfo>
-							<FaPen />
-							작성하기
-						</ChangeInfo>
-					</TitleContainer>
-					<TypeContainer>
-						<UserType>이름</UserType>
-						<Content>
-							<LogInfo>주먹밥</LogInfo>
-						</Content>
-						<UserType>이메일</UserType>
-						<Content>
-							<LogInfo>test@gmail.com</LogInfo>
-						</Content>
-						<UserType>비밀번호</UserType>
-						<Content>
-							<UserInput type="password" />
-						</Content>
-						<UserType>비밀번호 확인</UserType>
-						<Content>
-							<UserInput type="password" />
-						</Content>
-						<UserType>가입일</UserType>
-						<Content>
-							<LogInfo>2023. 04. 20</LogInfo>
-						</Content>
-						<UserType>연락처</UserType>
-						<Content>
-							<UserInput type="password" placeholder="000-0000-0000" />
-						</Content>
-					</TypeContainer>
-					<Title>프로필 이미지</Title>
-					<ContainerDiv>
-						<FaPlusCircle />
-					</ContainerDiv>
-				</UserInterface>
-			</Section>
+			{userInfo && (
+				<Section>
+					<UserInterface>
+						<TitleContainer>
+							<Title>회원수정</Title>
+							<ChangeInfo>
+								<FaPen />
+								작성하기
+							</ChangeInfo>
+						</TitleContainer>
+						<TypeContainer>
+							<UserType>이름</UserType>
+							<Content>
+								<LogInfo>{userInfo.name}</LogInfo>
+							</Content>
+							<UserType>이메일</UserType>
+							<Content>
+								<LogInfo>{userInfo.mail}</LogInfo>
+							</Content>
+							<UserType>비밀번호</UserType>
+							<Content>
+								<UserInput type="password" />
+							</Content>
+							<UserType>비밀번호 확인</UserType>
+							<Content>
+								<UserInput type="password" />
+							</Content>
+							<UserType>가입일</UserType>
+							<Content>
+								<LogInfo>
+									{moment(userInfo.registerDateTime).add(9, 'hours').format('YYYY-MM-DD hh:ss')}
+									{/*{userInfo.registerDateTime}*/}
+								</LogInfo>
+							</Content>
+							<UserType>연락처</UserType>
+							<Content>
+								<UserInput type="password" placeholder="000-0000-0000" />
+							</Content>
+						</TypeContainer>
+						<Title>프로필 이미지</Title>
+						<ContainerDiv>
+							<FaPlusCircle />
+						</ContainerDiv>
+					</UserInterface>
+				</Section>
+			)}
 		</div>
 	);
 }

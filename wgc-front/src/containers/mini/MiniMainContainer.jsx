@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { axiosGet } from '../../Utils/AxiosUtils';
+import { useRecoilState } from 'recoil';
+import { myInfo } from '../../store/RecoilStates/UserInfo';
 
 const SectionContiner = styled.div`
 	width: 95%;
@@ -24,6 +27,7 @@ const SectionText = styled.input`
 	border: none;
 	background-color: #b1b1b1;
 	color: white;
+	cursor: pointer;
 `;
 
 const SectionH = styled.h3`
@@ -87,36 +91,94 @@ const list = Array.from({ length: 3 });
 const arr = Array.from({ length: 6 });
 
 export default function MiniContainer() {
+	const [userInfo, setUserInfo] = useRecoilState(myInfo);
+	const [neighbors, setNeighbor] = useState(undefined);
+	const [userPosts, setUserPosts] = useState();
+
+	useEffect(() => {
+		(async () => {
+			const res = await axiosGet('/member/my-info');
+			setUserInfo({ ...res.data });
+			await getNeighborList({ ...res.data });
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			await fetchHomePageUsersPost();
+		})();
+	}, [neighbors]);
+
+	const fetchHomePageUsersPost = async () => {
+		const path = window.location.pathname;
+		const userId = path === '/MiniMain' ? userInfo.id : path.split('/')[2];
+		const res = await axiosGet(`/homepage/post/${userId}`);
+		setUserPosts([...res.data]);
+		console.log(res.data);
+	};
+
+	const getNeighborList = async userInfo => {
+		const res = await axiosGet(`/neighbor/${userInfo.id}`);
+		setNeighbor([...res.data]);
+	};
+
 	return (
-		<>
-			<SectionContiner>
-				<Wapperdiv>
-					<SectionTopItem>
-						<SectionH>Git 주소</SectionH>
-						<SectionText />
-					</SectionTopItem>
-					<SectionCenterItem>
-						<h3>내가 쓴 글</h3>
-						<div>
-							<div>내가 쓴글 리스트</div>
-						</div>
-					</SectionCenterItem>
-					<SectionBottomItem>
-						<SectionBottomItemTitle>
-							<h3>일촌</h3>
-							<p>더보기</p>
-						</SectionBottomItemTitle>
-						<ImageContainerdiv>
-							{arr.map((value, idx) => (
-								<Imagediv>
-									<SectionMainImg key={idx} />
-									박진현
-								</Imagediv>
-							))}
-						</ImageContainerdiv>
-					</SectionBottomItem>
-				</Wapperdiv>
-			</SectionContiner>
-		</>
+		<SectionContiner>
+			<Wapperdiv>
+				<SectionTopItem>
+					<SectionH>Git 주소</SectionH>
+					<SectionText
+						value={userInfo && userInfo.github ? userInfo.github : ''}
+						onClick={() => {
+							if (userInfo.github) window.open(userInfo.github);
+						}}
+					/>
+				</SectionTopItem>
+				<SectionCenterItem>
+					<h3>내가 쓴 글</h3>
+					<div>
+						<div>내가 쓴글 리스트</div>
+						<br />
+						{userPosts && (
+							<>
+								{userPosts.map(i => (
+									<div
+										style={{
+											border: '1px solid white',
+											width: '150px',
+											height: '150px',
+											borderRadius: '10% 10%',
+										}}
+									>
+										{/*//FIXME 스타일링 해야함*/}
+										<div>{i.title}</div>
+										<div>like : {i.like}</div>
+										<div>조회수 : {i.view}</div>
+									</div>
+								))}
+							</>
+						)}
+					</div>
+				</SectionCenterItem>
+				<SectionBottomItem>
+					<SectionBottomItemTitle>
+						<h3>일촌</h3>
+						<p>더보기</p>
+					</SectionBottomItemTitle>
+					<ImageContainerdiv>
+						{neighbors && (
+							<>
+								{neighbors.map(i => (
+									<Imagediv>
+										<SectionMainImg key={Math.random()} />
+										{i.name}
+									</Imagediv>
+								))}
+							</>
+						)}
+					</ImageContainerdiv>
+				</SectionBottomItem>
+			</Wapperdiv>
+		</SectionContiner>
 	);
 }

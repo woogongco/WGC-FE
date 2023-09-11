@@ -1,7 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import useInput from 'constants/useInput';
+import { axiosPost } from '../../Utils/AxiosUtils';
+import { ALERT_TYPE } from '../../Utils/AlertMessageUtils';
+import { message } from 'antd';
+
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -60,50 +64,72 @@ const StatusText = styled.span`
 	color: white;
 	opacity: 87%;
 `;
-export default function EmailLoginContainer() {
-	const [Email, setEmaill] = useInput();
-	const [password, setpassword] = useInput();
-	const navigator = useNavigate();
 
-	const handleLogin = () => {
-		fetch('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/member/sign', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				mail: Email,
-				password: password,
-			}),
-		})
-			.then(response => response.json())
-			.then(data =>
-				data.status === 200
-					? localStorage.setItem('Cookie', data.data) + navigator('/MiniMain')
-					: data.status === 400
-					? alert('이메일 혹은 패스워드가 일치하지 않습니다.')
-					: data.status === 500
-					? alert('Server Error ')
-					: ' ',
-			)
-			.catch(error => alert(error));
+export default function EmailLoginContainer() {
+	const navigate = useNavigate();
+	const [Email, setEmail] = useInput(
+		localStorage.getItem('user_mail') ? localStorage.getItem('user_mail') : undefined,
+	);
+	const [password, setPassword] = useInput(
+		localStorage.getItem('encrypted_password')
+			? window.atob(window.atob(localStorage.getItem('encrypted_password')))
+			: undefined,
+	);
+	const navigator = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
+	const [isSave, setIsSave] = useState();
+	const alert = async (type, content, duration = 2) => {
+		return messageApi.open({
+			type: type,
+			content: content,
+			duration: duration,
+		});
 	};
 
-	if (!localStorage.getItem('Cookie') === undefined) {
-		navigator('/MiniMain');
-	}
+	const saveIdAndPassword = async () => {
+		const encrypted = window.btoa(window.btoa(password));
+		localStorage.setItem('encrypted_password', encrypted);
+		localStorage.setItem('user_mail', Email);
+		localStorage.setItem('is_save', true);
+	};
+
+	const removeIdAndPasswordLocaStorage = async () => {
+		localStorage.removeItem('encrypted_password');
+		localStorage.removeItem('user_mail');
+		localStorage.removeItem('is_save');
+	};
+
+	const handleLogin = async () => {
+		if (!Email) return alert(ALERT_TYPE.ERROR, '이메일을 입력하세요 !');
+		if (!password) return alert(ALERT_TYPE.ERROR, '비밀번호을 입력하세요 !');
+		const res = await axiosPost('/member/sign', { mail: Email, password: password });
+
+		if (res.status === 200) {
+			if (isSave) await saveIdAndPassword();
+			else localStorage.setItem('token', res.data);
+			await alert(ALERT_TYPE.SUCCESS, '로그인 성공 !', 1);
+			return navigate('/MiniMain');
+		}
+
+		if (res.status === 400)
+			return alert(ALERT_TYPE.ERROR, '입력한 정보가 올바르지 않거나 존재하지 않는 회원입니다.');
+
+		if (res.status === 500) return alert(ALERT_TYPE.ERROR, '서버와 통신이 원활하지 않습니다.');
+	};
 
 	return (
 		<Container>
+			{contextHolder}
 			<MainContent>
 				<Logo>L O I G N</Logo>
 				<IdForm>
-					<IdPwd type="text" placeholder="이메일" value={Email} onChange={setEmaill} /> <br />
-					<IdPwd type="password" placeholder="비밀번호" value={password} onChange={setpassword} />
+					<IdPwd type="text" placeholder="이메일" value={Email} onChange={setEmail} /> <br />
+					<IdPwd type="password" placeholder="비밀번호" value={password} onChange={setPassword} />
 				</IdForm>
 				<Password>비밀번호 찾기</Password>
 				<StatusForm>
-					<StatusCheckBox type="checkbox" /> <StatusText>로그인 상태 기억하기</StatusText>
+					<StatusCheckBox type="checkbox" onChange={event => setIsSave(event.target.checked)} />{' '}
+					<StatusText>로그인 상태 기억하기</StatusText>
 				</StatusForm>
 				<RegisterBtn onClick={handleLogin}>로그인 하기</RegisterBtn>
 			</MainContent>
