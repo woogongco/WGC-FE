@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaPen, FaPlusCircle } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
@@ -73,12 +73,28 @@ const UserInput = styled.input`
 	padding: 0.5rem 0 0.5rem 0.5rem;
 	font-size: 13px;
 `;
-const ContainerDiv = styled.div`
+const ImgContainerDiv = styled.div`
+	display: flex;
+	gap: 3rem;
+	align-items: center;
+`;
+
+const ImgContainer = styled.div`
+	border-top-left-radius: 40%;
+	border-top-right-radius: 50%;
+	border-bottom-right-radius: 50%;
+	box-sizing: border-box;
+	width: 13rem;
+	height: 13rem;
+	background-size: cover;
+`;
+
+const ImgFileDiv = styled.div`
 	position: relative;
 	display: inline-block;
 	margin: 1.5em 0 1.5em 15px;
-	width: 150px;
-	height: 150px;
+	width: 13rem;
+	height: 13rem;
 	background: #c4c4c4;
 	border-top-left-radius: 40%;
 	border-top-right-radius: 50%;
@@ -90,8 +106,31 @@ const ContainerDiv = styled.div`
 	color: white;
 	cursor: pointer;
 `;
+
+const InputImg = styled.input`
+	display: none;
+`;
+
 export default function UserInfoContainer() {
+	const [ImgSrc, setImgSrc] = useState('');
+	const ref = useRef();
 	const userInfo = useRecoilValue(myInfo);
+	const onUploadImg = e => {
+		if (!e.target.files === undefined) return;
+		const reader = new FileReader();
+		if (e.target.files[0]) {
+			reader.readAsDataURL(e.target.files[0]);
+		}
+		console.log(reader);
+		reader.onloadend = () => {
+			const previewImgUrl = reader.result;
+			setImgSrc(previewImgUrl);
+		};
+	};
+
+	const onHandleRef = () => {
+		ref.current.click();
+	};
 	useEffect(() => {
 		console.log(userInfo);
 	}, []);
@@ -137,9 +176,19 @@ export default function UserInfoContainer() {
 							</Content>
 						</TypeContainer>
 						<Title>프로필 이미지</Title>
-						<ContainerDiv>
-							<FaPlusCircle />
-						</ContainerDiv>
+						<ImgContainerDiv>
+							{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
+							<InputImg
+								type="file"
+								multiple
+								accept="image/*"
+								ref={ref}
+								onChange={e => onUploadImg(e)}
+							/>
+							<ImgFileDiv onClick={onHandleRef}>
+								<FaPlusCircle />
+							</ImgFileDiv>
+						</ImgContainerDiv>
 					</UserInterface>
 				</Section>
 			)}
