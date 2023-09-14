@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
 
 const HeaderLayOut = styled.div`
@@ -102,17 +102,20 @@ const NavbarLink = styled(Link)`
 `;
 
 export default function Header() {
+	const navigate = useNavigate();
 	const [checked, setchecked] = useState(false);
 	const HandleChecked = useCallback(() => {
 		setchecked(e => !e);
 	}, []);
-
+	const HandleLogoPage = () => {
+		localStorage.getItem('token') ? navigate('/Minimain') : navigate('/');
+	};
 	return (
 		<div>
 			<HeaderLayOut>
-				<Link to="/">
+				<div onClick={HandleLogoPage}>
 					<LogoImage src={Logoimg} alt="Header Logo img" />
-				</Link>
+				</div>
 				<SearchBar>
 					<SerchIcon>
 						<FaSearch />
@@ -120,7 +123,7 @@ export default function Header() {
 					<SearchInput type="text" placeholder="Search..." />
 				</SearchBar>
 				<ButtonBar>
-					{localStorage.getItem('Cookie') ? (
+					{localStorage.getItem('token') ? (
 						<>
 							<Buttonli>
 								<NavbarLink to="/" style={{ Textdecoration: 'none' }}>
