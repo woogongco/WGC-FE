@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PostList from 'components/postList/PostList';
 import { FaPen } from 'react-icons/fa';
@@ -44,25 +44,39 @@ const BoardHeader = styled.header`
 `;
 
 export default function BoardContainer() {
-	const url = window.location.pathname.split('/')[2];
-	const urltype = {
-		free: '자유게시판',
-		itnews: 'IT뉴스',
-		job: '취업게시판',
-		project: '프로젝트',
-		study: '스터디',
-		popular: '인기글',
-	};
+	const [url, seturl] = useState('');
+	const [isLoading, setLoading] = useState(false);
+	const [type, setType] = useState({});
+	useEffect(() => {
+		seturl(window.location.pathname.split('/')[2]);
+		const urltype = {
+			free: '자유게시판',
+			itnews: 'IT뉴스',
+			job: '취업게시판',
+			project: '프로젝트',
+			study: '스터디',
+			popular: '인기글',
+		};
+		setType(urltype);
+		setLoading(true);
+	}, []);
+
 	return (
-		<Wrapper>
-			<BoardHeader>
-				<h2>{urltype[url]}</h2>
-				<Link to="/write">
-					<FaPen />
-					작성하기
-				</Link>
-			</BoardHeader>
-			<PostList />
-		</Wrapper>
+		<div>
+			{isLoading ? (
+				<Wrapper>
+					<BoardHeader>
+						<h2>{type[url]}</h2>
+						<Link to="/write">
+							<FaPen />
+							작성하기
+						</Link>
+					</BoardHeader>
+					<PostList />
+				</Wrapper>
+			) : (
+				''
+			)}
+		</div>
 	);
 }
