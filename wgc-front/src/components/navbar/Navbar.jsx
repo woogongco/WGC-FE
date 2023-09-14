@@ -10,6 +10,8 @@ import navproject from '../../assets/nav_project.svg';
 import navstudy from '../../assets/nav_study.svg';
 import navsetting from '../../assets/nav_setting.svg';
 import { useNavigate } from 'react-router-dom';
+import { boardMenu } from '../../store/RecoilStates/BoardMenu';
+import { useRecoilState } from 'recoil';
 
 const NavHtml = styled.nav`
 	display: block;
@@ -64,15 +66,17 @@ const NavHtml = styled.nav`
 
 export default function Navbar() {
 	const navigate = useNavigate();
-
+	const [board, setBoard] = useRecoilState(boardMenu);
 	// TODO 아이콘별 url path 수정 필요
 	return (
 		<NavHtml>
 			<ul>
-				<li onClick={() => navigate(`/board/popular`)}>
+				{/*<li onClick={() => navigate(`/board/popular`)}>*/}
+				<li onClick={() => setBoard('/board/popular')}>
 					<img src={navpop} alt="freeicon" />
 				</li>
-				<li onClick={() => navigate(`/board/free`)}>
+				<li onClick={() => setBoard('/board/free')}>
+					{/*<li onClick={() => navigate(`/board/free`)}>*/}
 					<img src={navfree} alt="popicon" />
 				</li>
 				<li onClick={() => navigate(`/board/study`)}>

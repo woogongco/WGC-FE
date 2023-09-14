@@ -110,11 +110,10 @@ export default function MiniContainer() {
 	}, [neighbors]);
 
 	const fetchHomePageUsersPost = async () => {
-		const path = window.location.pathname;
-		const userId = path === '/MiniMain' ? userInfo.id : path.split('/')[2];
+		const path = window.location.pathname.toLowerCase();
+		const userId = path === '/minimain' ? userInfo.id : path.split('/')[2];
 		const res = await axiosGet(`/homepage/post/${userId}`);
 		setUserPosts([...res.data]);
-		console.log(res.data);
 	};
 
 	const getNeighborList = async userInfo => {

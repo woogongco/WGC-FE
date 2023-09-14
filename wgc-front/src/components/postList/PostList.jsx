@@ -1,8 +1,11 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Post from 'components/post/Post';
 import { axiosGet } from '../../Utils/AxiosUtils';
 import { useInView } from 'react-intersection-observer';
+import { useRecoilState } from 'recoil';
+import { boardMenu } from '../../store/RecoilStates/BoardMenu';
+
 const Wrapper = styled.section`
 	display: grid;
 	grid-template: repeat(2, 1fr) / repeat(3, 230px);
@@ -30,6 +33,12 @@ export default function PostList() {
 	const [Data, setdata] = useState([]);
 	const [isLoading, setLoading] = useState(false);
 	const url = window.location.pathname.split('/')[2];
+	const [board, setBoard] = useRecoilState(boardMenu);
+
+	/*useEffect(() => {
+    FIXME board 상태에 따라 게시글 바뀌게 수정해야함
+    }, [board]);*/
+
 	const GetPost = useCallback(async () => {
 		await axiosGet(`/post?limit=${page}`)
 			.then(res => {
@@ -47,7 +56,7 @@ export default function PostList() {
 		<SectionDiv>
 			{isLoading === true ? (
 				<Wrapper>
-					{Data.data[url].map((post, index) => {
+					{Data.data[url]?.map((post, index) => {
 						return (
 							<Post
 								key={index}
