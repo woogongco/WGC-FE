@@ -35,9 +35,9 @@ export default function PostList() {
 	const url = window.location.pathname.split('/')[2];
 	const [board, setBoard] = useRecoilState(boardMenu);
 
-	/*useEffect(() => {
-    FIXME board 상태에 따라 게시글 바뀌게 수정해야함
-    }, [board]);*/
+	// useEffect(() => {
+  //   FIXME board 상태에 따라 게시글 바뀌게 수정해야함
+  //   }, [board]);
 
 	const GetPost = useCallback(async () => {
 		await axiosGet(`/post?limit=${page}`)

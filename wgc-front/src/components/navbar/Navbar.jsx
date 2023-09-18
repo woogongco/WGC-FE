@@ -66,16 +66,15 @@ const NavHtml = styled.nav`
 
 export default function Navbar() {
 	const navigate = useNavigate();
-	const [board, setBoard] = useRecoilState(boardMenu);
 	// TODO 아이콘별 url path 수정 필요
 	return (
 		<NavHtml>
 			<ul>
 				{/*<li onClick={() => navigate(`/board/popular`)}>*/}
-				<li onClick={() => setBoard('/board/popular')}>
+				<li onClick={() => navigate('/board/popular')}>
 					<img src={navpop} alt="freeicon" />
 				</li>
-				<li onClick={() => setBoard('/board/free')}>
+				<li onClick={() => navigate('/board/free')}>
 					{/*<li onClick={() => navigate(`/board/free`)}>*/}
 					<img src={navfree} alt="popicon" />
 				</li>

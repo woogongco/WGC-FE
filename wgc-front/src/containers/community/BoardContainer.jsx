@@ -57,7 +57,7 @@ export default function BoardContainer() {
 	useEffect(() => {
 		seturl(window.location.pathname.split('/')[2]);
 		setLoading(true);
-	}, [urltype[url]]);
+	}, [urltype, url]);
 
 	return (
 		<div>

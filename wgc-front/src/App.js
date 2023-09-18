@@ -51,8 +51,13 @@ function App() {
 						<Route path="/writemodify" element={<WriteModifyPage />} />
 						{/*  커뮤니티 */}
 						<Route path="/community" element={<CommuMainPage />} />
-						<Route path="/board" element={<BoardPage />} />
-						<Route path="/board/:boardname" element={<BoardPage />} />
+
+						<Route path="/board/study" element={<BoardPage />} />
+						<Route path="/board/popular" element={<BoardPage />} />
+						<Route path="/board/free" element={<BoardPage />} />
+						<Route path="/board/project" element={<BoardPage />} />
+						<Route path="/board/itnews" element={<BoardPage />} />
+						<Route path="/board/job" element={<BoardPage />} />
 						<Route path="/write" element={<CommuWritePage />} />
 						<Route path="/UserInfo" element={<UserInfo />} />
 					</Route>
