@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { getFriendQuerStringText } from 'apis/api';
 import axios from 'axios';
 import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
+import { axiosGet } from '../../Utils/AxiosUtils';
+import { useRecoilValue } from 'recoil';
+import { myInfo } from '../../store/RecoilStates/UserInfo';
 
 const WarrperDiv = styled.div`
 	display: flex;
@@ -97,12 +100,31 @@ export default function FriendContainer() {
 	const [data, setData] = useState([]);
 	const [didmount, setDidmount] = useState(false);
 	const [passengers, setPassengers] = useState([]);
+	const [neighbors, setNeighbors] = useState(undefined);
 	const [page, setPage] = useState(0);
 	const [isLast, setIsLast] = useState(false);
+	const userInfo = useRecoilValue(myInfo);
+
+	useEffect(() => {
+		(async () => {
+			await getNeighborList(userInfo);
+		})();
+	}, []);
+
+	const getNeighborList = async userInfo => {
+		console.log('getNeighborList userInfo = ', userInfo);
+		const path = window.location.pathname.toLowerCase();
+		const id = path === '/friend' ? userInfo.id : path.split('/')[2];
+		if (!id) return;
+		const res = await axiosGet(`/neighbor/${id}`);
+		setNeighbors([...res.data]);
+	};
+
 	async function renderFirend(page) {
 		const getFriendData = await getFriendQuerStringText(page);
 		setData(getFriendData);
 	}
+
 	const getPassengers = async () => {
 		const params = { size: 10, page, limit: 5 };
 		try {
@@ -115,40 +137,48 @@ export default function FriendContainer() {
 			console.error(e);
 		}
 	};
-	useEffect(() => {
-		!isLast && getPassengers();
-	}, [page]);
-	useEffect(() => {
-		setDidmount(true);
-	}, []);
+	// useEffect(() => {
+	// !isLast && getPassengers();
+	// }, [page]);
 
-	useEffect(() => {
-		if (didmount) {
-			renderFirend();
-		}
-	}, [didmount]);
+	// useEffect(() => {
+	// 	if (didmount) {
+	// 		renderFirend();
+	// 	}
+	// }, [didmount]);
 
 	return (
-		<>
-			<SectionContiner>
-				<WarrperDiv>
-					<SectionItemTitle>
-						<p>일촌 목록</p>
-					</SectionItemTitle>
-					<SectionMainItem>
-						{passengers &&
-							passengers.map((passenger, idx) => (
+		<SectionContiner>
+			<WarrperDiv>
+				<SectionItemTitle>
+					<p>일촌 목록</p>
+				</SectionItemTitle>
+				<SectionMainItem>
+					{neighbors && (
+						<>
+							{neighbors.map((i, index) => (
 								<Item
-									key={passenger._id}
-									isLastItem={passengers.length - 1 === idx}
+									key={Math.random()}
+									isLastItem={neighbors.length - 1 === index}
 									onFetchMorePassengers={() => setPage(prev => prev + 1)}
 								>
-									{passenger.name}
+									{i.name}
 								</Item>
 							))}
-					</SectionMainItem>
-				</WarrperDiv>
-			</SectionContiner>
-		</>
+						</>
+					)}
+					{/*{passengers &&*/}
+					{/*	passengers.map((passenger, idx) => (*/}
+					{/*		<Item*/}
+					{/*			key={passenger._id}*/}
+					{/*			isLastItem={passengers.length - 1 === idx}*/}
+					{/*			onFetchMorePassengers={() => setPage(prev => prev + 1)}*/}
+					{/*		>*/}
+					{/*			{passenger.name}*/}
+					{/*		</Item>*/}
+					{/*	))}*/}
+				</SectionMainItem>
+			</WarrperDiv>
+		</SectionContiner>
 	);
 }
