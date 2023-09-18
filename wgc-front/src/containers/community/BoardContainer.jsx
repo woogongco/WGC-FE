@@ -46,27 +46,25 @@ const BoardHeader = styled.header`
 export default function BoardContainer() {
 	const [url, seturl] = useState('');
 	const [isLoading, setLoading] = useState(false);
-	const [type, setType] = useState({});
+	const urltype = {
+		free: '자유게시판',
+		itnews: 'IT뉴스',
+		job: '취업게시판',
+		project: '프로젝트',
+		study: '스터디',
+		popular: '인기글',
+	};
 	useEffect(() => {
 		seturl(window.location.pathname.split('/')[2]);
-		const urltype = {
-			free: '자유게시판',
-			itnews: 'IT뉴스',
-			job: '취업게시판',
-			project: '프로젝트',
-			study: '스터디',
-			popular: '인기글',
-		};
-		setType(urltype);
 		setLoading(true);
-	}, []);
+	}, [urltype[url]]);
 
 	return (
 		<div>
 			{isLoading ? (
 				<Wrapper>
 					<BoardHeader>
-						<h2>{type[url]}</h2>
+						<h2>{urltype[url]}</h2>
 						<Link to="/write">
 							<FaPen />
 							작성하기

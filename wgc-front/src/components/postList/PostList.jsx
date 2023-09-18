@@ -42,7 +42,7 @@ export default function PostList() {
 
 	useEffect(() => {
 		GetPost();
-	}, [inView]);
+	}, [inView, url]);
 	return (
 		<SectionDiv>
 			{isLoading === true ? (
