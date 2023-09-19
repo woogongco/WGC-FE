@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaPen, FaPlusCircle } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
 import moment from 'moment/moment';
-
+import { formDataPost } from 'Utils/AxiosUtils';
+import ReactTextareaAutosize from 'react-textarea-autosize';
 const Section = styled.div`
 	display: flex;
 `;
 const UserInterface = styled.div`
 	width: 55%;
-	padding: 5rem 0 0 3rem;
+	padding: 0.5rem 0 0 3rem;
 	border-left: 0.5px solid white;
 `;
 
@@ -115,25 +116,24 @@ export default function UserInfoContainer() {
 	const [ImgSrc, setImgSrc] = useState('');
 	const ref = useRef();
 	const userInfo = useRecoilValue(myInfo);
-	const onUploadImg = e => {
+	const onUploadImg = async e => {
+		const formData = new FormData(); // formData 생성
+		formData.append('image', e.target.files[0]); // 이미지 파일 값 할당
+		const rse = await formDataPost('/upload', formData);
 		if (!e.target.files === undefined) return;
 		const reader = new FileReader();
 		if (e.target.files[0]) {
 			reader.readAsDataURL(e.target.files[0]);
 		}
-		console.log(reader);
 		reader.onloadend = () => {
 			const previewImgUrl = reader.result;
 			setImgSrc(previewImgUrl);
 		};
 	};
-
 	const onHandleRef = () => {
 		ref.current.click();
 	};
-	useEffect(() => {
-		console.log(userInfo);
-	}, []);
+
 	return (
 		<div>
 			{userInfo && (
@@ -175,6 +175,7 @@ export default function UserInfoContainer() {
 								<UserInput type="password" placeholder="000-0000-0000" />
 							</Content>
 						</TypeContainer>
+						<ReactTextareaAutosize />
 						<Title>프로필 이미지</Title>
 						<ImgContainerDiv>
 							{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
