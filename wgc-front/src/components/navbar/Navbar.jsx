@@ -10,8 +10,6 @@ import navproject from '../../assets/nav_project.svg';
 import navstudy from '../../assets/nav_study.svg';
 import navsetting from '../../assets/nav_setting.svg';
 import { useNavigate } from 'react-router-dom';
-import { boardMenu } from '../../store/RecoilStates/BoardMenu';
-import { useRecoilState } from 'recoil';
 
 const NavHtml = styled.nav`
 	display: block;
@@ -35,6 +33,7 @@ const NavHtml = styled.nav`
 		margin: 0;
 		width: 50px;
 		background-position: left center;
+		transition: all 1s;
 		ul {
 			top: 0;
 			right: 0;
@@ -42,6 +41,7 @@ const NavHtml = styled.nav`
 			position: absolute;
 			display: flex;
 			flex-direction: column;
+
 			li {
 				margin: auto 10px;
 				img {
