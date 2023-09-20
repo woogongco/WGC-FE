@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FaPen, FaPlusCircle } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
 import moment from 'moment/moment';
-import { formDataPost } from 'Utils/AxiosUtils';
-import ReactTextareaAutosize from 'react-textarea-autosize';
+import { formDataPost, axiosPost } from 'Utils/AxiosUtils';
+import useInput from 'constants/useInput';
+import { useNavigate } from 'react-router-dom';
 const Section = styled.div`
 	display: flex;
 `;
@@ -17,7 +18,6 @@ const UserInterface = styled.div`
 
 const TitleContainer = styled.div`
 	border-bottom: 1px solid #2e2e2e;
-	width: 90%;
 	margin-bottom: 1rem;
 	display: flex;
 	justify-content: space-between;
@@ -44,7 +44,7 @@ const TypeContainer = styled.div`
 	display: grid;
 	margin-top: 40px;
 	grid-template-columns: 7rem 20rem;
-	grid-template-rows: 5rem 5rem 5rem 5rem 5rem 5rem;
+	grid-template-rows: 5rem 5rem 5rem 5rem 5rem 5rem 5rem 5rem;
 	border-bottom: 1px solid #2e2e2e;
 	width: 90%;
 `;
@@ -113,13 +113,19 @@ const InputImg = styled.input`
 `;
 
 export default function UserInfoContainer() {
-	const [ImgSrc, setImgSrc] = useState('');
-	const ref = useRef();
 	const userInfo = useRecoilValue(myInfo);
+	const [ImgSrc, setImgSrc] = useState('');
+	const [Pngsrc, setPngsrc] = useState(userInfo.profile_image || '');
+	const [GitUrl, setGitUrl] = useInput(userInfo.github || '');
+	const [Introduce, setIntroduce] = useInput(userInfo.introduction || '');
+	const ref = useRef();
+	const navigate = useNavigate();
 	const onUploadImg = async e => {
 		const formData = new FormData(); // formData 생성
-		formData.append('image', e.target.files[0]); // 이미지 파일 값 할당
+		formData.append('file', e.target.files[0]); // 이미지 파일 값 할당
 		const rse = await formDataPost('/upload', formData);
+		setPngsrc(rse.data);
+
 		if (!e.target.files === undefined) return;
 		const reader = new FileReader();
 		if (e.target.files[0]) {
@@ -133,7 +139,17 @@ export default function UserInfoContainer() {
 	const onHandleRef = () => {
 		ref.current.click();
 	};
-
+	const HandleGet = useCallback(async () => {
+		const data = {
+			profile_image: Pngsrc,
+			github: GitUrl,
+			introduction: Introduce,
+		};
+		const res = await axiosPost('/member/information', data);
+		if (res.status === 200) {
+			navigate('/MiniMain');
+		}
+	}, [Pngsrc, GitUrl, Introduce]);
 	return (
 		<div>
 			{userInfo && (
@@ -141,7 +157,7 @@ export default function UserInfoContainer() {
 					<UserInterface>
 						<TitleContainer>
 							<Title>회원수정</Title>
-							<ChangeInfo>
+							<ChangeInfo onClick={HandleGet}>
 								<FaPen />
 								작성하기
 							</ChangeInfo>
@@ -170,12 +186,29 @@ export default function UserInfoContainer() {
 									{/*{userInfo.registerDateTime}*/}
 								</LogInfo>
 							</Content>
-							<UserType>연락처</UserType>
+							<UserType>연락처</UserType> {/*API 곧 나올예정*/}
 							<Content>
-								<UserInput type="password" placeholder="000-0000-0000" />
+								<UserInput type="text" placeholder="000-0000-0000" />
+							</Content>
+							<UserType>Git hub</UserType>
+							<Content>
+								<UserInput
+									value={GitUrl}
+									onChange={setGitUrl}
+									type="text"
+									placeholder="GitHub 주소를 입력해주세요"
+								/>
+							</Content>
+							<UserType>자기소개</UserType>
+							<Content>
+								<UserInput
+									value={Introduce}
+									onChange={setIntroduce}
+									type="text"
+									placeholder="자기소개를 한줄로 표현해주세요."
+								/>
 							</Content>
 						</TypeContainer>
-						<ReactTextareaAutosize />
 						<Title>프로필 이미지</Title>
 						<ImgContainerDiv>
 							{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
