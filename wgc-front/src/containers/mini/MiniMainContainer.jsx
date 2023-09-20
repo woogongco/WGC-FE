@@ -101,7 +101,7 @@ export default function MiniContainer() {
 			setUserInfo({ ...res.data });
 			await getNeighborList({ ...res.data });
 		})();
-	}, []);
+	}, [setUserInfo]);
 
 	useEffect(() => {
 		(async () => {
