@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
 
 const SectionContiner = styled.div`
-	width: 95%;
+	width: 90%;
 	margin-left: 2rem;
 	border-left: 1px solid rgba(255, 255, 255, 0.2);
 	padding-left: 1rem;
@@ -21,7 +21,7 @@ const Wapperdiv = styled.div`
 `;
 
 const SectionText = styled.input`
-	width: 593px;
+	width: 30rem;
 	height: 27px;
 	border-radius: 5px;
 	border: none;
@@ -99,6 +99,7 @@ export default function MiniContainer() {
 		(async () => {
 			const res = await axiosGet('/member/my-info');
 			setUserInfo({ ...res.data });
+			console.log(userInfo);
 			await getNeighborList({ ...res.data });
 		})();
 	}, [setUserInfo]);
