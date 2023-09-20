@@ -8,6 +8,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import useInput from 'constants/useInput';
+import { axiosPost } from 'Utils/AxiosUtils';
 const Section = styled.div`
 	display: flex;
 `;
@@ -71,21 +72,14 @@ export default function CommuWriteContainer() {
 		return result;
 	};
 	const onSubmit = useCallback(
-		e => {
-			e.preventDefault();
-			fetch('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/post', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					title: InputText,
-					content: editorRef.current.getInstance().getMarkdown(),
-					categoryId: typelist.indexOf(CommunityType) + 1,
-				}),
-			})
-				.then(response => response.json())
-				.catch(error => alert(error));
+		async e => {
+			const data = {
+				title: InputText,
+				content: editorRef.current.getInstance().getMarkdown(),
+				categoryId: typelist.indexOf(CommunityType) + 1,
+			};
+			const res = axiosPost('/post', data);
+			console.log(res);
 		},
 		[InputText, CommunityType, typelist],
 	);

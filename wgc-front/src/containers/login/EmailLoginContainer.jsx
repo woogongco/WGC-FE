@@ -75,7 +75,6 @@ export default function EmailLoginContainer() {
 			? window.atob(window.atob(localStorage.getItem('encrypted_password')))
 			: undefined,
 	);
-	const navigator = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
 	const [isSave, setIsSave] = useState();
 	const alert = async (type, content, duration = 2) => {

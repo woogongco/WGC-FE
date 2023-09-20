@@ -7,6 +7,8 @@ import moment from 'moment/moment';
 import { formDataPost, axiosPost } from 'Utils/AxiosUtils';
 import useInput from 'constants/useInput';
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
+import { ALERT_TYPE } from 'Utils/AlertMessageUtils';
 const Section = styled.div`
 	display: flex;
 `;
@@ -120,6 +122,14 @@ export default function UserInfoContainer() {
 	const [Introduce, setIntroduce] = useInput(userInfo.introduction || '');
 	const ref = useRef();
 	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
+	const alert = async (type, content, duration = 2) => {
+		return messageApi.open({
+			type: type,
+			content: content,
+			duration: duration,
+		});
+	};
 	const onUploadImg = async e => {
 		const formData = new FormData(); // formData 생성
 		formData.append('file', e.target.files[0]); // 이미지 파일 값 할당
@@ -147,6 +157,7 @@ export default function UserInfoContainer() {
 		};
 		const res = await axiosPost('/member/information', data);
 		if (res.status === 200) {
+			await alert(ALERT_TYPE.SUCCESS, '변경되었습니다.', 1);
 			navigate('/MiniMain');
 		}
 	}, [Pngsrc, GitUrl, Introduce]);
@@ -154,6 +165,7 @@ export default function UserInfoContainer() {
 		<div>
 			{userInfo && (
 				<Section>
+					{contextHolder}
 					<UserInterface>
 						<TitleContainer>
 							<Title>회원수정</Title>
