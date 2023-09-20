@@ -39,7 +39,7 @@ function App() {
 					<Route path="/PwFindContainer" element={<PwFindPage />}>
 						비밀번호찾기 페이지
 					</Route>
-					<Route path="EmailLogin" element={<EmailLoginPage />}>
+					<Route path="/EmailLogin" element={<EmailLoginPage />}>
 						이메일 로그인 페이지
 					</Route>
 					<Route element={<Layout />}>

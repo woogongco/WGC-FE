@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useInput from 'constants/useInput';
+import { axiosPost } from 'Utils/AxiosUtils';
+import { ALERT_TYPE } from 'Utils/AlertMessageUtils';
 const Container = styled.div`
 	display: flex;
 	justify-content: center;
@@ -59,24 +61,19 @@ const LegisterForm = styled.div`
 `;
 
 export default function UserSignContainer() {
+	const navigate = useNavigate();
 	const [Name, setName] = useInput('');
 	const [Email, setEmail] = useInput('');
 	const [Password, setPassword] = useInput('');
 	const handlesubmit = async () => {
-		await fetch('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/member', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				name: Name,
-				mail: Email,
-				password: Password,
-			}),
-		})
-			.then(response => response.json())
-			.then(data => console.log(data))
-			.catch(err => console.log(err));
+		const data = { name: Name, mail: Email, password: Password };
+		const res = await axiosPost('/member', data);
+		if (res.status === 200) {
+			await alert(ALERT_TYPE.SUCCESS, '회원 가입성공!');
+			return navigate('/EmailLogin');
+		} else {
+			return alert(ALERT_TYPE.ERROR, '다시한번 확인하세요');
+		}
 	};
 	return (
 		<Container>

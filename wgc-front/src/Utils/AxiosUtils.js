@@ -6,7 +6,11 @@ const defaultHeaders = {
 		'Content-Type': 'application/json',
 	},
 };
-
+const formDataHeaders = {
+	headers: {
+		'Content-Type': 'multipart/form-data',
+	},
+};
 export const axiosHealthCheck = async () => {
 	const res = await axios.get(ENDPOINT);
 	return res.data;
@@ -51,4 +55,8 @@ export const axiosPost = async (url, body, headers = defaultHeaders) => {
 
 const validation = async (object, message = 'axios cause error !') => {
 	if (!object) throw new Error(message);
+};
+export const formDataPost = async (url, body) => {
+	const res = await axios.post(ENDPOINT + url, body, headerConfiguration(formDataHeaders));
+	return res.data;
 };

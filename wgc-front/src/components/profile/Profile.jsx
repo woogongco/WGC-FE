@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
+import { axiosPost } from 'Utils/AxiosUtils';
 
 const Base = styled.div`
 	width: 100%;
@@ -19,7 +20,8 @@ const ContainerDiv = styled.div`
 	text-align: center;
 	font-size: 20px;
 	font-weight: bold;
-	background: linear-gradient(219.11deg, #b9e6e9 30.15%, #cb8387 89.69%);
+	//background: linear-gradient(219.11deg, #b9e6e9 30.15%, #cb8387 89.69%);
+	background-size: cover;
 	border-top-left-radius: 40%;
 	border-top-right-radius: 50%;
 	border-bottom-right-radius: 50%;
@@ -185,6 +187,13 @@ const FiveColorCircle = styled.div`
 export default function Profile() {
 	const userInfo = useRecoilValue(myInfo);
 
+	const HandleColor = useCallback(async color => {
+		const res = await axiosPost('/member/information', {
+			color: color,
+		});
+		console.log(res);
+	}, []);
+
 	return (
 		<Base>
 			<Title>
@@ -196,13 +205,33 @@ export default function Profile() {
 					<h5 style={{ color: 'white' }}>{userInfo.introduction}</h5>
 				</>
 			)}
-			<ContainerDiv>
+			<ContainerDiv style={{ backgroundImage: `url(${userInfo.profileImage})` }}>
 				{!userInfo && <div>로그인해주세요</div>}
-				<FristColorCircle />
-				<SecoundColorCircle />
-				<ThreeColorCircle />
-				<FourColorCircle />
-				<FiveColorCircle />
+				<FristColorCircle
+					onClick={e => {
+						HandleColor('#b3cad3');
+					}}
+				/>
+				<SecoundColorCircle
+					onClick={e => {
+						HandleColor('#ffb548');
+					}}
+				/>
+				<ThreeColorCircle
+					onClick={e => {
+						HandleColor('#5a0cff');
+					}}
+				/>
+				<FourColorCircle
+					onClick={e => {
+						HandleColor('#ffb548');
+					}}
+				/>
+				<FiveColorCircle
+					onClick={e => {
+						HandleColor('#ff2a38');
+					}}
+				/>
 			</ContainerDiv>
 			<StackTextContainer>
 				<StackTextItem>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
+import Modal from 'components/Modal/Modal';
 
 const HeaderLayOut = styled.div`
 	background-color: #2e2e2e;
@@ -103,6 +104,7 @@ const NavbarLink = styled(Link)`
 
 export default function Header() {
 	const navigate = useNavigate();
+	const [onModal, clsoeModal] = useState(false);
 	const [checked, setchecked] = useState(false);
 	const HandleChecked = useCallback(() => {
 		setchecked(e => !e);
@@ -110,6 +112,9 @@ export default function Header() {
 	const HandleLogoPage = () => {
 		localStorage.getItem('token') ? navigate('/Minimain') : navigate('/');
 	};
+	const HandleModal = useCallback(() => {
+		clsoeModal(prev => !prev);
+	}, []);
 	return (
 		<div>
 			<HeaderLayOut>
@@ -125,11 +130,10 @@ export default function Header() {
 				<ButtonBar>
 					{localStorage.getItem('token') ? (
 						<>
-							<Buttonli>
-								<NavbarLink to="/" style={{ Textdecoration: 'none' }}>
-									<FaBell />
-								</NavbarLink>
+							<Buttonli onClick={HandleModal}>
+								<FaBell />
 							</Buttonli>
+							{onModal ? <Modal /> : ''}
 							<Buttonli>
 								<NavbarLink to="/">
 									<FaBookmark />
