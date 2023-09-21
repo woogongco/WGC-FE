@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
 import { axiosPost } from 'Utils/AxiosUtils';
 
@@ -205,7 +205,7 @@ export default function Profile() {
 					<h5 style={{ color: 'white' }}>{userInfo.introduction}</h5>
 				</>
 			)}
-			<ContainerDiv style={{ backgroundImage: `url(${userInfo.profileImage})` }}>
+			<ContainerDiv style={{ backgroundImage: `url(${userInfo.profileImage || ''})` }}>
 				{!userInfo && <div>로그인해주세요</div>}
 				<FristColorCircle
 					onClick={e => {

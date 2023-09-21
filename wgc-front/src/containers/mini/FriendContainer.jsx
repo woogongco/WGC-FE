@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { getFriendQuerStringText } from 'apis/api';
-import axios from 'axios';
 import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
 import { axiosGet } from '../../Utils/AxiosUtils';
 import { useRecoilValue } from 'recoil';
@@ -66,6 +64,7 @@ const SectionButton = styled.button`
 	height: 5vh;
 	border-radius: 0.5em;
 	border: none;
+	margin-left: 10px;
 `;
 
 const SectionButtonDiv = styled.div`
@@ -90,7 +89,8 @@ const Item = ({ children, isLastItem, onFetchMorePassengers }) => {
 			<SectionMainImg />
 			<div style={{ margin: 'auto' }}>{children}</div>
 			<SectionButtonDiv>
-				<SectionButton>일촌 끊기</SectionButton>
+				<SectionButton>수락</SectionButton>
+				<SectionButton>제거</SectionButton>
 			</SectionButtonDiv>
 		</SectionMainTextContainer>
 	);
@@ -112,40 +112,13 @@ export default function FriendContainer() {
 	}, []);
 
 	const getNeighborList = async userInfo => {
-		console.log('getNeighborList userInfo = ', userInfo);
 		const path = window.location.pathname.toLowerCase();
 		const id = path === '/friend' ? userInfo.id : path.split('/')[2];
 		if (!id) return;
 		const res = await axiosGet(`/neighbor/${id}`);
+		console.log(res.data);
 		setNeighbors([...res.data]);
 	};
-
-	async function renderFirend(page) {
-		const getFriendData = await getFriendQuerStringText(page);
-		setData(getFriendData);
-	}
-
-	const getPassengers = async () => {
-		const params = { size: 10, page, limit: 5 };
-		try {
-			const res = await axios.get('https://api.instantwebtools.net/v1/passenger', { params });
-			const passengers = res.data.data;
-			const isLast = res.data.totalPages === page;
-			setPassengers(prev => [...prev, ...passengers]);
-			setIsLast(isLast);
-		} catch (e) {
-			console.error(e);
-		}
-	};
-	// useEffect(() => {
-	// !isLast && getPassengers();
-	// }, [page]);
-
-	// useEffect(() => {
-	// 	if (didmount) {
-	// 		renderFirend();
-	// 	}
-	// }, [didmount]);
 
 	return (
 		<SectionContiner>
@@ -154,29 +127,41 @@ export default function FriendContainer() {
 					<p>일촌 목록</p>
 				</SectionItemTitle>
 				<SectionMainItem>
+					일촌 목록
 					{neighbors && (
 						<>
-							{neighbors.map((i, index) => (
-								<Item
-									key={Math.random()}
-									isLastItem={neighbors.length - 1 === index}
-									onFetchMorePassengers={() => setPage(prev => prev + 1)}
-								>
-									{i.name}
-								</Item>
-							))}
+							{neighbors
+								.filter(i => i.accepted === 'Y')
+								.map((i, index) => (
+									<Item
+										key={Math.random()}
+										isLastItem={neighbors.length - 1 === index}
+										onFetchMorePassengers={() => setPage(prev => prev + 1)}
+									>
+										{i.name}
+									</Item>
+								))}
 						</>
 					)}
-					{/*{passengers &&*/}
-					{/*	passengers.map((passenger, idx) => (*/}
-					{/*		<Item*/}
-					{/*			key={passenger._id}*/}
-					{/*			isLastItem={passengers.length - 1 === idx}*/}
-					{/*			onFetchMorePassengers={() => setPage(prev => prev + 1)}*/}
-					{/*		>*/}
-					{/*			{passenger.name}*/}
-					{/*		</Item>*/}
-					{/*	))}*/}
+					<div
+						style={{ border: '1px solid red', width: '100%', height: '3px', marginTop: '15px' }}
+					/>
+					<span style={{ marginTop: '15px' }}>일촌 신청 목록</span>
+					{neighbors && (
+						<>
+							{neighbors
+								.filter(i => i.accepted !== 'Y')
+								.map((i, index) => (
+									<Item
+										key={Math.random()}
+										isLastItem={neighbors.length - 1 === index}
+										onFetchMorePassengers={() => setPage(prev => prev + 1)}
+									>
+										{i.name}
+									</Item>
+								))}
+						</>
+					)}
 				</SectionMainItem>
 			</WarrperDiv>
 		</SectionContiner>
