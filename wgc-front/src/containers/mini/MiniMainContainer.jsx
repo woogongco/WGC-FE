@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { axiosGet } from '../../Utils/AxiosUtils';
 import { useRecoilState } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
+import { useNavigate } from 'react-router-dom';
 
 const SectionContiner = styled.div`
 	width: 90%;
@@ -91,6 +92,7 @@ const list = Array.from({ length: 3 });
 const arr = Array.from({ length: 6 });
 
 export default function MiniContainer() {
+	const navigate = useNavigate();
 	const [userInfo, setUserInfo] = useRecoilState(myInfo);
 	const [neighbors, setNeighbor] = useState(undefined);
 	const [userPosts, setUserPosts] = useState();
@@ -163,7 +165,9 @@ export default function MiniContainer() {
 				<SectionBottomItem>
 					<SectionBottomItemTitle>
 						<h3>일촌</h3>
-						<p>더보기</p>
+						<p style={{ cursor: 'pointer' }} onClick={() => navigate('/Friend')}>
+							더보기
+						</p>
 					</SectionBottomItemTitle>
 					<ImageContainerdiv>
 						{neighbors && (

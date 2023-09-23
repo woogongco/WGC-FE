@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
 import { axiosGet } from '../../Utils/AxiosUtils';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
+import { Button } from 'antd';
 
 const WarrperDiv = styled.div`
 	display: flex;
@@ -43,7 +43,7 @@ const SectionMainImg = styled.div`
 	width: 8%;
 	background-color: aliceblue;
 	border-radius: 360%;
-	height: 80%;
+	height: 90%;
 	margin-right: 3%;
 `;
 
@@ -60,41 +60,43 @@ const SectionMainTextContainer = styled.div`
 const SectionButton = styled.button`
 	color: white;
 	background-color: #2e2e2e;
-	width: 5vw;
+	width: 7vw;
 	height: 5vh;
 	border-radius: 0.5em;
 	border: none;
 	margin-left: 10px;
+	float: right;
 `;
 
 const SectionButtonDiv = styled.div`
 	margin-left: auto;
 `;
 
-const Item = ({ children, isLastItem, onFetchMorePassengers }) => {
-	const ref = useRef(null); // 감시할 엘리먼트
-	const entry = useIntersectionObserver(ref, {});
-	const isIntersecting = !!entry?.isIntersecting; // 겹치는 영역이 존재하는 지 여부
-	useEffect(() => {
-		isLastItem && isIntersecting && onFetchMorePassengers(); // 목록의 마지막에 도달했을 때, 리스트를 더 불러오도록 요청한다.
-	}, [isLastItem, isIntersecting]);
-
-	return (
-		<SectionMainTextContainer
-			ref={ref}
-			style={{
-				minHeight: '10vh',
-			}}
-		>
-			<SectionMainImg />
-			<div style={{ margin: 'auto' }}>{children}</div>
-			<SectionButtonDiv>
-				<SectionButton>수락</SectionButton>
-				<SectionButton>제거</SectionButton>
-			</SectionButtonDiv>
-		</SectionMainTextContainer>
-	);
-};
+// const Item = ({ children, isLastItem, onFetchMorePassengers }) => {
+// 	const [action, setAction] = useState(false);
+// 	const ref = useRef(null); // 감시할 엘리먼트
+// 	const entry = useIntersectionObserver(ref, {});
+// 	const isIntersecting = !!entry?.isIntersecting; // 겹치는 영역이 존재하는 지 여부
+// 	useEffect(() => {
+// 		isLastItem && isIntersecting && onFetchMorePassengers(); // 목록의 마지막에 도달했을 때, 리스트를 더 불러오도록 요청한다.
+// 	}, [isLastItem, isIntersecting]);
+//
+// 	return (
+// 		<SectionMainTextContainer
+// 			ref={ref}
+// 			style={{
+// 				minHeight: '10vh',
+// 			}}
+// 		>
+// 			<SectionMainImg />
+// 			<div style={{ margin: 'auto' }}>{children}</div>
+// 			<SectionButtonDiv>
+// 				<SectionButton>수락</SectionButton>
+// 				<SectionButton>제거</SectionButton>
+// 			</SectionButtonDiv>
+// 		</SectionMainTextContainer>
+// 	);
+// };
 
 export default function FriendContainer() {
 	const [data, setData] = useState([]);
@@ -119,6 +121,23 @@ export default function FriendContainer() {
 		console.log(res.data);
 		setNeighbors([...res.data]);
 	};
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const ref = useRef(null); // 감시할 엘리먼트
+	const buttonStyle = {
+		color: 'white',
+		backgroundColor: '#2e2e2e',
+		width: '7vw',
+		height: '5vh',
+		borderRadius: '0.5em',
+		border: 'none',
+		marginLeft: '10px',
+		float: 'right',
+	};
+
+	const changeStatus = async (action, neighbor) => {
+		console.log(action);
+		console.log(neighbor);
+	};
 
 	return (
 		<SectionContiner>
@@ -133,13 +152,26 @@ export default function FriendContainer() {
 							{neighbors
 								.filter(i => i.accepted === 'Y')
 								.map((i, index) => (
-									<Item
-										key={Math.random()}
-										isLastItem={neighbors.length - 1 === index}
-										onFetchMorePassengers={() => setPage(prev => prev + 1)}
+									<SectionMainTextContainer
+										ref={ref}
+										style={{
+											minHeight: '10vh',
+										}}
 									>
-										{i.name}
-									</Item>
+										<SectionMainImg />
+										<span>{i.name}</span>
+										<div style={{ margin: 'auto' }}>
+											<Button type="default" style={buttonStyle}>
+												제거
+											</Button>
+											<Button
+												type="primary"
+												style={{ ...buttonStyle, backgroundColor: 'rgb(56,117,246)' }}
+											>
+												수락
+											</Button>
+										</div>
+									</SectionMainTextContainer>
 								))}
 						</>
 					)}
@@ -152,13 +184,26 @@ export default function FriendContainer() {
 							{neighbors
 								.filter(i => i.accepted !== 'Y')
 								.map((i, index) => (
-									<Item
-										key={Math.random()}
-										isLastItem={neighbors.length - 1 === index}
-										onFetchMorePassengers={() => setPage(prev => prev + 1)}
+									<SectionMainTextContainer
+										ref={ref}
+										style={{
+											minHeight: '10vh',
+										}}
 									>
-										{i.name}
-									</Item>
+										<SectionMainImg />
+										<span>{i.name}</span>
+										<div style={{ margin: 'auto' }}>
+											<Button type="default" style={buttonStyle}>
+												제거
+											</Button>
+											<Button
+												type="primary"
+												style={{ ...buttonStyle, backgroundColor: 'rgb(56,117,246)' }}
+											>
+												수락
+											</Button>
+										</div>
+									</SectionMainTextContainer>
 								))}
 						</>
 					)}
