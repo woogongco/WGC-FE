@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useGetPostsQuery } from '../../api';
 import styled from 'styled-components';
 import { FaRegThumbsUp } from 'react-icons/fa';
 import { FaRegCommentDots } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const BoardWrapper = styled.section`
 	display: flex;
@@ -81,8 +82,13 @@ const CommentCount = styled.span`
 
 export default function BoardPreview() {
 	const { data, isLoading, isError } = useGetPostsQuery();
-
-	console.log(data);
+	const navigate = useNavigate();
+	const HandleNavigate = useCallback(
+		e => {
+			navigate(`/board/${e}`);
+		},
+		[navigate],
+	);
 	if (isLoading) {
 		return <div>불러오는 중...</div>;
 	}
@@ -101,7 +107,7 @@ export default function BoardPreview() {
 				{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
 				<BoardContents>
 					{data.data.free.map(post => (
-						<ContentsItem key={post.id}>
+						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
 							<ContentsTitle>{post.title}</ContentsTitle>
 							<ContentsDetails>
 								<LikeCount>
@@ -127,7 +133,7 @@ export default function BoardPreview() {
 				</BoardTitle>
 				<BoardContents>
 					{data.data.job.map(post => (
-						<ContentsItem key={post.id}>
+						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
 							<ContentsTitle>{post.title}</ContentsTitle>
 							<ContentsDetails>
 								<LikeCount>
@@ -152,7 +158,7 @@ export default function BoardPreview() {
 				</BoardTitle>
 				<BoardContents>
 					{data.data.itnews.map(post => (
-						<ContentsItem key={post.id}>
+						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
 							<ContentsTitle>{post.title}</ContentsTitle>
 							<ContentsDetails>
 								<LikeCount>
@@ -178,7 +184,7 @@ export default function BoardPreview() {
 				</BoardTitle>
 				<BoardContents>
 					{data.data.study.map(post => (
-						<ContentsItem key={post.id}>
+						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
 							<ContentsTitle>{post.title}</ContentsTitle>
 							<ContentsDetails>
 								<LikeCount>
