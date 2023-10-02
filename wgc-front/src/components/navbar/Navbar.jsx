@@ -10,13 +10,14 @@ import navproject from '../../assets/nav_project.svg';
 import navstudy from '../../assets/nav_study.svg';
 import navsetting from '../../assets/nav_setting.svg';
 import { useNavigate } from 'react-router-dom';
-
+import { useRecoilValue } from 'recoil';
+import { myInfo } from 'store/RecoilStates/UserInfo';
 const NavHtml = styled.nav`
 	display: block;
 	width: 50px;
 	height: 394px;
 	position: absolute;
-	right: 170px;
+	right: 210px;
 	top: 110px;
 	background-image: url(${Subtract});
 	background-repeat: no-repeat;
@@ -66,6 +67,7 @@ const NavHtml = styled.nav`
 
 export default function Navbar() {
 	const navigate = useNavigate();
+	const userInfo = useRecoilValue(myInfo);
 	// TODO 아이콘별 url path 수정 필요
 	return (
 		<NavHtml>
