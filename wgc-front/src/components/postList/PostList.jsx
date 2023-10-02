@@ -5,6 +5,7 @@ import { axiosGet } from '../../Utils/AxiosUtils';
 import { useInView } from 'react-intersection-observer';
 import { useRecoilState } from 'recoil';
 import { boardMenu } from '../../store/RecoilStates/BoardMenu';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.section`
 	display: grid;
@@ -33,21 +34,26 @@ export default function PostList() {
 	const [Data, setdata] = useState([]);
 	const [isLoading, setLoading] = useState(false);
 	const url = window.location.pathname.split('/')[2];
-	const [board, setBoard] = useRecoilState(boardMenu);
+	const navigate = useNavigate();
 
 	// useEffect(() => {
 	//   FIXME board 상태에 따라 게시글 바뀌게 수정해야함
 	//   }, [board]);
+	const HandleNavigate = useCallback(
+		async e => {
+			navigate(`/board/${e}`);
+		},
+		[navigate],
+	);
 
 	const GetPost = useCallback(async () => {
-		await axiosGet(`/post?limit=${page}`)
-			.then(res => {
-				setdata(res);
-				setpage(page => page + 3);
-				setLoading(true);
-			})
-			.catch(err => console.log(err));
-	}, [Data]);
+		await axiosGet(`/post?limit=${page}`).then(res => {
+			console.log(res);
+			setdata(res);
+			setpage(page => page + 3);
+			setLoading(true);
+		});
+	}, [page]);
 
 	useEffect(() => {
 		GetPost();
@@ -60,6 +66,7 @@ export default function PostList() {
 						return (
 							<Post
 								key={index}
+								id={post.id}
 								title={post.title}
 								content={post.content}
 								like={post.like}
