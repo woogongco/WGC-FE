@@ -200,7 +200,7 @@ export default function UserInfoContainer() {
 							</Content>
 							<UserType>연락처</UserType> {/*API 곧 나올예정*/}
 							<Content>
-								<UserInput type="text" placeholder="000-0000-0000" />
+								<UserInput type="text" placeholder="'-' 빼고 입력해주세요" />
 							</Content>
 							<UserType>Git hub</UserType>
 							<Content>

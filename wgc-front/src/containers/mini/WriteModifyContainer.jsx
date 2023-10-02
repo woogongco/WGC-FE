@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BsBookmark } from 'react-icons/bs';
 import { FaThumbsUp } from 'react-icons/fa';
-import axios from 'axios';
+import { axiosGet } from 'Utils/AxiosUtils';
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -177,23 +177,21 @@ const CommentMent = styled.div`
 	cursor: pointer;
 	font-size: 11px;
 `;
-export default function WriteModifyContainer() {
+export default function WriteModifyContainer({ id }) {
 	const [Loading, setLoading] = useState(false);
 	const [PostList, setPostList] = useState([]);
 	const [PostUser, setPostUser] = useState([]);
+	const local = window.location.pathname.split('/')[2];
 	useEffect(() => {
 		const getPosts = async () => {
-			axios
-				.get('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/post/1')
-				.then(response => {
-					setPostList(response.data['data']);
-					setPostUser(response.data['data']['writer']);
-					setLoading(true);
-				});
+			const res = await axiosGet(`/post/${local}`);
+			setPostList(res['data']);
+			setPostUser(res['data']['writer']);
+			setLoading(true);
 		};
 
 		getPosts();
-	}, []);
+	}, [id]);
 
 	useEffect(
 		e => {
