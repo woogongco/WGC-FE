@@ -133,7 +133,7 @@ export default function UserInfoContainer() {
 	const [Pngsrc, setPngsrc] = useState(userInfo.profile_image || '');
 	const [GitUrl, setGitUrl] = useInput(userInfo.github || '');
 	const [Introduce, setIntroduce] = useInput(userInfo.introduction || '');
-	const [Stack, setStack] = useState([]);
+	const [Stack, setStack] = useState([userInfo.skil]);
 	const [LangageData, setLangageData] = useState('');
 	const langage = [
 		'HTML/CSS',
