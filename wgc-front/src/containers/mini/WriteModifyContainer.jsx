@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
+import useInput from 'constants/useInput';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BsBookmark } from 'react-icons/bs';
 import { FaThumbsUp } from 'react-icons/fa';
-import axios from 'axios';
+import { axiosGet, axiosPost, axiosDelete } from 'Utils/AxiosUtils';
+import { useRecoilValue } from 'recoil';
+import { myInfo } from 'store/RecoilStates/UserInfo';
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -164,6 +167,8 @@ const CommentProfile = styled.div`
 	border-top-left-radius: 40%;
 	border-top-right-radius: 50%;
 	border-bottom-right-radius: 50%;
+	box-sizing: border-box;
+	background-size: cover;
 	left: 30px;
 `;
 const Commentdetail = styled.div`
@@ -177,30 +182,41 @@ const CommentMent = styled.div`
 	cursor: pointer;
 	font-size: 11px;
 `;
-export default function WriteModifyContainer() {
+export default function WriteModifyContainer({ id }) {
 	const [Loading, setLoading] = useState(false);
 	const [PostList, setPostList] = useState([]);
 	const [PostUser, setPostUser] = useState([]);
-	useEffect(() => {
-		const getPosts = async () => {
-			axios
-				.get('http://ec2-54-180-120-146.ap-northeast-2.compute.amazonaws.com/post/1')
-				.then(response => {
-					setPostList(response.data['data']);
-					setPostUser(response.data['data']['writer']);
-					setLoading(true);
-				});
-		};
+	const [TextComment, setTextComment] = useInput('');
+	const [CommentLists, setCommentLists] = useState([]);
+	const [CommentLoading, setCommentLoading] = useState(false);
+	const userInfo = useRecoilValue(myInfo);
+	const local = window.location.pathname.split('/')[2];
+	const onKeyPress = useCallback(e => {
+		if (e.key === 'Enter') {
+			onComment();
+		}
+	}, []);
+	const onComment = useCallback(async () => {
+		await axiosPost(`/comments/${local}`, { content: TextComment });
+		setTextComment('');
+	}, [TextComment, setTextComment, local]);
+	const CommentList = useCallback(async () => {
+		const res = await axiosGet(`/comments/${local}`);
+		setCommentLists(res.data.comments);
+		setCommentLoading(true);
+	}, [local]);
 
+	const getPosts = async () => {
+		const res = await axiosGet(`/post/${local}`);
+		setPostList(res['data']);
+		setPostUser(res['data']['writer']);
+		setLoading(true);
+	};
+	useEffect(() => {
+		CommentList();
 		getPosts();
 	}, []);
 
-	useEffect(
-		e => {
-			// PostList['registerDate'] = PostList['registerDate'];
-		},
-		[PostList],
-	);
 	return (
 		<Container>
 			{Loading ? (
@@ -246,13 +262,29 @@ export default function WriteModifyContainer() {
 					<CommentLayout>
 						<p>댓글</p>
 						<CommentContainer>
-							<CommentProfile />
-							<CommentDiv>
-								<CommentName>이름</CommentName>
-								<CommentInput placeholder="여기에 작성해주세요" />
-							</CommentDiv>
+							{userInfo ? (
+								<>
+									<CommentProfile style={{ backgroundImage: `url(${userInfo.profileImage})` }} />
+									<CommentDiv>
+										<CommentName>{userInfo.name}</CommentName>
+										<CommentInput
+											type="text"
+											placeholder="여기에 작성해주세요"
+											value={TextComment}
+											onChange={setTextComment}
+											onKeyPress={onKeyPress}
+										/>
+									</CommentDiv>
+								</>
+							) : (
+								<div>로그인 해주세요</div>
+							)}
 						</CommentContainer>
-						<Comment />
+						{CommentLoading
+							? CommentLists.map((e, index) => {
+									return <Comment key={index} props={e} />;
+							  })
+							: ''}
 					</CommentLayout>
 				</>
 			) : (
@@ -262,24 +294,29 @@ export default function WriteModifyContainer() {
 	);
 }
 
-export function Comment() {
+export function Comment({ props }) {
+	const CommentDel = useCallback(async e => {
+		await axiosDelete(`/comments/${e}`);
+		console.log('삭제');
+	}, []);
+
 	return (
 		<div>
 			<CommentContainer>
-				<CommentProfile />
+				<CommentProfile style={{ backgroundImage: `url(${props.writer.profileImage})` }} />
 				<CommentDiv>
 					<CommentName>
-						<div>작성자 이름</div>
-						<div> 시간</div>
+						<div>{props.writer.name}</div>
+						<div>{props.registerDate}</div>
 					</CommentName>
 					<CommentContent>
-						<Commentdetail>내용</Commentdetail>
+						<Commentdetail>{props.content}</Commentdetail>
 						<CommentContent>
 							<CommentMent>
 								<FaThumbsUp />
 							</CommentMent>
 							<CommentMent>수정</CommentMent>
-							<CommentMent>삭제</CommentMent>
+							<CommentMent onClick={e => CommentDel(props.commentId)}>삭제</CommentMent>
 							<CommentMent>댓글</CommentMent>
 						</CommentContent>
 					</CommentContent>

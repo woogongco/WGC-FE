@@ -60,3 +60,7 @@ export const formDataPost = async (url, body) => {
 	const res = await axios.post(ENDPOINT + url, body, headerConfiguration(formDataHeaders));
 	return res.data;
 };
+export const axiosDelete = async (url, body, headers = defaultHeaders) => {
+	const res = await axios.delete(ENDPOINT + url, body, headerConfiguration(headers));
+	return res;
+};

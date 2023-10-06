@@ -48,7 +48,7 @@ function App() {
 						<Route path="/Minimain" element={<MiniMainPage />} />
 						<Route path="/Guest" element={<GuestPage />} />
 						<Route path="/MyPost" element={<MyPostPage />} />
-						<Route path="/writemodify" element={<WriteModifyPage />} />
+						<Route path="/board/:id" element={<WriteModifyPage />} />
 						{/*  커뮤니티 */}
 						<Route path="/community" element={<CommuMainPage />} />
 

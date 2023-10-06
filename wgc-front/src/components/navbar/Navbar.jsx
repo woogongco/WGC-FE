@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import Subtract from '../../assets/Subtract.png';
-import SubtractOpen from '../../assets/Subtract_open.png';
-import navfree from '../../assets/nav_free.svg';
-import navjob from '../../assets/nav_job.svg';
-import navnews from '../../assets/nav_news.svg';
-import navpop from '../../assets/nav_pop.svg';
-import navproject from '../../assets/nav_project.svg';
-import navstudy from '../../assets/nav_study.svg';
-import navsetting from '../../assets/nav_setting.svg';
-import { useNavigate } from 'react-router-dom';
+import Subtract from 'assets/Subtract.png';
+import SubtractOpen from 'assets/Subtract_open.png';
 
+import navfree from 'assets/nav_free.svg';
+import navjob from 'assets/nav_job.svg';
+import navnews from 'assets/nav_news.svg';
+import navpop from 'assets/nav_pop.svg';
+import navproject from 'assets/nav_project.svg';
+import navstudy from 'assets/nav_study.svg';
+import navsetting from 'assets/nav_setting.svg';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { myInfo } from 'store/RecoilStates/UserInfo';
 const NavHtml = styled.nav`
 	display: block;
 	width: 50px;
 	height: 394px;
 	position: absolute;
-	right: 170px;
+	right: 210px;
 	top: 110px;
 	background-image: url(${Subtract});
 	background-repeat: no-repeat;
@@ -66,7 +68,7 @@ const NavHtml = styled.nav`
 
 export default function Navbar() {
 	const navigate = useNavigate();
-	// TODO 아이콘별 url path 수정 필요
+	const userInfo = useRecoilValue(myInfo);
 	return (
 		<NavHtml>
 			<ul>

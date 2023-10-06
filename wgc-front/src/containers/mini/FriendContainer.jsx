@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { getFriendQuerStringText } from 'apis/api';
-import axios from 'axios';
-import useIntersectionObserver from 'constants/InifiniScrolll/useIntersectionObserver';
 import { axiosGet } from '../../Utils/AxiosUtils';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
+import { Button } from 'antd';
 
 const WarrperDiv = styled.div`
 	display: flex;
@@ -45,7 +43,7 @@ const SectionMainImg = styled.div`
 	width: 8%;
 	background-color: aliceblue;
 	border-radius: 360%;
-	height: 80%;
+	height: 90%;
 	margin-right: 3%;
 `;
 
@@ -62,39 +60,43 @@ const SectionMainTextContainer = styled.div`
 const SectionButton = styled.button`
 	color: white;
 	background-color: #2e2e2e;
-	width: 5vw;
+	width: 7vw;
 	height: 5vh;
 	border-radius: 0.5em;
 	border: none;
+	margin-left: 10px;
+	float: right;
 `;
 
 const SectionButtonDiv = styled.div`
 	margin-left: auto;
 `;
 
-const Item = ({ children, isLastItem, onFetchMorePassengers }) => {
-	const ref = useRef(null); // 감시할 엘리먼트
-	const entry = useIntersectionObserver(ref, {});
-	const isIntersecting = !!entry?.isIntersecting; // 겹치는 영역이 존재하는 지 여부
-	useEffect(() => {
-		isLastItem && isIntersecting && onFetchMorePassengers(); // 목록의 마지막에 도달했을 때, 리스트를 더 불러오도록 요청한다.
-	}, [isLastItem, isIntersecting]);
-
-	return (
-		<SectionMainTextContainer
-			ref={ref}
-			style={{
-				minHeight: '10vh',
-			}}
-		>
-			<SectionMainImg />
-			<div style={{ margin: 'auto' }}>{children}</div>
-			<SectionButtonDiv>
-				<SectionButton>일촌 끊기</SectionButton>
-			</SectionButtonDiv>
-		</SectionMainTextContainer>
-	);
-};
+// const Item = ({ children, isLastItem, onFetchMorePassengers }) => {
+// 	const [action, setAction] = useState(false);
+// 	const ref = useRef(null); // 감시할 엘리먼트
+// 	const entry = useIntersectionObserver(ref, {});
+// 	const isIntersecting = !!entry?.isIntersecting; // 겹치는 영역이 존재하는 지 여부
+// 	useEffect(() => {
+// 		isLastItem && isIntersecting && onFetchMorePassengers(); // 목록의 마지막에 도달했을 때, 리스트를 더 불러오도록 요청한다.
+// 	}, [isLastItem, isIntersecting]);
+//
+// 	return (
+// 		<SectionMainTextContainer
+// 			ref={ref}
+// 			style={{
+// 				minHeight: '10vh',
+// 			}}
+// 		>
+// 			<SectionMainImg />
+// 			<div style={{ margin: 'auto' }}>{children}</div>
+// 			<SectionButtonDiv>
+// 				<SectionButton>수락</SectionButton>
+// 				<SectionButton>제거</SectionButton>
+// 			</SectionButtonDiv>
+// 		</SectionMainTextContainer>
+// 	);
+// };
 
 export default function FriendContainer() {
 	const [data, setData] = useState([]);
@@ -112,40 +114,30 @@ export default function FriendContainer() {
 	}, []);
 
 	const getNeighborList = async userInfo => {
-		console.log('getNeighborList userInfo = ', userInfo);
 		const path = window.location.pathname.toLowerCase();
 		const id = path === '/friend' ? userInfo.id : path.split('/')[2];
 		if (!id) return;
 		const res = await axiosGet(`/neighbor/${id}`);
+		console.log(res.data);
 		setNeighbors([...res.data]);
 	};
-
-	async function renderFirend(page) {
-		const getFriendData = await getFriendQuerStringText(page);
-		setData(getFriendData);
-	}
-
-	const getPassengers = async () => {
-		const params = { size: 10, page, limit: 5 };
-		try {
-			const res = await axios.get('https://api.instantwebtools.net/v1/passenger', { params });
-			const passengers = res.data.data;
-			const isLast = res.data.totalPages === page;
-			setPassengers(prev => [...prev, ...passengers]);
-			setIsLast(isLast);
-		} catch (e) {
-			console.error(e);
-		}
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const ref = useRef(null); // 감시할 엘리먼트
+	const buttonStyle = {
+		color: 'white',
+		backgroundColor: '#2e2e2e',
+		width: '7vw',
+		height: '5vh',
+		borderRadius: '0.5em',
+		border: 'none',
+		marginLeft: '10px',
+		float: 'right',
 	};
-	// useEffect(() => {
-	// !isLast && getPassengers();
-	// }, [page]);
 
-	// useEffect(() => {
-	// 	if (didmount) {
-	// 		renderFirend();
-	// 	}
-	// }, [didmount]);
+	const changeStatus = async (action, neighbor) => {
+		console.log(action);
+		console.log(neighbor);
+	};
 
 	return (
 		<SectionContiner>
@@ -154,29 +146,67 @@ export default function FriendContainer() {
 					<p>일촌 목록</p>
 				</SectionItemTitle>
 				<SectionMainItem>
+					일촌 목록
 					{neighbors && (
 						<>
-							{neighbors.map((i, index) => (
-								<Item
-									key={Math.random()}
-									isLastItem={neighbors.length - 1 === index}
-									onFetchMorePassengers={() => setPage(prev => prev + 1)}
-								>
-									{i.name}
-								</Item>
-							))}
+							{neighbors
+								.filter(i => i.accepted === 'Y')
+								.map((i, index) => (
+									<SectionMainTextContainer
+										ref={ref}
+										style={{
+											minHeight: '10vh',
+										}}
+									>
+										<SectionMainImg />
+										<span>{i.name}</span>
+										<div style={{ margin: 'auto' }}>
+											<Button type="default" style={buttonStyle}>
+												제거
+											</Button>
+											<Button
+												type="primary"
+												style={{ ...buttonStyle, backgroundColor: 'rgb(56,117,246)' }}
+											>
+												수락
+											</Button>
+										</div>
+									</SectionMainTextContainer>
+								))}
 						</>
 					)}
-					{/*{passengers &&*/}
-					{/*	passengers.map((passenger, idx) => (*/}
-					{/*		<Item*/}
-					{/*			key={passenger._id}*/}
-					{/*			isLastItem={passengers.length - 1 === idx}*/}
-					{/*			onFetchMorePassengers={() => setPage(prev => prev + 1)}*/}
-					{/*		>*/}
-					{/*			{passenger.name}*/}
-					{/*		</Item>*/}
-					{/*	))}*/}
+					<div
+						style={{ border: '1px solid red', width: '100%', height: '3px', marginTop: '15px' }}
+					/>
+					<span style={{ marginTop: '15px' }}>일촌 신청 목록</span>
+					{neighbors && (
+						<>
+							{neighbors
+								.filter(i => i.accepted !== 'Y')
+								.map((i, index) => (
+									<SectionMainTextContainer
+										ref={ref}
+										style={{
+											minHeight: '10vh',
+										}}
+									>
+										<SectionMainImg />
+										<span>{i.name}</span>
+										<div style={{ margin: 'auto' }}>
+											<Button type="default" style={buttonStyle}>
+												제거
+											</Button>
+											<Button
+												type="primary"
+												style={{ ...buttonStyle, backgroundColor: 'rgb(56,117,246)' }}
+											>
+												수락
+											</Button>
+										</div>
+									</SectionMainTextContainer>
+								))}
+						</>
+					)}
 				</SectionMainItem>
 			</WarrperDiv>
 		</SectionContiner>

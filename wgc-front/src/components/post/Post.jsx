@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { FaRegThumbsUp } from 'react-icons/fa';
 import { FaRegCommentDots } from 'react-icons/fa';
-
+import { useNavigate } from 'react-router-dom';
 const Wrapper = styled.section`
 	position: relative;
 	border: 1px solid #767676;
@@ -94,9 +94,16 @@ const CommentCount = styled.span`
 	}
 `;
 
-export default function Post({ title, content, like, view }) {
+export default function Post({ id, title, content, like, view }) {
+	const navigate = useNavigate();
+	const HandleNavigate = useCallback(
+		async e => {
+			navigate(`/board/${id}`);
+		},
+		[navigate],
+	);
 	return (
-		<Wrapper>
+		<Wrapper onClick={HandleNavigate}>
 			<NewBadge>NEW</NewBadge>
 			<PostCover
 				src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
