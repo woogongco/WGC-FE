@@ -13,7 +13,7 @@ const Section = styled.div`
 	display: flex;
 `;
 const UserInterface = styled.div`
-	width: 55%;
+	width: 85%;
 	padding: 0.5rem 0 0 3rem;
 	border-left: 0.5px solid white;
 `;
@@ -48,7 +48,7 @@ const TypeContainer = styled.div`
 	grid-template-columns: 7rem 20rem;
 	grid-template-rows: 5rem 5rem 5rem 5rem 5rem 5rem 5rem 5rem;
 	border-bottom: 1px solid #2e2e2e;
-	width: 90%;
+	width: 60%;
 `;
 const UserType = styled.span`
 	color: white;
@@ -78,7 +78,7 @@ const UserInput = styled.input`
 `;
 const ImgContainerDiv = styled.div`
 	display: flex;
-	gap: 3rem;
+	gap: 0.5rem;
 	align-items: center;
 `;
 
@@ -113,13 +113,42 @@ const ImgFileDiv = styled.div`
 const InputImg = styled.input`
 	display: none;
 `;
-
+const SectionContainer = styled.div`
+	display: flex;
+`;
+const StackContainer = styled.div`
+	display: grid;
+	grid-template: repeat(1, 1fr) / repeat(3, 1fr);
+	gap: 1rem;
+`;
+const StackTag = styled.div`
+	border: 1px solid white;
+	border-radius: 10px;
+	padding: 0.5rem;
+	color: white;
+`;
 export default function UserInfoContainer() {
 	const userInfo = useRecoilValue(myInfo);
 	const [ImgSrc, setImgSrc] = useState('');
 	const [Pngsrc, setPngsrc] = useState(userInfo.profile_image || '');
 	const [GitUrl, setGitUrl] = useInput(userInfo.github || '');
 	const [Introduce, setIntroduce] = useInput(userInfo.introduction || '');
+	const [Stack, setStack] = useState([]);
+	const [LangageData, setLangageData] = useState('');
+	const langage = [
+		'HTML/CSS',
+		'JavaScript',
+		'TypeScript',
+		'NextJs',
+		'Java',
+		'Pythond',
+		'C',
+		'C#',
+		'C++',
+		'NodeJs',
+		'Flutter',
+		'React',
+	];
 	const ref = useRef();
 	const navigate = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
@@ -130,6 +159,21 @@ export default function UserInfoContainer() {
 			duration: duration,
 		});
 	};
+	const LangageChoice = () => {
+		const result = [];
+
+		langage.forEach(e => {
+			result.push(<option value={e}>{e}</option>);
+		});
+		return result;
+	};
+	const HandleLangage = useCallback(e => {
+		setLangageData(e.target.value);
+	}, []);
+	const AddLangage = useCallback(() => {
+		setStack([...Stack, LangageData]);
+		console.log(Stack.join());
+	}, [LangageData, Stack]);
 	const onUploadImg = async e => {
 		const formData = new FormData(); // formData 생성
 		formData.append('file', e.target.files[0]); // 이미지 파일 값 할당
@@ -154,6 +198,7 @@ export default function UserInfoContainer() {
 			profile_image: Pngsrc,
 			github: GitUrl,
 			introduction: Introduce,
+			skill: Stack.join(),
 		};
 		const res = await axiosPost('/member/information', data);
 		if (res.status === 200) {
@@ -174,67 +219,87 @@ export default function UserInfoContainer() {
 								작성하기
 							</ChangeInfo>
 						</TitleContainer>
-						<TypeContainer>
-							<UserType>이름</UserType>
-							<Content>
-								<LogInfo>{userInfo.name}</LogInfo>
-							</Content>
-							<UserType>이메일</UserType>
-							<Content>
-								<LogInfo>{userInfo.mail}</LogInfo>
-							</Content>
-							<UserType>비밀번호</UserType>
-							<Content>
-								<UserInput type="password" />
-							</Content>
-							<UserType>비밀번호 확인</UserType>
-							<Content>
-								<UserInput type="password" />
-							</Content>
-							<UserType>가입일</UserType>
-							<Content>
-								<LogInfo>
-									{moment(userInfo.registerDateTime).add(9, 'hours').format('YYYY-MM-DD hh:ss')}
-									{/*{userInfo.registerDateTime}*/}
-								</LogInfo>
-							</Content>
-							<UserType>연락처</UserType> {/*API 곧 나올예정*/}
-							<Content>
-								<UserInput type="text" placeholder="'-' 빼고 입력해주세요" />
-							</Content>
-							<UserType>Git hub</UserType>
-							<Content>
-								<UserInput
-									value={GitUrl}
-									onChange={setGitUrl}
-									type="text"
-									placeholder="GitHub 주소를 입력해주세요"
-								/>
-							</Content>
-							<UserType>자기소개</UserType>
-							<Content>
-								<UserInput
-									value={Introduce}
-									onChange={setIntroduce}
-									type="text"
-									placeholder="자기소개를 한줄로 표현해주세요."
-								/>
-							</Content>
-						</TypeContainer>
-						<Title>프로필 이미지</Title>
-						<ImgContainerDiv>
-							{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
-							<InputImg
-								type="file"
-								multiple
-								accept="image/*"
-								ref={ref}
-								onChange={e => onUploadImg(e)}
-							/>
-							<ImgFileDiv onClick={onHandleRef}>
-								<FaPlusCircle />
-							</ImgFileDiv>
-						</ImgContainerDiv>
+						<SectionContainer>
+							<TypeContainer>
+								<UserType>이름</UserType>
+								<Content>
+									<LogInfo>{userInfo.name}</LogInfo>
+								</Content>
+								<UserType>이메일</UserType>
+								<Content>
+									<LogInfo>{userInfo.mail}</LogInfo>
+								</Content>
+								<UserType>비밀번호</UserType>
+								<Content>
+									<UserInput type="password" />
+								</Content>
+								<UserType>비밀번호 확인</UserType>
+								<Content>
+									<UserInput type="password" />
+								</Content>
+								<UserType>가입일</UserType>
+								<Content>
+									<LogInfo>
+										{moment(userInfo.registerDateTime).add(9, 'hours').format('YYYY-MM-DD')}
+										{/*{userInfo.registerDateTime}*/}
+									</LogInfo>
+								</Content>
+								<UserType>연락처</UserType> {/*API 곧 나올예정*/}
+								<Content>
+									<UserInput type="text" placeholder="'-' 빼고 입력해주세요" />
+								</Content>
+								<UserType>Git hub</UserType>
+								<Content>
+									<UserInput
+										value={GitUrl}
+										onChange={setGitUrl}
+										type="text"
+										placeholder="GitHub 주소를 입력해주세요"
+									/>
+								</Content>
+								<UserType>자기소개</UserType>
+								<Content>
+									<UserInput
+										value={Introduce}
+										onChange={setIntroduce}
+										type="text"
+										placeholder="자기소개를 한줄로 표현해주세요."
+									/>
+								</Content>
+							</TypeContainer>
+							<div>
+								<Title>프로필 이미지</Title>
+								<ImgContainerDiv>
+									{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
+									<InputImg
+										type="file"
+										multiple
+										accept="image/*"
+										ref={ref}
+										onChange={e => onUploadImg(e)}
+									/>
+									<ImgFileDiv onClick={onHandleRef}>
+										<FaPlusCircle />
+									</ImgFileDiv>
+								</ImgContainerDiv>
+								<UserType>Stack</UserType> {/*API 곧 나올예정*/}
+								<Content>
+									<select value={LangageData} onChange={HandleLangage}>
+										{LangageChoice()}
+									</select>
+									<button onClick={AddLangage}>추가하기</button>
+									{Stack ? (
+										<StackContainer>
+											{Stack.map(e => {
+												return <StackTag>{e}</StackTag>;
+											})}
+										</StackContainer>
+									) : (
+										''
+									)}
+								</Content>
+							</div>
+						</SectionContainer>
 					</UserInterface>
 				</Section>
 			)}
