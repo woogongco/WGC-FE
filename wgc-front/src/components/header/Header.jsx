@@ -1,12 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSearch, FaBell, FaUserAlt, FaBookmark } from 'react-icons/fa';
+import { FaBell, FaBookmark, FaSearch, FaUserAlt } from 'react-icons/fa';
 import Modal from 'components/Modal/Modal';
+import { useRecoilState } from 'recoil';
+import { themeMode } from '../../store/RecoilStates/Theme';
 
 const HeaderLayOut = styled.div`
-	background-color: #2e2e2e;
+	// background-color: #2e2e2e;
 	display: flex;
 	height: 64px;
 	justify-content: space-between;
@@ -22,7 +24,7 @@ const LogoImage = styled.img`
 const SearchBar = styled.div`
 	border: 1px solid #c98c91;
 	padding-left: 1rem;
-	background-color: #51545c;
+	// background-color: #51545c;
 	width: 650px;
 	height: 32px;
 	border-radius: 8px;
@@ -103,12 +105,16 @@ const NavbarLink = styled(Link)`
 `;
 
 export default function Header() {
+	const [darkMode, setDarkMode] = useRecoilState(themeMode);
 	const navigate = useNavigate();
 	const [onModal, clsoeModal] = useState(false);
 	const [checked, setchecked] = useState(false);
+
 	const HandleChecked = useCallback(() => {
 		setchecked(e => !e);
+		setDarkMode(e => !e);
 	}, []);
+
 	const HandleLogoPage = () => {
 		localStorage.getItem('token') ? navigate('/Minimain') : navigate('/');
 	};
@@ -152,14 +158,14 @@ export default function Header() {
 							</Link>
 						</Buttonli>
 					)}
-					<Buttonli>
+					<Buttonli onClick={HandleChecked}>
 						<ToggleBtn>
-							<ToggleSwitch type="checkbox" value={checked} onClick={HandleChecked} />
+							<ToggleSwitch type="checkbox" checked={checked} />
 						</ToggleBtn>
 						{checked === false ? (
-							<Darklight>Light Mode</Darklight>
-						) : (
 							<Darklight>Dark Mode</Darklight>
+						) : (
+							<Darklight>Light Mode</Darklight>
 						)}
 					</Buttonli>
 				</ButtonBar>

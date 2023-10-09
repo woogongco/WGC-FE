@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FooterContainer = styled.div`
-	background-color: #2e2e2e;
+	// background-color: #2e2e2e;
 	min-height: 105px;
 	//position: relative;
 	//transform: translateY(0%);

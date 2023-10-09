@@ -11,7 +11,7 @@
 		"@toast-ui/editor-plugin-color-syntax": "^3.1.0",
 		"@toast-ui/react-editor": "^3.2.3",
 		"add": "^2.0.6",
-		"antd": "^5.8.6",
+		"antd": "^5.9.4",
 		"axios": "^1.4.0",
 		"eslint": "^8.35.0",
 		"eslint-config-prettier": "^8.6.0",

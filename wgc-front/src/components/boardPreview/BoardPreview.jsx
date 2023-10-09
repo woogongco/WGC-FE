@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import { useGetPostsQuery } from '../../api';
 import styled from 'styled-components';
-import { FaRegThumbsUp } from 'react-icons/fa';
-import { FaRegCommentDots } from 'react-icons/fa';
+import { FaRegCommentDots, FaRegThumbsUp } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const BoardWrapper = styled.section`
@@ -16,7 +15,7 @@ const BoardWrapper = styled.section`
 
 const BoardTitle = styled.header`
 	padding: 12px 13px 10px 13px;
-	background-color: #2e2e2e;
+	// background-color: #2e2e2e;
 
 	& h2 {
 		margin: 0;

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { axiosGet } from '../../Utils/AxiosUtils';
+import { axiosGet, axiosPost } from '../../Utils/AxiosUtils';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
+import { ALERT_TYPE } from '../../Utils/AlertMessageUtils';
 
 const WarrperDiv = styled.div`
 	display: flex;
@@ -106,6 +107,7 @@ export default function FriendContainer() {
 	const [page, setPage] = useState(0);
 	const [isLast, setIsLast] = useState(false);
 	const userInfo = useRecoilValue(myInfo);
+	const [messageApi, contextHolder] = message.useMessage();
 
 	useEffect(() => {
 		(async () => {
@@ -118,9 +120,9 @@ export default function FriendContainer() {
 		const id = path === '/friend' ? userInfo.id : path.split('/')[2];
 		if (!id) return;
 		const res = await axiosGet(`/neighbor/${id}`);
-		console.log(res.data);
 		setNeighbors([...res.data]);
 	};
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const ref = useRef(null); // 감시할 엘리먼트
 	const buttonStyle = {
@@ -134,13 +136,38 @@ export default function FriendContainer() {
 		float: 'right',
 	};
 
+	const alertMessage = async (type, content, duration = 2) => {
+		return messageApi.open({
+			type: type,
+			content: content,
+			duration: duration,
+		});
+	};
+
 	const changeStatus = async (action, neighbor) => {
-		console.log(action);
-		console.log(neighbor);
+		const res = await axiosPost(`/neighbor/${action}/${neighbor.memberId}`, {});
+
+		const result = res.status;
+
+		if (result === 200)
+			return alertMessage(ALERT_TYPE.SUCCESS, `${neighbor.name}과 일촌이 되었습니다 !`);
+
+		if (result === 400) return alertMessage(ALERT_TYPE.ERROR, '올바르지 않은 접근입니다.');
+
+		if (result === 304) return alertMessage(ALERT_TYPE.SUCCESS, '이미 일촌입니다.');
+
+		if (result === 404) return alertMessage(ALERT_TYPE.ERROR, '일촌 신청건을 찾을 수 없습니다.');
+
+		if (result === 500)
+			return alertMessage(
+				ALERT_TYPE.ERROR,
+				'현재 서버와의 통신이 원활하지 않습니다.\n다음에 다시 시도하세요.',
+			);
 	};
 
 	return (
 		<SectionContiner>
+			{contextHolder}
 			<WarrperDiv>
 				<SectionItemTitle>
 					<p>일촌 목록</p>
@@ -153,6 +180,7 @@ export default function FriendContainer() {
 								.filter(i => i.accepted === 'Y')
 								.map((i, index) => (
 									<SectionMainTextContainer
+										key={Math.random()}
 										ref={ref}
 										style={{
 											minHeight: '10vh',
@@ -161,12 +189,17 @@ export default function FriendContainer() {
 										<SectionMainImg />
 										<span>{i.name}</span>
 										<div style={{ margin: 'auto' }}>
-											<Button type="default" style={buttonStyle}>
+											<Button
+												type="default"
+												style={buttonStyle}
+												onClick={() => changeStatus('refuse', i)}
+											>
 												제거
 											</Button>
 											<Button
 												type="primary"
 												style={{ ...buttonStyle, backgroundColor: 'rgb(56,117,246)' }}
+												onClick={() => changeStatus('accept', i)}
 											>
 												수락
 											</Button>
@@ -185,6 +218,7 @@ export default function FriendContainer() {
 								.filter(i => i.accepted !== 'Y')
 								.map((i, index) => (
 									<SectionMainTextContainer
+										key={Math.random()}
 										ref={ref}
 										style={{
 											minHeight: '10vh',
@@ -193,12 +227,17 @@ export default function FriendContainer() {
 										<SectionMainImg />
 										<span>{i.name}</span>
 										<div style={{ margin: 'auto' }}>
-											<Button type="default" style={buttonStyle}>
+											<Button
+												type="default"
+												style={buttonStyle}
+												onClick={() => changeStatus('refuse', i)}
+											>
 												제거
 											</Button>
 											<Button
 												type="primary"
 												style={{ ...buttonStyle, backgroundColor: 'rgb(56,117,246)' }}
+												onClick={() => changeStatus('accept', i)}
 											>
 												수락
 											</Button>

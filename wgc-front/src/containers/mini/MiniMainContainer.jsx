@@ -101,7 +101,6 @@ export default function MiniContainer() {
 		(async () => {
 			const res = await axiosGet('/member/my-info');
 			setUserInfo({ ...res.data });
-			console.log(userInfo);
 			await getNeighborList({ ...res.data });
 		})();
 	}, [setUserInfo]);
