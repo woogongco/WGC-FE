@@ -7,6 +7,7 @@ import { FaThumbsUp } from 'react-icons/fa';
 import { axiosGet, axiosPost, axiosDelete } from 'Utils/AxiosUtils';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from 'store/RecoilStates/UserInfo';
+import { Comment } from './comment/Comment';
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -153,12 +154,6 @@ const CommentInput = styled.input`
 		outline: none;
 	}
 `;
-const CommentContent = styled.div`
-	display: flex;
-	justify-content: space-between;
-
-	align-items: center;
-`;
 const CommentProfile = styled.div`
 	position: relative;
 	width: 50px;
@@ -171,35 +166,30 @@ const CommentProfile = styled.div`
 	background-size: cover;
 	left: 30px;
 `;
-const Commentdetail = styled.div`
-	font-size: 13px;
-`;
 const CommentContainer = styled.div`
 	display: flex;
-`;
-const CommentMent = styled.div`
-	margin: 0 5px;
-	cursor: pointer;
-	font-size: 11px;
 `;
 export default function WriteModifyContainer({ id }) {
 	const [Loading, setLoading] = useState(false);
 	const [PostList, setPostList] = useState([]);
 	const [PostUser, setPostUser] = useState([]);
-	const [TextComment, setTextComment] = useInput('');
+	const [TextComment, setTextComment] = useState('');
 	const [CommentLists, setCommentLists] = useState([]);
 	const [CommentLoading, setCommentLoading] = useState(false);
 	const userInfo = useRecoilValue(myInfo);
 	const local = window.location.pathname.split('/')[2];
 	const onKeyPress = useCallback(e => {
 		if (e.key === 'Enter') {
-			onComment();
+			onComment(e);
 		}
 	}, []);
-	const onComment = useCallback(async () => {
-		await axiosPost(`/comments/${local}`, { content: TextComment });
-		setTextComment('');
-	}, [TextComment, setTextComment, local]);
+	const onComment = useCallback(
+		async e => {
+			await axiosPost(`/comments/${local}`, { content: e.target.value });
+			setTextComment('');
+		},
+		[local],
+	);
 	const CommentList = useCallback(async () => {
 		const res = await axiosGet(`/comments/${local}`);
 		setCommentLists(res.data.comments);
@@ -215,7 +205,7 @@ export default function WriteModifyContainer({ id }) {
 	useEffect(() => {
 		CommentList();
 		getPosts();
-	}, []);
+	}, [CommentList]);
 
 	return (
 		<Container>
@@ -271,8 +261,8 @@ export default function WriteModifyContainer({ id }) {
 											type="text"
 											placeholder="여기에 작성해주세요"
 											value={TextComment}
-											onChange={setTextComment}
-											onKeyPress={onKeyPress}
+											onChange={e => setTextComment(e.target.value)}
+											onKeyPress={e => onKeyPress(e)}
 										/>
 									</CommentDiv>
 								</>
@@ -291,37 +281,5 @@ export default function WriteModifyContainer({ id }) {
 				''
 			)}
 		</Container>
-	);
-}
-
-export function Comment({ props }) {
-	const CommentDel = useCallback(async e => {
-		await axiosDelete(`/comments/${e}`);
-		console.log('삭제');
-	}, []);
-
-	return (
-		<div>
-			<CommentContainer>
-				<CommentProfile style={{ backgroundImage: `url(${props.writer.profileImage})` }} />
-				<CommentDiv>
-					<CommentName>
-						<div>{props.writer.name}</div>
-						<div>{props.registerDate}</div>
-					</CommentName>
-					<CommentContent>
-						<Commentdetail>{props.content}</Commentdetail>
-						<CommentContent>
-							<CommentMent>
-								<FaThumbsUp />
-							</CommentMent>
-							<CommentMent>수정</CommentMent>
-							<CommentMent onClick={e => CommentDel(props.commentId)}>삭제</CommentMent>
-							<CommentMent>댓글</CommentMent>
-						</CommentContent>
-					</CommentContent>
-				</CommentDiv>
-			</CommentContainer>
-		</div>
 	);
 }
