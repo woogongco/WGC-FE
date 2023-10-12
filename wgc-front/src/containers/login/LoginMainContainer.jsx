@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import LoginMainLogo from 'assets/LoginMainLogo.png';
 import KakaoButton from 'assets/Kakaobutton.png';
@@ -45,6 +45,7 @@ const ButtonDiv = styled.div`
 `;
 const Btn = styled.img`
 	margin-top: 1em;
+	cursor: pointer;
 `;
 const ModalBackdrop = styled.div`
 	// Modal이 떴을 때의 배경을 깔아주는 CSS를 구현
@@ -88,6 +89,7 @@ const KaKaLoginBtn = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 `;
 const ContainerContent = styled.div`
 	display: flex;
