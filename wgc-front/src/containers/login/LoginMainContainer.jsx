@@ -100,7 +100,7 @@ const ContainerContent = styled.div`
 
 export default function LoginMainContainer() {
 	const [openModal, setModal] = useState(false);
-
+	const key = process.env.KAKAO_APP_LOGIN_ACCESS_KEY;
 	const openModalHander = useCallback(() => {
 		setModal(!openModal);
 	}, [openModal]);
@@ -128,7 +128,7 @@ export default function LoginMainContainer() {
 									<KaKaoMent>
 										간편하게 로그인하고 <br /> 다양한서비스를 이용해보세요.
 									</KaKaoMent>
-									<KaKaLoginBtn>카카오로그인</KaKaLoginBtn>
+									<KaKaLoginBtn className="kakao-login-button">카카오로그인</KaKaLoginBtn>
 									<p>다른 이메일로 시작하기</p>
 								</ContainerContent>
 							</SNSContainer>
