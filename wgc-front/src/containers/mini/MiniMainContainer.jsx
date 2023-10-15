@@ -97,6 +97,20 @@ export default function MiniContainer() {
 	const [neighbors, setNeighbor] = useState(undefined);
 	const [userPosts, setUserPosts] = useState();
 
+	// useEffect(() => {
+	// 	const path = window.location?.pathname;
+	// 	if (path && path.includes('/homepage') && path.split('/')?.length === 2)
+	// 		console.log('fetch user homepage contents !');
+	// 	else console.log('fetch my info');
+	// }, []);
+
+	const fetchClickedUserInfo = async userId => {
+		navigate('/homepage/' + userId);
+		const res = await axiosGet('/member/' + userId);
+		setUserInfo({ ...res.data });
+		await getNeighborList({ ...res.data });
+	};
+
 	useEffect(() => {
 		(async () => {
 			const res = await axiosGet('/member/my-info');
@@ -120,6 +134,7 @@ export default function MiniContainer() {
 
 	const getNeighborList = async userInfo => {
 		const res = await axiosGet(`/neighbor/${userInfo.id}`);
+		console.log(res.data);
 		setNeighbor([...res.data]);
 	};
 
@@ -172,7 +187,11 @@ export default function MiniContainer() {
 						{neighbors && (
 							<>
 								{neighbors.map(i => (
-									<Imagediv>
+									<Imagediv
+										onClick={async () => {
+											await fetchClickedUserInfo(i.memberId);
+										}}
+									>
 										<SectionMainImg key={Math.random()} />
 										{i.name}
 									</Imagediv>

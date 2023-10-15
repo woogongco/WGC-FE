@@ -60,6 +60,7 @@ const BodyComponents = () => {
 							{/* 미니홈피 */}
 							<Route path="/Friend" element={<FriendPage />} />
 							<Route path="/Minimain" element={<MiniMainPage />} />
+							<Route path="/homepage/:userid" element={<MiniMainPage />} />
 							<Route path="/Guest" element={<GuestPage />} />
 							<Route path="/MyPost" element={<MyPostPage />} />
 							<Route path="/board/:id" element={<WriteModifyPage />} />
