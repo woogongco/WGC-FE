@@ -118,7 +118,7 @@ export default function LoginMainContainer() {
 						<ModalBackdrop>
 							<SNSContainer>
 								<DeletBtn onClick={openModalHander}>
-									<AiOutlineClose />
+									<AiOutlineClose style={{ color: 'black' }} />
 								</DeletBtn>
 								<ContainerContent>
 									<KaKaoLoGo

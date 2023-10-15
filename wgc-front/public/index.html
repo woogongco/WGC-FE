@@ -53,7 +53,7 @@ To create a production bundle, use `npm run build` or `yarn build`.
 <script>
     window.onload = () => {
         document.body.addEventListener('click', (element) => {
-            if (element.target.getAttribute('class').includes('kakao-login-button')) {
+            if (element.target?.getAttribute('class')?.includes('kakao-login-button')) {
                 if (!Kakao.isInitialized())
                     return alert('일시적으로 카카오 로그인 기능을 사용할 수 없습니다.');
 
