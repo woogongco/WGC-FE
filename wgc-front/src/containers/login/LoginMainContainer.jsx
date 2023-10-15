@@ -4,7 +4,7 @@ import LoginMainLogo from 'assets/LoginMainLogo.png';
 import KakaoButton from 'assets/Kakaobutton.png';
 import GitButton from 'assets/Gitbutton.png';
 import EmailButton from 'assets/Emailbutton.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const Container = styled.div`
@@ -100,7 +100,7 @@ const ContainerContent = styled.div`
 
 export default function LoginMainContainer() {
 	const [openModal, setModal] = useState(false);
-	const key = process.env.KAKAO_APP_LOGIN_ACCESS_KEY;
+	const navigate = useNavigate();
 	const openModalHander = useCallback(() => {
 		setModal(!openModal);
 	}, [openModal]);
@@ -113,6 +113,21 @@ export default function LoginMainContainer() {
 					<Directspan href="">3초안에 시작하기🚀</Directspan>
 				</DirectDiv>
 				<ButtonDiv>
+					<div
+						style={{
+							width: '300px',
+							height: '45px',
+							backgroundColor: 'rgb(56,117,246)',
+							borderRadius: '7px',
+							textAlign: 'center',
+							cursor: 'pointer',
+						}}
+						onClick={() => {
+							navigate('/EmailLogin');
+						}}
+					>
+						<div style={{ paddingTop: '10px' }}>로그인</div>
+					</div>
 					<Btn src={KakaoButton} alt="카카오" onClick={openModalHander} />
 					{openModal ? (
 						<ModalBackdrop>
