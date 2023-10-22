@@ -6,7 +6,7 @@ import { myInfo } from '../../store/RecoilStates/UserInfo';
 import { useNavigate } from 'react-router-dom';
 
 const SectionContiner = styled.div`
-	width: 90%;
+	width: 92%;
 	margin-left: 2rem;
 	border-left: 1px solid rgba(255, 255, 255, 0.2);
 	padding-left: 1rem;
