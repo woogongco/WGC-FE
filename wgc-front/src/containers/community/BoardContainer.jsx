@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import PostList from 'components/postList/PostList';
 import { FaPen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import { useRecoilValue } from 'recoil';
+import { myInfo } from '../../store/RecoilStates/UserInfo';
 const Wrapper = styled.div`
 	padding: 68px 56px 60px 60px;
 	color: #fff;
@@ -30,22 +31,23 @@ const BoardHeader = styled.header`
 	& h2 {
 		font-size: 24px;
 	}
-
-	& a {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 5px;
-		padding: 8px 14px;
-		background-color: #fa9199;
-		border-radius: 5px;
-		font-weight: bold;
-	}
+`;
+const LinkBtn = styled(Link)`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+	padding: 8px 14px;
+	background-color: #fa9199;
+	border-radius: 5px;
+	font-weight: bold;
 `;
 
 export default function BoardContainer() {
 	const [url, seturl] = useState('');
 	const [isLoading, setLoading] = useState(false);
+	const userInfo = useRecoilValue(myInfo);
+	const [SelectColor, setSelectColor] = useState(userInfo.color || '#fa9199');
 	const urltype = {
 		free: '자유게시판',
 		itnews: 'IT뉴스',
@@ -65,10 +67,10 @@ export default function BoardContainer() {
 				<Wrapper>
 					<BoardHeader>
 						<h2>{urltype[url]}</h2>
-						<Link to="/write">
+						<LinkBtn style={{ backgroundColor: SelectColor }} to="/write">
 							<FaPen />
 							작성하기
-						</Link>
+						</LinkBtn>
 					</BoardHeader>
 					<PostList />
 				</Wrapper>

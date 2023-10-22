@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import useInput from 'constants/useInput';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BsBookmark } from 'react-icons/bs';
-import { FaThumbsUp } from 'react-icons/fa';
-import { axiosGet, axiosPost, axiosDelete } from 'Utils/AxiosUtils';
+import { axiosGet, axiosPost } from 'Utils/AxiosUtils';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from 'store/RecoilStates/UserInfo';
 import { Comment } from './comment/Comment';
+import CommentWrite from './comment/CommentWrite';
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -132,43 +131,7 @@ const CategoryText = styled.div`
 const CommentLayout = styled.div`
 	width: 85%;
 `;
-const CommentDiv = styled.div`
-	border: 1px solid #5e5e63;
-	border-radius: 5px;
-	margin-bottom: 20px;
-	padding: 10px;
-	width: 100%;
-	padding-left: 40px;
-`;
-const CommentName = styled.div`
-	font-size: 14px;
-	border-bottom: 1px solid #5e5e63;
-	display: flex;
-	justify-content: space-between;
-`;
-const CommentInput = styled.input`
-	background-color: transparent;
-	border: none;
-	color: white;
-	&:focus {
-		outline: none;
-	}
-`;
-const CommentProfile = styled.div`
-	position: relative;
-	width: 50px;
-	height: 50px;
-	background: linear-gradient(219.11deg, #b9e6e9 30.15%, #cb8387 89.69%);
-	border-top-left-radius: 40%;
-	border-top-right-radius: 50%;
-	border-bottom-right-radius: 50%;
-	box-sizing: border-box;
-	background-size: cover;
-	left: 30px;
-`;
-const CommentContainer = styled.div`
-	display: flex;
-`;
+
 export default function WriteModifyContainer({ id }) {
 	const [Loading, setLoading] = useState(false);
 	const [PostList, setPostList] = useState([]);
@@ -178,18 +141,7 @@ export default function WriteModifyContainer({ id }) {
 	const [CommentLoading, setCommentLoading] = useState(false);
 	const userInfo = useRecoilValue(myInfo);
 	const local = window.location.pathname.split('/')[2];
-	const onKeyPress = useCallback(e => {
-		if (e.key === 'Enter') {
-			onComment(e);
-		}
-	}, []);
-	const onComment = useCallback(
-		async e => {
-			await axiosPost(`/comments/${local}`, { content: e.target.value });
-			setTextComment('');
-		},
-		[local],
-	);
+
 	const CommentList = useCallback(async () => {
 		const res = await axiosGet(`/comments/${local}`);
 		setCommentLists(res.data.comments);
@@ -251,28 +203,10 @@ export default function WriteModifyContainer({ id }) {
 					</PostDiv>
 					<CommentLayout>
 						<p>댓글</p>
-						<CommentContainer>
-							{userInfo ? (
-								<>
-									<CommentProfile style={{ backgroundImage: `url(${userInfo.profileImage})` }} />
-									<CommentDiv>
-										<CommentName>{userInfo.name}</CommentName>
-										<CommentInput
-											type="text"
-											placeholder="여기에 작성해주세요"
-											value={TextComment}
-											onChange={e => setTextComment(e.target.value)}
-											onKeyPress={e => onKeyPress(e)}
-										/>
-									</CommentDiv>
-								</>
-							) : (
-								<div>로그인 해주세요</div>
-							)}
-						</CommentContainer>
+						<CommentWrite type={'댓글'} />
 						{CommentLoading
 							? CommentLists.map((e, index) => {
-									return <Comment key={index} props={e} />;
+									return <Comment key={index} props={e} page={local} />;
 							  })
 							: ''}
 					</CommentLayout>

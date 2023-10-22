@@ -33,7 +33,6 @@ const Title = styled.h1`
 const ChangeInfo = styled.button`
 	border-radius: 5px;
 	border: 0px;
-	background-color: #fa9199;
 	color: white;
 	height: 35px;
 	width: 109px;
@@ -130,6 +129,7 @@ const StackTag = styled.div`
 export default function UserInfoContainer() {
 	const userInfo = useRecoilValue(myInfo);
 	const [ImgSrc, setImgSrc] = useState('');
+	const [SelectColor, setSelectColor] = useState(userInfo.color || '#fa9199');
 	const [Pngsrc, setPngsrc] = useState(userInfo.profile_image || '');
 	const [GitUrl, setGitUrl] = useInput(userInfo.github || '');
 	const [Introduce, setIntroduce] = useInput(userInfo.introduction || '');
@@ -214,7 +214,7 @@ export default function UserInfoContainer() {
 					<UserInterface>
 						<TitleContainer>
 							<Title>회원수정</Title>
-							<ChangeInfo onClick={HandleGet}>
+							<ChangeInfo style={{ backgroundColor: `${SelectColor}` }} onClick={HandleGet}>
 								<FaPen />
 								작성하기
 							</ChangeInfo>

@@ -6,7 +6,8 @@ import { FaBell, FaBookmark, FaSearch, FaUserAlt } from 'react-icons/fa';
 import Modal from 'components/Modal/Modal';
 import { useRecoilState } from 'recoil';
 import { themeMode } from '../../store/RecoilStates/Theme';
-
+import { FaMoon, FaSun } from 'react-icons/fa6';
+import { useRef } from 'react';
 const HeaderLayOut = styled.div`
 	// background-color: #2e2e2e;
 	display: flex;
@@ -15,6 +16,9 @@ const HeaderLayOut = styled.div`
 	align-items: center;
 `;
 
+const Logo = styled.div`
+	margin-left: 2rem;
+`;
 const LogoImage = styled.img`
 	width: 100px;
 	height: 44px;
@@ -45,7 +49,8 @@ const ButtonBar = styled.ul`
 	display: flex;
 	justify-content: space-between;
 	list-style: none;
-	margin: 0;
+	margin-right: 1rem;
+	gap: 1rem;
 	align-items: center;
 `;
 const Buttonli = styled.li`
@@ -103,13 +108,15 @@ const NavbarLink = styled(Link)`
 		color: #ababab;
 	}
 `;
-
+const ModeClick = styled.input`
+	display: none;
+`;
 export default function Header() {
 	const [darkMode, setDarkMode] = useRecoilState(themeMode);
 	const navigate = useNavigate();
 	const [onModal, clsoeModal] = useState(false);
-	const [checked, setchecked] = useState(false);
-
+	const [checked, setchecked] = useState(true);
+	const checktheme = useRef();
 	const HandleChecked = useCallback(() => {
 		setchecked(e => !e);
 		setDarkMode(e => !e);
@@ -124,9 +131,9 @@ export default function Header() {
 	return (
 		<div>
 			<HeaderLayOut>
-				<div onClick={HandleLogoPage}>
+				<Logo onClick={HandleLogoPage}>
 					<LogoImage src={Logoimg} alt="Header Logo img" />
-				</div>
+				</Logo>
 				<SearchBar>
 					<SerchIcon>
 						<FaSearch />
@@ -159,14 +166,23 @@ export default function Header() {
 						</Buttonli>
 					)}
 					<Buttonli onClick={HandleChecked}>
-						<ToggleBtn>
+						{checked ? (
+							<div>
+								<FaMoon style={{ color: 'white' }} />
+							</div>
+						) : (
+							<div>
+								<FaSun style={{ color: 'red' }} />
+							</div>
+						)}
+						{/* <ToggleBtn>
 							<ToggleSwitch type="checkbox" checked={checked} />
-						</ToggleBtn>
-						{checked === false ? (
+						</ToggleBtn> */}
+						{/* {checked === false ? (
 							<Darklight>Dark Mode</Darklight>
 						) : (
 							<Darklight>Light Mode</Darklight>
-						)}
+						)} */}
 					</Buttonli>
 				</ButtonBar>
 			</HeaderLayOut>

@@ -9,15 +9,14 @@ import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.section`
 	display: grid;
-	grid-template: repeat(2, 1fr) / repeat(3, 230px);
+	grid-template: repeat(2, 1fr) / repeat(4, 230px);
 	gap: 78px 2rem;
-	justify-content: center;
 `;
 const SectionDiv = styled.div`
 	overflow: scroll;
 	display: block;
 	//min-height: 70rem;
-	height: 30rem;
+	height: 45rem;
 	&::-webkit-scrollbar {
 		width: 5px;
 	}
