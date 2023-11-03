@@ -8,7 +8,6 @@ const Container = styled.div`
 `;
 
 const Warpperdiv = styled.div`
-	margin-left: 20%;
 	color: white;
 	height: 100%;
 	width: 100%;
