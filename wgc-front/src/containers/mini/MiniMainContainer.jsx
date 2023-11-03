@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { axiosGet } from '../../Utils/AxiosUtils';
 import { useRecoilState } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const SectionContiner = styled.div`
 	width: 92%;
@@ -44,9 +44,14 @@ const SectionTopItem = styled.div`
 	text-align: center;
 	align-items: center;
 	justify-content: center;
-	height: 200px;
+	height: 100px;
 `;
-
+const SectionTopSubItem = styled.div``;
+const SectionTopSubHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin: 0 2rem;
+`;
 const SectionCenterItem = styled.div`
 	width: 100%;
 	height: 300px;
@@ -150,6 +155,14 @@ export default function MiniContainer() {
 						}}
 					/>
 				</SectionTopItem>
+				<SectionTopSubItem>
+					<SectionTopSubHeader>
+						<h3>방명록</h3>
+						<Link to="/Guest">
+							<h5>더 보기</h5>
+						</Link>
+					</SectionTopSubHeader>
+				</SectionTopSubItem>
 				<SectionCenterItem>
 					<h3>내가 쓴 글</h3>
 					<div>
