@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { useGetPostsQuery } from '../../api';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaRegCommentDots, FaRegThumbsUp } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { axiosGet } from '../../Utils/AxiosUtils';
+import { FaRegCommentDots, FaRegThumbsUp } from 'react-icons/fa';
 
 const BoardWrapper = styled.section`
 	display: flex;
@@ -80,7 +80,13 @@ const CommentCount = styled.span`
 `;
 
 export default function BoardPreview() {
-	const { data, isLoading, isError } = useGetPostsQuery();
+	const [data, setData] = useState(undefined);
+	useEffect(() => {
+		(async () => {
+			const res = await axiosGet('/post?limit=6');
+			setData({ ...res.data });
+		})();
+	}, []);
 	const navigate = useNavigate();
 	const HandleNavigate = useCallback(
 		e => {
@@ -88,120 +94,126 @@ export default function BoardPreview() {
 		},
 		[navigate],
 	);
-	if (isLoading) {
-		return <div>불러오는 중...</div>;
-	}
-
-	if (isError) {
-		return <div>에러</div>;
-	}
+	// if (isLoading) {
+	// 	return <div>불러오는 중...</div>;
+	// }
+	//
+	// if (isError) {
+	// 	return <div>에러</div>;
+	// }
 	return (
 		<>
-			<BoardWrapper>
-				{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
-				{/* TODO: 게시글 클릭 시 해당 게시글로 이동 */}
-				<BoardTitle>
-					<h2>자유게시판</h2>
-				</BoardTitle>
-				{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
-				<BoardContents>
-					{data.data.free.map(post => (
-						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
-							<ContentsTitle>{post.title}</ContentsTitle>
-							<ContentsDetails>
-								<LikeCount>
-									<FaRegThumbsUp />
-									<span>{post.like}</span>
-								</LikeCount>
-								<CommentCount>
-									<FaRegCommentDots />
-									<span>{post.view}</span>
-								</CommentCount>
-							</ContentsDetails>
-							{/*<p>{post.content}</p>*/}
-							{/*<p>{post.registerDate}</p>*/}
-							{/*<p>{post.lastModifiedDate}</p>*/}
-						</ContentsItem>
-					))}
-				</BoardContents>
-			</BoardWrapper>
+			{data ? (
+				<>
+					<BoardWrapper>
+						{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
+						{/* TODO: 게시글 클릭 시 해당 게시글로 이동 */}
+						<BoardTitle>
+							<h2>자유게시판</h2>
+						</BoardTitle>
+						{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
+						<BoardContents>
+							{data.free?.map(post => (
+								<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
+									<ContentsTitle>{post.title}</ContentsTitle>
+									<ContentsDetails>
+										<LikeCount>
+											<FaRegThumbsUp />
+											<span>{post.like}</span>
+										</LikeCount>
+										<CommentCount>
+											<FaRegCommentDots />
+											<span>{post.view}</span>
+										</CommentCount>
+									</ContentsDetails>
+									{/*<p>{post.content}</p>*/}
+									{/*<p>{post.registerDate}</p>*/}
+									{/*<p>{post.lastModifiedDate}</p>*/}
+								</ContentsItem>
+							))}
+						</BoardContents>
+					</BoardWrapper>
 
-			<BoardWrapper>
-				<BoardTitle>
-					<h2>취업 게시판</h2>
-				</BoardTitle>
-				<BoardContents>
-					{data.data.job.map(post => (
-						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
-							<ContentsTitle>{post.title}</ContentsTitle>
-							<ContentsDetails>
-								<LikeCount>
-									<FaRegThumbsUp />
-									<span>{post.like}</span>
-								</LikeCount>
-								<CommentCount>
-									<FaRegCommentDots />
-									<span>{post.view}</span>
-								</CommentCount>
-							</ContentsDetails>
-							{/*<p>{post.content}</p>*/}
-							{/*<p>{post.registerDate}</p>*/}
-							{/*<p>{post.lastModifiedDate}</p>*/}
-						</ContentsItem>
-					))}
-				</BoardContents>
-			</BoardWrapper>
-			<BoardWrapper>
-				<BoardTitle>
-					<h2>IT 뉴스</h2>
-				</BoardTitle>
-				<BoardContents>
-					{data.data.itnews.map(post => (
-						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
-							<ContentsTitle>{post.title}</ContentsTitle>
-							<ContentsDetails>
-								<LikeCount>
-									<FaRegThumbsUp />
-									<span>{post.like}</span>
-								</LikeCount>
-								<CommentCount>
-									<FaRegCommentDots />
-									<span>{post.view}</span>
-								</CommentCount>
-							</ContentsDetails>
-							{/*<p>{post.content}</p>*/}
-							{/*<p>{post.registerDate}</p>*/}
-							{/*<p>{post.lastModifiedDate}</p>*/}
-						</ContentsItem>
-					))}
-				</BoardContents>
-			</BoardWrapper>
+					<BoardWrapper>
+						<BoardTitle>
+							<h2>취업 게시판</h2>
+						</BoardTitle>
+						<BoardContents>
+							{data.job?.map(post => (
+								<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
+									<ContentsTitle>{post.title}</ContentsTitle>
+									<ContentsDetails>
+										<LikeCount>
+											<FaRegThumbsUp />
+											<span>{post.like}</span>
+										</LikeCount>
+										<CommentCount>
+											<FaRegCommentDots />
+											<span>{post.view}</span>
+										</CommentCount>
+									</ContentsDetails>
+									{/*<p>{post.content}</p>*/}
+									{/*<p>{post.registerDate}</p>*/}
+									{/*<p>{post.lastModifiedDate}</p>*/}
+								</ContentsItem>
+							))}
+						</BoardContents>
+					</BoardWrapper>
+					<BoardWrapper>
+						<BoardTitle>
+							<h2>IT 뉴스</h2>
+						</BoardTitle>
+						<BoardContents>
+							{data.itnews?.map(post => (
+								<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
+									<ContentsTitle>{post.title}</ContentsTitle>
+									<ContentsDetails>
+										<LikeCount>
+											<FaRegThumbsUp />
+											<span>{post.like}</span>
+										</LikeCount>
+										<CommentCount>
+											<FaRegCommentDots />
+											<span>{post.view}</span>
+										</CommentCount>
+									</ContentsDetails>
+									{/*<p>{post.content}</p>*/}
+									{/*<p>{post.registerDate}</p>*/}
+									{/*<p>{post.lastModifiedDate}</p>*/}
+								</ContentsItem>
+							))}
+						</BoardContents>
+					</BoardWrapper>
 
-			<BoardWrapper>
-				<BoardTitle>
-					<h2>스터디 게시판</h2>
-				</BoardTitle>
-				<BoardContents>
-					{data.data.study.map(post => (
-						<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
-							<ContentsTitle>{post.title}</ContentsTitle>
-							<ContentsDetails>
-								<LikeCount>
-									<FaRegThumbsUp />
-									<span>{post.like}</span>
-								</LikeCount>
-								<CommentCount>
-									<FaRegCommentDots />
-									<span>{post.view}</span>
-								</CommentCount>
-							</ContentsDetails>
-							{/*<p>{post.content}</p>*/}
-							{/*<p>{post.registerDate}</p>*/}
-							{/*<p>{post.lastModifiedDate}</p>*/}
-						</ContentsItem>
-					))}
-				</BoardContents>
-			</BoardWrapper>
+					<BoardWrapper>
+						<BoardTitle>
+							<h2>스터디 게시판</h2>
+						</BoardTitle>
+						<BoardContents>
+							{data.study?.map(post => (
+								<ContentsItem key={post.id} onClick={e => HandleNavigate(post.id)}>
+									<ContentsTitle>{post.title}</ContentsTitle>
+									<ContentsDetails>
+										<LikeCount>
+											<FaRegThumbsUp />
+											<span>{post.like}</span>
+										</LikeCount>
+										<CommentCount>
+											<FaRegCommentDots />
+											<span>{post.view}</span>
+										</CommentCount>
+									</ContentsDetails>
+									{/*<p>{post.content}</p>*/}
+									{/*<p>{post.registerDate}</p>*/}
+									{/*<p>{post.lastModifiedDate}</p>*/}
+								</ContentsItem>
+							))}
+						</BoardContents>
+					</BoardWrapper>
+				</>
+			) : (
+				<div>불러오는중 ...</div>
+			)}
 		</>
 	);
 }

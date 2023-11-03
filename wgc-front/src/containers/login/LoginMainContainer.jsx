@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import LoginMainLogo from 'assets/LoginMainLogo.png';
 import KakaoButton from 'assets/Kakaobutton.png';
 import GitButton from 'assets/Gitbutton.png';
 import EmailButton from 'assets/Emailbutton.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const Container = styled.div`
@@ -45,6 +45,7 @@ const ButtonDiv = styled.div`
 `;
 const Btn = styled.img`
 	margin-top: 1em;
+	cursor: pointer;
 `;
 const ModalBackdrop = styled.div`
 	// Modal이 떴을 때의 배경을 깔아주는 CSS를 구현
@@ -88,6 +89,7 @@ const KaKaLoginBtn = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 `;
 const ContainerContent = styled.div`
 	display: flex;
@@ -98,7 +100,7 @@ const ContainerContent = styled.div`
 
 export default function LoginMainContainer() {
 	const [openModal, setModal] = useState(false);
-
+	const navigate = useNavigate();
 	const openModalHander = useCallback(() => {
 		setModal(!openModal);
 	}, [openModal]);
@@ -111,12 +113,27 @@ export default function LoginMainContainer() {
 					<Directspan href="">3초안에 시작하기🚀</Directspan>
 				</DirectDiv>
 				<ButtonDiv>
+					<div
+						style={{
+							width: '300px',
+							height: '45px',
+							backgroundColor: 'rgb(56,117,246)',
+							borderRadius: '7px',
+							textAlign: 'center',
+							cursor: 'pointer',
+						}}
+						onClick={() => {
+							navigate('/EmailLogin');
+						}}
+					>
+						<div style={{ paddingTop: '10px' }}>로그인</div>
+					</div>
 					<Btn src={KakaoButton} alt="카카오" onClick={openModalHander} />
 					{openModal ? (
 						<ModalBackdrop>
 							<SNSContainer>
 								<DeletBtn onClick={openModalHander}>
-									<AiOutlineClose />
+									<AiOutlineClose style={{ color: 'black' }} />
 								</DeletBtn>
 								<ContainerContent>
 									<KaKaoLoGo
@@ -126,7 +143,7 @@ export default function LoginMainContainer() {
 									<KaKaoMent>
 										간편하게 로그인하고 <br /> 다양한서비스를 이용해보세요.
 									</KaKaoMent>
-									<KaKaLoginBtn>카카오로그인</KaKaLoginBtn>
+									<KaKaLoginBtn className="kakao-login-button">카카오로그인</KaKaLoginBtn>
 									<p>다른 이메일로 시작하기</p>
 								</ContainerContent>
 							</SNSContainer>

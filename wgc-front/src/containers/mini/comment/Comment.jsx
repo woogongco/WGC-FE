@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaThumbsUp } from 'react-icons/fa';
 import { axiosDelete } from 'Utils/AxiosUtils';
+import CommentWrite from './CommentWrite';
 const CommentDiv = styled.div`
 	border: 1px solid #5e5e63;
 	border-radius: 5px;
@@ -39,18 +40,34 @@ const Commentdetail = styled.div`
 `;
 const CommentContainer = styled.div`
 	display: flex;
+	width: 100%;
 `;
 const CommentMent = styled.div`
 	margin: 0 5px;
 	cursor: pointer;
 	font-size: 11px;
 `;
-
+const ExtraContainer = styled.div`
+	display: flex;
+	align-item: center;
+	width: 100%;
+`;
+const ArrowDiv = styled.div`
+	font-size: 1.7rem;
+	margin-left: 2rem;
+`;
 export function Comment({ props }) {
+	const [ExtraComment, setExtraComment] = useState(false);
+	const local = window.location.pathname.split('/')[2];
 	const CommentDel = useCallback(async e => {
 		await axiosDelete(`/comments/${e}`);
-		console.log('삭제');
+		console.log('삭제', e);
+		window.location.replace(`/board/${local}`);
 	}, []);
+	const HandleWrite = () => {
+		console.log('댓글');
+		setExtraComment(prev => !prev);
+	};
 	useEffect(() => {}, [props]);
 	return (
 		<div>
@@ -74,11 +91,51 @@ export function Comment({ props }) {
 							</CommentMent>
 							<CommentMent>수정</CommentMent>
 							<CommentMent onClick={() => CommentDel(props.commentId)}>삭제</CommentMent>
-							<CommentMent>댓글</CommentMent>
+							<CommentMent onClick={HandleWrite}>대댓글</CommentMent>
 						</CommentContent>
 					</CommentContent>
 				</CommentDiv>
 			</CommentContainer>
+			{ExtraComment ? (
+				<ExtraContainer>
+					<ArrowDiv>↳</ArrowDiv>
+					<CommentWrite type={'대댓글'} props={props} />
+				</ExtraContainer>
+			) : (
+				''
+			)}
+			{props.replies.map(element => {
+				return (
+					<ExtraContainer>
+						<ArrowDiv>↳</ArrowDiv>
+						<CommentContainer>
+							<CommentProfile style={{ backgroundImage: `url(${element.writer.profileImage})` }} />
+							<CommentDiv>
+								<CommentName>
+									<div>{element.writer.name}</div>
+									<div>
+										{element.registerDate
+											.replace(/-/gi, '.')
+											.replace('T', ' ')
+											.slice(0, element.registerDate.length - 10)}
+									</div>
+								</CommentName>
+								<CommentContent>
+									<Commentdetail>{element.content}</Commentdetail>
+									<CommentContent>
+										<CommentMent>
+											<FaThumbsUp />
+										</CommentMent>
+										<CommentMent>수정</CommentMent>
+										<CommentMent onClick={() => CommentDel(props.commentId)}>삭제</CommentMent>
+										<CommentMent onClick={HandleWrite}>대댓글</CommentMent>
+									</CommentContent>
+								</CommentContent>
+							</CommentDiv>
+						</CommentContainer>
+					</ExtraContainer>
+				);
+			})}
 		</div>
 	);
 }

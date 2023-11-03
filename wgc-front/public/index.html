@@ -1,49 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#000000" />
-		<meta name="description" content="Web site created using create-react-app" />
-		<meta property="og:url" content="//www.wgcoding.com/" />
-		<meta property="og:title" content="WGC" />
-		<meta property="og:type" content="website" />
-		<meta property="og:site_name" content="wgcoding.com" />
-		<meta property="og:image" content="%PUBLIC_URL%/assets/LoginMainLogo.png" />
-		<meta property="og:description" content="우리 모두 공유해요!" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
-		<!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> -->
-		<!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-		<!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
-		<!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="utf-8"/>
+    <link href="%PUBLIC_URL%/favicon.ico" rel="icon"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="#000000" name="theme-color"/>
+    <meta content="Web site created using create-react-app" name="description"/>
+    <meta content="//www.wgcoding.com/" property="og:url"/>
+    <meta content="WGC" property="og:title"/>
+    <meta content="website" property="og:type"/>
+    <meta content="wgcoding.com" property="og:site_name"/>
+    <meta content="%PUBLIC_URL%/assets/LoginMainLogo.png" property="og:image"/>
+    <meta content="우리 모두 공유해요!" property="og:description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+    <!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> -->
+    <!--
+  manifest.json provides metadata used when your web app is installed on a
+  user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+-->
+    <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
+    <!--
+  Notice the use of %PUBLIC_URL% in the tags above.
+  It will be replaced with the URL of the `public` folder during the build.
+  Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-		<title>React App</title>
-	</head>
-	<body>
-		<noscript>You need to enable JavaScript to run this app.</noscript>
-		<div id="root"></div>
-		<!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+  work correctly both with client-side routing and a non-root public URL.
+  Learn how to configure a non-root public URL by running `npm run build`.
+-->
+    <title>React App</title>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+<!--
+This HTML file is a template.
+If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+You can add webfonts, meta tags, or analytics to this file.
+The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-	</body>
+To begin the development, run `npm start` or `yarn start`.
+To create a production bundle, use `npm run build` or `yarn build`.
+-->
+</body>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+    Kakao.init('cbc649c7402ee83dacf98700def4f5e5');
+</script>
+<script>
+    window.onload = () => {
+        document.body.addEventListener('click', (element) => {
+            if (element.target?.getAttribute('class')?.includes('kakao-login-button')) {
+                if (!Kakao.isInitialized())
+                    return alert('일시적으로 카카오 로그인 기능을 사용할 수 없습니다.');
+
+                Kakao.Auth.login({
+                    success: (response) => {
+                        Kakao.API.request({
+                            url: '/v2/user/me',
+                            success: function (response) {
+                                console.log('res = ', response);
+                                if (!response.kakao_account?.has_email)
+                                    return alert('이메일 수집에 사용을 동의해주세요.');
+                            },
+                            fail: function (error) {
+                                console.log(error);
+                            },
+                        });
+                    },
+                    fail: (error) => {
+                        console.log(error);
+                    },
+                });
+            }
+        });
+    }
+</script>
 </html>

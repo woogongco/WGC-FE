@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Subtract from 'assets/Subtract.png';
 import SubtractOpen from 'assets/Subtract_open.png';
-
+import Subtract_open_Orange from 'assets/Subtract_open_Orange.png';
+import Subtract_open_Blue from 'assets/Subtract_open_Blue.png';
+import Subtract_open_Purple from 'assets/Subtract_open_Purple.png';
+import Subtract_open_Red from 'assets/Subtract_open_Red.png';
 import navfree from 'assets/nav_free.svg';
 import navjob from 'assets/nav_job.svg';
 import navnews from 'assets/nav_news.svg';
@@ -30,7 +33,20 @@ const NavHtml = styled.nav`
 		display: none;
 	}
 	:hover {
-		background-image: url(${SubtractOpen});
+
+		background-image: url( ${props =>
+			props.color === '#b3cad3'
+				? Subtract_open_Orange
+				: props.color === '#ffb548'
+				? Subtract_open_Orange
+				: props.color === '#5a0cff'
+				? Subtract_open_Purple
+				: props.color === '#ffb548'
+				? Subtract_open_Blue
+				: props.color === '#ff2a38'
+				? Subtract_open_Red
+				: ''});
+		ffb548
 		background-repeat: no-repeat;
 		margin: 0;
 		width: 50px;
@@ -67,33 +83,71 @@ const NavHtml = styled.nav`
 `;
 
 export default function Navbar() {
+	const [isTextVisible, setTextVisibility] = useState(false);
 	const navigate = useNavigate();
 	const userInfo = useRecoilValue(myInfo);
+
+	const handleMouseOver = () => {
+		setTextVisibility(true);
+	};
+
+	const handleMouseOut = () => {
+		setTextVisibility(false);
+	};
+	useEffect(() => {}, [userInfo]);
 	return (
-		<NavHtml>
+		<NavHtml color={userInfo.color}>
 			<ul>
 				{/*<li onClick={() => navigate(`/board/popular`)}>*/}
-				<li onClick={() => navigate('/board/popular')}>
-					<img src={navpop} alt="freeicon" />
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate('/board/popular')}
+				>
+					{isTextVisible ? <span>인기</span> : <img src={navpop} alt="freeicon" />}
 				</li>
-				<li onClick={() => navigate('/board/free')}>
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate('/board/free')}
+				>
 					{/*<li onClick={() => navigate(`/board/free`)}>*/}
-					<img src={navfree} alt="popicon" />
+					{isTextVisible ? <span>자유</span> : <img src={navfree} alt="popicon" />}
 				</li>
-				<li onClick={() => navigate(`/board/study`)}>
-					<img src={navstudy} alt="studyicon" />
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate(`/board/study`)}
+				>
+					{isTextVisible ? <span>스터디</span> : <img src={navstudy} alt="studyicon" />}
 				</li>
-				<li onClick={() => navigate(`/board/job`)}>
-					<img src={navjob} alt="freeicon" />
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate(`/board/job`)}
+				>
+					{isTextVisible ? <span>취업</span> : <img src={navjob} alt="freeicon" />}
 				</li>
-				<li onClick={() => navigate(`/board/itnews`)}>
-					<img src={navnews} alt="newsicon" />
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate(`/board/itnews`)}
+				>
+					{isTextVisible ? <span>IT</span> : <img src={navnews} alt="newsicon" />}
 				</li>
-				<li onClick={() => navigate(`/board/project`)}>
-					<img src={navproject} alt="projecticon" />
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate(`/board/project`)}
+				>
+					{isTextVisible ? <span>프로젝트</span> : <img src={navproject} alt="projecticon" />}
 				</li>
-				<li onClick={() => navigate(`/UserInfo`)}>
-					<img src={navsetting} alt="settingicon" />
+				<li
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}
+					onClick={() => navigate(`/UserInfo`)}
+				>
+					{isTextVisible ? <span>정보</span> : <img src={navsetting} alt="settingicon" />}
 				</li>
 			</ul>
 		</NavHtml>
