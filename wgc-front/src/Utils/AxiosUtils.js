@@ -64,3 +64,7 @@ export const axiosDelete = async (url, headers = defaultHeaders) => {
 	const res = await axios.delete(ENDPOINT + url, headerConfiguration(headers));
 	return res;
 };
+export const axiosPut = async (url, body, headers = defaultHeaders) => {
+	const res = await axios.put(ENDPOINT + url, body, headerConfiguration(headers));
+	return res;
+};
