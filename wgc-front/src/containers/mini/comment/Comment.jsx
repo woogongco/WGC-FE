@@ -58,6 +58,7 @@ const ArrowDiv = styled.div`
 `;
 export function Comment({ props }) {
 	const [ExtraComment, setExtraComment] = useState(false);
+	const [ModifyInput, setModifyInput] = useState(false);
 	const local = window.location.pathname.split('/')[2];
 	const CommentDel = useCallback(async e => {
 		await axiosDelete(`/comments/${e}`);
@@ -71,31 +72,33 @@ export function Comment({ props }) {
 	useEffect(() => {}, [props]);
 	return (
 		<div>
-			<CommentContainer>
-				<CommentProfile style={{ backgroundImage: `url(${props.writer.profileImage})` }} />
-				<CommentDiv>
-					<CommentName>
-						<div>{props.writer.name}</div>
-						<div>
-							{props.registerDate
-								.replace(/-/gi, '.')
-								.replace('T', ' ')
-								.slice(0, props.registerDate.length - 10)}
-						</div>
-					</CommentName>
-					<CommentContent>
-						<Commentdetail>{props.content}</Commentdetail>
+			{!ModifyInput ? (
+				<CommentContainer>
+					<CommentProfile style={{ backgroundImage: `url(${props.writer.profileImage})` }} />
+					<CommentDiv>
+						<CommentName>
+							<div>{props.writer.name}</div>
+							<div>
+								{props.registerDate
+									.replace(/-/gi, '.')
+									.replace('T', ' ')
+									.slice(0, props.registerDate.length - 10)}
+							</div>
+						</CommentName>
+
 						<CommentContent>
-							<CommentMent>
-								<FaThumbsUp />
-							</CommentMent>
-							<CommentMent>수정</CommentMent>
-							<CommentMent onClick={() => CommentDel(props.commentId)}>삭제</CommentMent>
-							<CommentMent onClick={HandleWrite}>대댓글</CommentMent>
+							<Commentdetail>{props.content}</Commentdetail>
+							<CommentContent>
+								<CommentMent onClick={() => setModifyInput(true)}>수정</CommentMent>
+								<CommentMent onClick={() => CommentDel(props.commentId)}>삭제</CommentMent>
+								<CommentMent onClick={HandleWrite}>대댓글</CommentMent>
+							</CommentContent>
 						</CommentContent>
-					</CommentContent>
-				</CommentDiv>
-			</CommentContainer>
+					</CommentDiv>
+				</CommentContainer>
+			) : (
+				<CommentWrite type={'수정'} props={props} text={props.content} />
+			)}
 			{ExtraComment ? (
 				<ExtraContainer>
 					<ArrowDiv>↳</ArrowDiv>
@@ -123,10 +126,7 @@ export function Comment({ props }) {
 								<CommentContent>
 									<Commentdetail>{element.content}</Commentdetail>
 									<CommentContent>
-										<CommentMent>
-											<FaThumbsUp />
-										</CommentMent>
-										<CommentMent>수정</CommentMent>
+										<CommentMent onClick={HandleWrite}>수정</CommentMent>
 										<CommentMent onClick={() => CommentDel(props.commentId)}>삭제</CommentMent>
 										<CommentMent onClick={HandleWrite}>대댓글</CommentMent>
 									</CommentContent>
