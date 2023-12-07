@@ -16,7 +16,7 @@ const BoardWrapper = styled.section`
 const BoardTitle = styled.header`
 	padding: 12px 13px 10px 13px;
 	// background-color: #2e2e2e;
-
+	cursor: pointer;
 	& h2 {
 		margin: 0;
 		font-size: 1rem;
@@ -109,7 +109,7 @@ export default function BoardPreview() {
 						{/* TODO: 타이틀 클릭 시 해당 게시판으로 이동 */}
 						{/* TODO: 게시글 클릭 시 해당 게시글로 이동 */}
 						<BoardTitle>
-							<h2>자유게시판</h2>
+							<h2 onClick={() => navigate('/board/free')}>자유게시판</h2>
 						</BoardTitle>
 						{/* -- 게시글 리스트: 6개의 게시글만 보여주기 -- */}
 						<BoardContents>
@@ -136,7 +136,7 @@ export default function BoardPreview() {
 
 					<BoardWrapper>
 						<BoardTitle>
-							<h2>취업 게시판</h2>
+							<h2 onClick={() => navigate('/board/job')}>취업 게시판</h2>
 						</BoardTitle>
 						<BoardContents>
 							{data.job?.map(post => (
@@ -161,7 +161,7 @@ export default function BoardPreview() {
 					</BoardWrapper>
 					<BoardWrapper>
 						<BoardTitle>
-							<h2>IT 뉴스</h2>
+							<h2 onClick={() => navigate('/board/news')}>IT 뉴스</h2>
 						</BoardTitle>
 						<BoardContents>
 							{data.itnews?.map(post => (
@@ -187,7 +187,7 @@ export default function BoardPreview() {
 
 					<BoardWrapper>
 						<BoardTitle>
-							<h2>스터디 게시판</h2>
+							<h2f onClick={() => navigate('/board/study')}>스터디 게시판</h2f>
 						</BoardTitle>
 						<BoardContents>
 							{data.study?.map(post => (
