@@ -2,14 +2,14 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import Logoimg from 'assets/logo-img.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaBell, FaBookmark, FaSearch, FaUserAlt } from 'react-icons/fa';
+import { FaBell, FaBookmark, FaSearch, FaHome } from 'react-icons/fa';
 import Modal from 'components/Modal/Modal';
 import { useRecoilState } from 'recoil';
 import { themeMode } from '../../store/RecoilStates/Theme';
 import { FaMoon, FaSun } from 'react-icons/fa6';
 import { useRef } from 'react';
 const HeaderLayOut = styled.div`
-	// background-color: #2e2e2e;
+	//background-color: #2e2e2e;
 	display: flex;
 	height: 64px;
 	justify-content: space-between;
@@ -123,7 +123,7 @@ export default function Header() {
 	}, []);
 
 	const HandleLogoPage = () => {
-		localStorage.getItem('token') ? navigate('/Minimain') : navigate('/');
+		localStorage.getItem('token') ? navigate('/community') : navigate('/');
 	};
 	const HandleModal = useCallback(() => {
 		clsoeModal(prev => !prev);
@@ -153,8 +153,8 @@ export default function Header() {
 								</NavbarLink>
 							</Buttonli>
 							<Buttonli>
-								<NavbarLink to="/UserInfo">
-									<FaUserAlt />
+								<NavbarLink to="/Minimain">
+									<FaHome />
 								</NavbarLink>
 							</Buttonli>
 						</>
