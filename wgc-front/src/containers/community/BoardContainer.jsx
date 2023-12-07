@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
 const Wrapper = styled.div`
-	padding: 68px 56px 60px 60px;
+	padding: 2rem;
 	color: #fff;
 
 	/* css 초기화 */

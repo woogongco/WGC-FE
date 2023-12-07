@@ -1,6 +1,7 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaPen, FaPlusCircle } from 'react-icons/fa';
+import { FaXmark } from 'react-icons/fa6';
 import { useRecoilValue } from 'recoil';
 import { myInfo } from '../../store/RecoilStates/UserInfo';
 import moment from 'moment/moment';
@@ -13,8 +14,6 @@ const Section = styled.div`
 	display: flex;
 `;
 const UserInterface = styled.div`
-	width: 85%;
-	padding: 0.5rem 0 0 3rem;
 	border-left: 0.5px solid white;
 `;
 
@@ -24,6 +23,7 @@ const TitleContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0 2rem;
 `;
 const Title = styled.h1`
 	font-size: 24px;
@@ -44,8 +44,8 @@ const ChangeInfo = styled.button`
 const TypeContainer = styled.div`
 	display: grid;
 	margin-top: 40px;
-	grid-template-columns: 7rem 20rem;
-	grid-template-rows: 5rem 5rem 5rem 5rem 5rem 5rem 5rem 5rem;
+	grid-template-columns: 10rem 20rem 10rem 20rem;
+	grid-template-rows: 5rem 5rem 5rem 5rem;
 	border-bottom: 1px solid #2e2e2e;
 	width: 60%;
 `;
@@ -66,6 +66,10 @@ const LogInfo = styled.div`
 	padding: 0.5rem;
 	font-size: 13px;
 `;
+const SubSectionDiv = styled.div`
+	display: flex;
+	gap: 3rem;
+`;
 const UserInput = styled.input`
 	color: #ffffff;
 	border: 1px solid #454545;
@@ -75,12 +79,22 @@ const UserInput = styled.input`
 	padding: 0.5rem 0 0.5rem 0.5rem;
 	font-size: 13px;
 `;
+const ProFileImage = styled.div`
+	width: 50%;
+	padding-left: 3rem;
+`;
 const ImgContainerDiv = styled.div`
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
+	width: 80%;
 `;
-
+const LangageInput = styled.select`
+	background: none;
+	padding: 0.5rem 0.5rem;
+	border-radius: 0.5rem;
+	color: white;
+`;
 const ImgContainer = styled.div`
 	border-top-left-radius: 40%;
 	border-top-right-radius: 50%;
@@ -112,8 +126,11 @@ const ImgFileDiv = styled.div`
 const InputImg = styled.input`
 	display: none;
 `;
-const SectionContainer = styled.div`
+const SectionContainer = styled.div``;
+const StackDiv = styled.div`
 	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 `;
 const StackContainer = styled.div`
 	display: grid;
@@ -123,8 +140,17 @@ const StackContainer = styled.div`
 const StackTag = styled.div`
 	border: 1px solid white;
 	border-radius: 10px;
-	padding: 0.5rem;
+	padding: 0.3rem;
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	font-size: 0.7rem;
+	align-items: center;
+`;
+const RemoveBtn = styled.button`
+	background-color: transparent;
 	color: white;
+	border: 0;
 `;
 export default function UserInfoContainer() {
 	const userInfo = useRecoilValue(myInfo);
@@ -133,7 +159,7 @@ export default function UserInfoContainer() {
 	const [Pngsrc, setPngsrc] = useState(userInfo.profile_image || '');
 	const [GitUrl, setGitUrl] = useInput(userInfo.github || '');
 	const [Introduce, setIntroduce] = useInput(userInfo.introduction || '');
-	const [Stack, setStack] = useState([userInfo.skil]);
+	const [Stack, setStack] = useState(userInfo.skil.split(','));
 	const [LangageData, setLangageData] = useState('');
 	const langage = [
 		'HTML/CSS',
@@ -161,19 +187,18 @@ export default function UserInfoContainer() {
 	};
 	const LangageChoice = () => {
 		const result = [];
-
 		langage.forEach(e => {
 			result.push(<option value={e}>{e}</option>);
 		});
 		return result;
 	};
-	const HandleLangage = useCallback(e => {
-		setLangageData(e.target.value);
-	}, []);
-	const AddLangage = useCallback(() => {
-		setStack([...Stack, LangageData]);
-		console.log(Stack.join());
-	}, [LangageData, Stack]);
+	const HandleLangage = useCallback(
+		e => {
+			setLangageData(e.target.value);
+			setStack([...Stack, e.target.value]);
+		},
+		[Stack],
+	);
 	const onUploadImg = async e => {
 		const formData = new FormData(); // formData 생성
 		formData.append('file', e.target.files[0]); // 이미지 파일 값 할당
@@ -193,6 +218,9 @@ export default function UserInfoContainer() {
 	const onHandleRef = () => {
 		ref.current.click();
 	};
+	const onClickTagRemove = useCallback(e => {
+		setStack(prevStack => prevStack.filter(item => item !== e));
+	}, []);
 	const HandleGet = useCallback(async () => {
 		const data = {
 			profile_image: Pngsrc,
@@ -205,7 +233,7 @@ export default function UserInfoContainer() {
 			await alert(ALERT_TYPE.SUCCESS, '변경되었습니다.', 1);
 			navigate('/MiniMain');
 		}
-	}, [Pngsrc, GitUrl, Introduce]);
+	}, [Pngsrc, GitUrl, Introduce, Stack, alert, navigate]);
 	return (
 		<div>
 			{userInfo && (
@@ -241,7 +269,6 @@ export default function UserInfoContainer() {
 								<Content>
 									<LogInfo>
 										{moment(userInfo.registerDateTime).add(9, 'hours').format('YYYY-MM-DD')}
-										{/*{userInfo.registerDateTime}*/}
 									</LogInfo>
 								</Content>
 								<UserType>연락처</UserType> {/*API 곧 나올예정*/}
@@ -267,38 +294,46 @@ export default function UserInfoContainer() {
 									/>
 								</Content>
 							</TypeContainer>
-							<div>
-								<Title>프로필 이미지</Title>
-								<ImgContainerDiv>
-									{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
-									<InputImg
-										type="file"
-										multiple
-										accept="image/*"
-										ref={ref}
-										onChange={e => onUploadImg(e)}
-									/>
-									<ImgFileDiv onClick={onHandleRef}>
-										<FaPlusCircle />
-									</ImgFileDiv>
-								</ImgContainerDiv>
-								<UserType>Stack</UserType> {/*API 곧 나올예정*/}
-								<Content>
-									<select value={LangageData} onChange={HandleLangage}>
+							<SubSectionDiv>
+								<ProFileImage>
+									<Title>프로필 이미지</Title>
+									<ImgContainerDiv>
+										{ImgSrc ? <ImgContainer style={{ backgroundImage: `url(${ImgSrc})` }} /> : ''}
+										<InputImg
+											type="file"
+											multiple
+											accept="image/*"
+											ref={ref}
+											onChange={e => onUploadImg(e)}
+										/>
+										<ImgFileDiv onClick={onHandleRef}>
+											<FaPlusCircle />
+										</ImgFileDiv>
+									</ImgContainerDiv>
+								</ProFileImage>
+								<StackDiv>
+									<Title>Stack</Title> {/*API 곧 나올예정*/}
+									<LangageInput value={LangageData} onChange={HandleLangage}>
 										{LangageChoice()}
-									</select>
-									<button onClick={AddLangage}>추가하기</button>
+									</LangageInput>
 									{Stack ? (
 										<StackContainer>
-											{Stack.map(e => {
-												return <StackTag>{e}</StackTag>;
+											{Stack.map((e, index) => {
+												return (
+													<StackTag key={index}>
+														<span>{e}</span>
+														<RemoveBtn onClick={() => onClickTagRemove(e)}>
+															<FaXmark />
+														</RemoveBtn>
+													</StackTag>
+												);
 											})}
 										</StackContainer>
 									) : (
 										''
 									)}
-								</Content>
-							</div>
+								</StackDiv>
+							</SubSectionDiv>
 						</SectionContainer>
 					</UserInterface>
 				</Section>

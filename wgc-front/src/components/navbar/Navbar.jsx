@@ -21,7 +21,7 @@ const NavHtml = styled.nav`
 	width: 50px;
 	height: 394px;
 	position: absolute;
-	right: 210px;
+	right: 12rem;
 	top: 110px;
 	background-image: url(${Subtract});
 	background-repeat: no-repeat;
@@ -33,7 +33,6 @@ const NavHtml = styled.nav`
 		display: none;
 	}
 	:hover {
-
 		background-image: url( ${props =>
 			props.color === '#b3cad3'
 				? Subtract_open_Orange

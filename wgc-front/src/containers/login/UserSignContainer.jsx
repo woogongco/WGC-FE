@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const MainContent = styled.div`
-	margin-top: 10em;
+	margin: 10em 0;
 `;
 
 const Logo = styled.span`

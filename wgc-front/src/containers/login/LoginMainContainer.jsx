@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const MainContent = styled.div`
-	margin-top: 3em;
+	margin: 4em 0;
 `;
 
 const LogoText = styled.img`

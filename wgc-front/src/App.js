@@ -1,9 +1,3 @@
-//mini
-
-//login
-
-//comunity
-
 //공통
 import { RecoilRoot } from 'recoil';
 import BodyComponents from './components/BodyComponents';

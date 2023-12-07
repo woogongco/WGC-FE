@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.section`
 	display: grid;
-	grid-template: repeat(2, 1fr) / repeat(4, 230px);
+	grid-template: repeat(2, 1fr) / repeat(3, 270px);
 	gap: 78px 2rem;
 `;
 const SectionDiv = styled.div`

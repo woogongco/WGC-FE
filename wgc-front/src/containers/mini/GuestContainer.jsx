@@ -1,44 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { useRecoilValue } from 'recoil';
+import { myInfo } from 'store/RecoilStates/UserInfo';
 const Container = styled.div`
 	display: flex;
-	height: 100%;
-	width: 100%;
 `;
 
 const Warpperdiv = styled.div`
 	color: white;
-	height: 100%;
-	width: 100%;
+	width: 80%;
 `;
 
 const Writediv = styled.div`
 	border: 1px solid #ffe0e3;
-	width: 731px;
-	height: 221px;
+	height: 15rem;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
+	gap: 1rem;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
 	position: relative;
+	padding: 1rem;
 `;
-
-const Imagediv = styled.div`
-	border: 1px solid white;
-	background: black;
-	border-radius: 10px;
-	width: 180px;
-	height: 180px;
+const UserName = styled.div`
+	font-size: 1.3rem;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+`;
+const UserImg = styled.div`
+	border: 0.1rem solid white;
+	border-radius: 180px;
+	width: 2rem;
+	height: 2rem;
+	box-sizing: border-box;
+	background-size: cover;
+	background-color: black;
 `;
 
 const TextArea = styled.textarea`
 	border: none;
 	resize: none;
-	width: 472px;
-	height: 163px;
+	width: 90%;
+	height: 8rem;
 	background: rgba(217, 217, 217, 0.38);
 	border: 1px solid black;
 	border-radius: 10px;
@@ -48,15 +54,20 @@ const TextArea = styled.textarea`
 `;
 
 const ButtonDiv = styled.div`
-	position: absolute;
-	top: 200px;
-	right: 22px;
+	border: 0.1rem solid whiste;
+	width: 5rem;
+	height: 15rem;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 const Button = styled.button`
 	border: none;
 	background: none;
 	color: white;
+	font-size: 1rem;
 `;
 
 const GuestMainDiv = styled.div`
@@ -129,11 +140,11 @@ const GuestItemImgDiv = styled.div`
 const GuestMainCotainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	height: 100%;
 `;
 
 export default function GuestContainer() {
+	const userInfo = useRecoilValue(myInfo);
+
 	return (
 		<>
 			<Container>
@@ -142,7 +153,10 @@ export default function GuestContainer() {
 						<h3>흑우님의 방명록</h3>
 					</div>
 					<Writediv>
-						<Imagediv />
+						<UserName>
+							<UserImg style={{ backgroundImage: `url(${userInfo.profileImage || ''})` }} />{' '}
+							{userInfo.name}
+						</UserName>
 						<div>
 							<TextArea placeholder="글을 입력하시오" />
 						</div>

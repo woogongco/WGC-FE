@@ -11,7 +11,7 @@ import { Outlet } from 'react-router-dom';
 const HeaderHtml = styled.header``;
 
 const AsideHtmlLeft = styled.aside`
-	width: 30%;
+	width: 35%;
 	margin-left: 2em;
 `;
 
@@ -21,6 +21,7 @@ const SectionWrapperHtml = styled.section`
 
 const SectionHtml = styled.main`
 	//position: absolute;
+	display: flex;
 	//top: 11%;
 	//left: 20%;
 	width: 100%;
@@ -29,7 +30,9 @@ const SectionHtml = styled.main`
 	//border-right: 1px solid rgba(255, 255, 255, 0.2);
 	//border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
-
+const SectionDiv = styled.div`
+	width: 96%;
+`;
 const AsideHtmlRight = styled.aside`
 	//position: absolute;
 	//right: 0px;
@@ -54,7 +57,9 @@ export default function Layout() {
 					<Profile />
 				</AsideHtmlLeft>
 				<SectionHtml>
-					<Outlet />
+					<SectionDiv>
+						<Outlet />
+					</SectionDiv>
 					<Navbar />
 				</SectionHtml>
 				<AsideHtmlRight>

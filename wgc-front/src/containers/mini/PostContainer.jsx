@@ -7,7 +7,6 @@ import { useRecoilValue } from 'recoil';
 import { myInfo } from 'store/RecoilStates/UserInfo';
 import { Comment } from './comment/Comment';
 import CommentWrite from './comment/CommentWrite';
-import dayjs from 'dayjs';
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -16,20 +15,16 @@ const Container = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
 `;
 
 const TitleDiv = styled.div`
 	width: 80%;
 	display: flex;
 	justify-content: flex-start;
-	font-size: 1.7rem;
 `;
 
 const PostTitleDiv = styled.div`
 	display: flex;
-	justify-content: space-between;
-	align-items: center
 	height: 30px;
 	position: relative;
 	font-family: 'Inter';
@@ -37,28 +32,40 @@ const PostTitleDiv = styled.div`
 	font-weight: 300;
 	font-size: 14px;
 	line-height: 17px;
-	width: 80%;
 `;
 
-const UserName = styled.div`
-	font-size: 1.3rem;
-	font-weight: bold;
+const TitleText = styled.div`
 	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-`;
-const ButtonDiv = styled.div`
-	display: flex;
+	justify-content: space-between;
+	width: 100%;
 `;
 
-const UserImg = styled.div`
-	border: 0.1rem solid white;
-	border-radius: 180px;
-	width: 2.6rem;
-	height: 2.6rem;
+const PostDiv = styled.div`
+	width: 769px;
+	height: 379px;
+	border: 1px solid white;
+`;
+
+const ProfileDiv = styled.div`
+	position: relative;
+	top: -150%;
+	width: 76px;
+	height: 76px;
+	text-align: center;
+	background: linear-gradient(219.11deg, #b9e6e9 30.15%, #cb8387 89.69%);
+	border-top-left-radius: 40%;
+	border-top-right-radius: 50%;
+	border-bottom-right-radius: 50%;
 	box-sizing: border-box;
-	background-size: cover;
-	background-color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const CategoryDiv = styled.div`
+	width: 80%;
+	display: flex;
+	justify-content: flex-end;
 `;
 
 const PostTextArea = styled.div`
@@ -80,22 +87,38 @@ const ButtonItem = styled.button`
 	border: none;
 	background-color: transparent;
 	color: white;
-	font-size: 1rem;
-	font-weight: bold;
-	cursor: pointer;
 `;
 
 const PostBottomDiv = styled.div`
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	width: 80%;
 `;
 
 const LikeBookMarkDiv = styled.div`
 	display: flex;
 	justify-content: space-around;
 	width: 10%;
+`;
+
+const CategoryItemDiv = styled.div`
+	margin-bottom: 1%;
+	border: 1px solid white;
+	transform: rotate(-0.04deg);
+	border-radius: 5px;
+`;
+
+const CategoryText = styled.div`
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 17px;
+	/* identical to box height */
+	width: 96px;
+	height: 26px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 `;
 
 const CommentLayout = styled.div`
@@ -106,10 +129,10 @@ export default function WriteModifyContainer({ id }) {
 	const [Loading, setLoading] = useState(false);
 	const [PostList, setPostList] = useState([]);
 	const [PostUser, setPostUser] = useState([]);
+	const [TextComment, setTextComment] = useState('');
 	const [CommentLists, setCommentLists] = useState([]);
 	const [CommentLoading, setCommentLoading] = useState(false);
 	const userInfo = useRecoilValue(myInfo);
-	console.log(userInfo);
 	const local = window.location.pathname.split('/')[2];
 
 	const CommentList = useCallback(async () => {
@@ -134,32 +157,42 @@ export default function WriteModifyContainer({ id }) {
 			{Loading ? (
 				<>
 					<TitleDiv>
-						<h1>{PostList['title']}</h1>
+						<h3>{PostUser['name']}님의 게시판</h3>
 					</TitleDiv>
-					<PostTitleDiv>
-						<UserName>
-							<UserImg style={{ backgroundImage: `url(${userInfo.profileImage || ''})` }} />
-							{PostUser['name']}
-						</UserName>
-						<ButtonDiv>
-							<ButtonItem>수정</ButtonItem>
-							<ButtonItem>삭제</ButtonItem>
-						</ButtonDiv>
-					</PostTitleDiv>
-					<PostTextArea>{PostList['content']}</PostTextArea>
-					<PostBottomDiv>
-						<LikeBookMarkDiv>
-							<span>
-								<AiOutlineLike />
-								{PostList['like']}
-							</span>
-							<span>
-								<BsBookmark />
-							</span>
-						</LikeBookMarkDiv>
-						<h4>{dayjs(PostList['registerDate']).format('YYYY년 MM월 DD일')}</h4>
-					</PostBottomDiv>
-
+					<CategoryDiv>
+						<CategoryItemDiv>
+							<CategoryText>자유 게시판</CategoryText>
+						</CategoryItemDiv>
+					</CategoryDiv>
+					<PostDiv>
+						<PostTitleDiv>
+							<TitleText>
+								<h2>{PostList['title']}</h2>
+								<h4>
+									{PostList['registerDate']
+										.replace(/-/gi, '.')
+										.replace('T', ' ')
+										.slice(0, PostList['registerDate'].length - 3)}
+								</h4>
+							</TitleText>
+						</PostTitleDiv>
+						<PostTextArea>{PostList['content']}</PostTextArea>
+						<PostBottomDiv>
+							<LikeBookMarkDiv>
+								<span>
+									<AiOutlineLike />
+									{PostList['like']}
+								</span>
+								<span>
+									<BsBookmark />
+								</span>
+							</LikeBookMarkDiv>
+							<div>
+								<ButtonItem>수정</ButtonItem>
+								<ButtonItem>삭제</ButtonItem>
+							</div>
+						</PostBottomDiv>
+					</PostDiv>
 					<CommentLayout>
 						<p>댓글</p>
 						<CommentWrite type={'댓글'} />

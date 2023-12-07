@@ -6,12 +6,12 @@ import { myInfo } from '../../store/RecoilStates/UserInfo';
 import { useNavigate, Link } from 'react-router-dom';
 
 const SectionContiner = styled.div`
-	width: 92%;
-	margin-left: 2rem;
+	// width: 93%;
+	// margin-left: 2rem;
 	border-left: 1px solid rgba(255, 255, 255, 0.2);
 	padding-left: 1rem;
 	border-right: 1px solid rgba(255, 255, 255, 0.2);
-	margin-right: 1rem;
+	// margin-right: 1rem;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 	height: 100%;
 	color: white;
@@ -19,6 +19,9 @@ const SectionContiner = styled.div`
 
 const Wapperdiv = styled.div`
 	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding-left: 1rem;
 `;
 
 const SectionText = styled.input`
@@ -54,18 +57,15 @@ const SectionTopSubHeader = styled.div`
 `;
 const SectionCenterItem = styled.div`
 	width: 100%;
-	height: 300px;
 `;
 
 const SectionBottomItem = styled.div`
 	display: flex;
-
 	flex-direction: column;
 `;
 const SectionBottomItemTitle = styled.div`
 	display: flex;
 	width: 95%;
-
 	justify-content: space-between;
 `;
 
@@ -87,11 +87,33 @@ const SectionMainImg = styled.div`
 	width: 90px;
 	height: 90px;
 	background-color: aliceblue;
-
 	border-radius: 360%;
 	margin-right: 3%;
 `;
-
+const UserPostsDiv = styled.div`
+	width: 12rem;
+	height: 15rem;
+	border: 1px solid white;
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+`;
+const PostsImg = styled.div`
+	width: 100%;
+	height: 10rem;
+	box-sizing: border-box;
+	background-size: cover;
+	border-radius: 1rem 1rem 0 0;
+`;
+const NoPosts = styled.div`
+	border: 0.1rem solid white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem 0;
+	width: 50%;
+	margin: 0 auto;
+`;
 const list = Array.from({ length: 3 });
 
 const arr = Array.from({ length: 6 });
@@ -101,13 +123,6 @@ export default function MiniContainer() {
 	const [userInfo, setUserInfo] = useRecoilState(myInfo);
 	const [neighbors, setNeighbor] = useState(undefined);
 	const [userPosts, setUserPosts] = useState();
-
-	// useEffect(() => {
-	// 	const path = window.location?.pathname;
-	// 	if (path && path.includes('/homepage') && path.split('/')?.length === 2)
-	// 		console.log('fetch user homepage contents !');
-	// 	else console.log('fetch my info');
-	// }, []);
 
 	const fetchClickedUserInfo = async userId => {
 		navigate('/homepage/' + userId);
@@ -119,6 +134,7 @@ export default function MiniContainer() {
 	useEffect(() => {
 		(async () => {
 			const res = await axiosGet('/member/my-info');
+			console.log(res);
 			setUserInfo({ ...res.data });
 			await getNeighborList({ ...res.data });
 		})();
@@ -139,7 +155,6 @@ export default function MiniContainer() {
 
 	const getNeighborList = async userInfo => {
 		const res = await axiosGet(`/neighbor/${userInfo.id}`);
-		console.log(res.data);
 		setNeighbor([...res.data]);
 	};
 
@@ -158,9 +173,9 @@ export default function MiniContainer() {
 				<SectionTopSubItem>
 					<SectionTopSubHeader>
 						<h3>방명록</h3>
-						<Link to="/Guest">
-							<h5>더 보기</h5>
-						</Link>
+						<h5 style={{ cursor: 'pointer' }} onClick={() => navigate('/Guest')}>
+							더 보기
+						</h5>
 					</SectionTopSubHeader>
 				</SectionTopSubItem>
 				<SectionCenterItem>
@@ -168,25 +183,6 @@ export default function MiniContainer() {
 					<div>
 						<div>내가 쓴글 리스트</div>
 						<br />
-						{userPosts && (
-							<>
-								{userPosts.map(i => (
-									<div
-										style={{
-											border: '1px solid white',
-											width: '150px',
-											height: '150px',
-											borderRadius: '10% 10%',
-										}}
-									>
-										{/*//FIXME 스타일링 해야함*/}
-										<div>{i.title}</div>
-										<div>like : {i.like}</div>
-										<div>조회수 : {i.view}</div>
-									</div>
-								))}
-							</>
-						)}
 					</div>
 				</SectionCenterItem>
 				<SectionBottomItem>

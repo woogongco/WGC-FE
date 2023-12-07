@@ -4,7 +4,7 @@ import BoardPreview from '../../components/boardPreview/BoardPreview';
 
 const Wrapper = styled.div`
 	display: grid;
-	width: 95%;
+	width: 100%;
 	height: 100%;
 	grid-template: repeat(2, 1fr) / repeat(2, 1fr);
 	gap: 62px 18px;
